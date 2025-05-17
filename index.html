@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" 
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SSD</title>
+  <style>
+    /* ページ全体の基本設定 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* スクロール禁止 */
+      height: 100%;
+      background-color: #111;
+      font-family: sans-serif;
+    }
+    /* 下部領域のみ（全画面表示） */
+    .bottom-screen {
+      position: relative;
+      background-color: #000;
+      overflow: hidden;
+      height: 100vh;
+    }
+    /* 判定ライン（左から20%の位置） */
+    .judgeline {
+      position: absolute;
+      width: 2vw;
+      height: 100%;
+      background-color: rgb(0, 255, 115);
+      left: 20%;
+      top: 0;
+    }
+    /* 円（ノーツ）のスタイル */
+    .circle {
+      position: absolute;
+      top: 40%;
+      width: 16vh;
+      height: 16vh;
+      background-color: white;
+      border-radius: 50%;
+      will-change: transform;
+    }
+  </style>
+</head>
+<body>
+  <!-- 下部領域 -->
+  <div class="bottom-screen" id="game-area">
+    <div class="judgeline" id="judgeline"></div>
+  </div>
+  
+  <!-- A.mp3 を再生するためのオーディオ要素 -->
+  <audio id="hit-sound" src="A.mp3"></audio>
+  
+  <script>
+    // A.mp3 を再生するための audio 要素を参照
+    const hitSound = document.getElementById('hit-sound');
+
+    // ゲーム開始：一定間隔で円（ノーツ）を生成し、左方向へ移動させる
+    function startGame() {
+      const gameArea = document.getElementById("game-area");
+      const judgementLine = document.getElementById("judgeline");
+      const gameAreaWidth = gameArea.offsetWidth;
+      
+      // 円（ノーツ）生成とアニメーション処理
+      function createCircle() {
+        const circle = document.createElement("div");
+        circle.classList.add("circle");
+        circle.played = false; // 判定済みかどうかのフラグ
+        // 初期位置：ゲーム領域の右端外から開始
+        let circleX = gameAreaWidth;
+        circle.style.left = circleX + "px";
+        gameArea.appendChild(circle);
+        
+        // アニメーション処理
+        function animate() {
+          circleX -= 5; // 移動速度（px/フレーム）
+          circle.style.left = circleX + "px";
+          
+          // 位置情報の取得
+          const circleRect = circle.getBoundingClientRect();
+          const judgementRect = judgementLine.getBoundingClientRect();
+          const center = circleRect.left + circleRect.width / 2; // 円の中心座標
+          const judgeX = judgementRect.left;                     // 判定ラインの左端
+          
+          // 指定条件に基づいてノーツが判定ラインを超えた場合
+          if (!circle.played && center - judgeX < 0) {
+            hitSound.currentTime = 0;
+            hitSound.play().catch(error => console.error('音声再生エラー:', error));
+            circle.played = true;
+            circle.remove();
+            return;
+          }
+          
+          // 円が画面内に残っている場合は再度アニメーション
+          if (circleX + circleRect.width > 0) {
+            requestAnimationFrame(animate);
+          } else {
+            circle.remove();
+          }
+        }
+        
+        requestAnimationFrame(animate);
+      }
+      
+      // 一定間隔で新しい円を生成（ここでは1000ms毎に生成）
+      setInterval(createCircle, 1000);
+    }
+    
+    // ページ読み込み時にゲーム開始
+    window.onload = function() {
+      startGame();
+    };
+  </script>
+
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/PWA/sw.js').then(function(registration) {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }, function(err) {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+</script>
+</body>
+</html>
