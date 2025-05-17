@@ -1,7 +1,13 @@
 var CACHE_NAME = 'PWA';
 var urlsToCache = [
-    '/', '/index.html', '/manifest.json','/sw.js','./PWAimage/slime192.png', './PWAimage/slime512.png'
+    './',              // ルートとなる index.html を含む（あるいは './index.html' としても良い）
+    './index.html',
+    './manifest.json',
+    './sw.js',
+    './PWAimage/slime192.png',
+    './PWAimage/slime512.png'
 ];
+
 
 // インストール処理
 self.addEventListener('install', function(event) {
