@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" 
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>SSD</title>
+  <title>PWA</title>
   <style>
     /* ページ全体の基本設定 */
     html, body {
@@ -110,10 +110,7 @@
     // ページ読み込み時にゲーム開始
     window.onload = function() {
       startGame();
-    };
-  </script>
-
-  <script>
+    }
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
       navigator.serviceWorker.register('/PWA/sw.js').then(function(registration) {
