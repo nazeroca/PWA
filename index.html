@@ -4,204 +4,114 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="/PWAimage/slime192.png">
-  <title>PWA</title>
-  <style>
-    /* ページ全体の基本設定 */
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden; /* スクロール禁止 */
-      height: 100%;
-      background-color: #111;
-      font-family: sans-serif;
-    }
-    /* 下部領域（全画面表示） */
-    .bottom-screen {
-      position: relative;
-      background-color: #000;
-      overflow: hidden;
-      height: 100vh;
-    }
-    /* 判定ライン（左から20%の位置） */
-    .judgeline {
-      position: absolute;
-      width: 2vw;
-      height: 100%;
-      background-color: rgb(0, 255, 115);
-      left: 20%;
-      top: 0;
-    }
-    /* 円（ノーツ）のスタイル */
-    .circle {
-      position: absolute;
-      top: 40%;
-      width: 16vh;
-      height: 16vh;
-      border-radius: 50%;
-      will-change: transform;
-      /* 背景色は spawnCircle() にて動的に設定 */
-    }
-  </style>
+  <title>SSD</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-  <!-- 下部領域 -->
-  <div class="bottom-screen" id="game-area">
-    <div class="judgeline" id="judgeline"></div>
+  <div class="container">
+    <!-- セクション1: 15% - 左右分割 -->
+    <div class="section-1">
+      <div class="left-half">
+        <div class="cyber-text">TIMER</div>
+        <div class="system-timer" id="system-timer">00:00:00</div>
+      </div>
+      <div class="right-half">
+        <div class="data-stream-info" id="data-stream-info">
+          <div class="stream-line" id="position-info">POSITION: STANDBY</div>
+          <div class="stream-line" id="color-info">COLOR: NEUTRAL</div>
+          <div class="stream-line" id="third-info">DATA LINE 3: READY</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- セクション2: 20% - パターン表示エリア -->
+    <div class="section-2">
+      <div class="pattern-display" id="pattern-display">
+        <div class="pattern-roulette" id="pattern-roulette">
+          <div class="pattern-text" id="pattern-text">PATTERN ANALYSIS</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- セクション3: 35% -->
+    <div class="section-3">
+      <div class="sugoroku-container" id="sugoroku-container">
+        <div class="sugoroku-board" id="sugoroku-board">
+          <!-- マスは動的に生成される -->
+        </div>
+        <div class="piece" id="piece"></div>
+      </div>
+    </div>
+
+    <!-- セクション4: 50% - ノーツレーン -->
+    <div class="section-4 notes-lane" id="game-area">
+      <div class="judgeline"></div>
+    </div>
+
+    <!-- セクション5: 75% - 左右分割（上段） -->
+    <div class="section-5">
+      <div class="button-quadrant top-left control-matrix-button" id="control-matrix">
+        <div class="stop-icon-large">■</div>
+        <div class="indicator-container">
+          <div class="indicator active" data-index="0"></div>
+          <div class="indicator" data-index="1"></div>
+          <div class="indicator" data-index="2"></div>
+        </div>
+      </div>
+      <div class="button-quadrant top-right skip-button" id="skip-button">
+        <div class="skip-icon-large">
+          <div class="skip-triangle-large"></div>
+          <div class="skip-triangle-large"></div>
+        </div>
+        <div class="indicator-container">
+          <div class="indicator active" data-index="0"></div>
+          <div class="indicator" data-index="1"></div>
+          <div class="indicator" data-index="2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- セクション6: 残り - 左右分割（下段） -->
+    <div class="section-6">
+      <div class="button-quadrant bottom-left">
+        <div class="terminal-icon-large">▣</div>
+      </div>
+      <div class="button-quadrant bottom-right" id="dice-button">
+        <div class="dice-container-2d" id="dice-container">
+          <div class="dice-2d" id="dice">
+            <div class="dice-dots face-1" id="dice-display">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  
-  <!-- A.mp3 を再生するためのオーディオ要素 -->
-  <audio id="hit-sound" src="A.mp3"></audio>
-  
+
+  <audio id="hit" src="./sounds/hit.mp3" preload="auto"></audio>
+
+  <script src="main.js"></script>
+
   <script>
-    const hitSound = document.getElementById('hit-sound');
-    const gameArea = document.getElementById("game-area");
-    const judgementLine = document.getElementById("judgeline");
-
-    /**
-     * getNoteColor(delay):
-     * ・delay (ms) に応じてノーツの背景色を設定
-     * ・delay が500msならペールな赤（h=0）、5000msならペールな青（h=240）とし、
-     *   その間は線形補間。なお、delay > 5000 の場合は "white" を返します。
-     */
-    function getNoteColor(delay) {
-      if (delay > 5000) {
-        return "white";
-      }
-      const clamped = Math.max(delay, 500);
-      const fraction = (clamped - 500) / 4500;  // 500→0, 5000→1
-      const hue = fraction * 240;  // 0: 赤、240: 青
-      return `hsl(${hue}, 60%, 80%)`;
-    }
-
-    /**
-     * spawnCircle(noteDelay):
-     * ・noteDelay (ms) をもとに色を決定し、ノーツを生成します。
-     * ・ノーツは左へ移動し、判定ラインを超えたら音声を再生して削除します。
-     */
-    function spawnCircle(noteDelay) {
-      const circle = document.createElement("div");
-      circle.classList.add("circle");
-      circle.played = false;
-      circle.style.backgroundColor = getNoteColor(noteDelay);
-      
-      let circleX = gameArea.offsetWidth;
-      circle.style.left = circleX + "px";
-      gameArea.appendChild(circle);
-      
-      function animate() {
-        circleX -= 5;  // 移動速度（ピクセル／フレーム）
-        circle.style.left = circleX + "px";
-        
-        const circleRect = circle.getBoundingClientRect();
-        const judgeRect = judgementLine.getBoundingClientRect();
-        const center = circleRect.left + circleRect.width / 2;
-        
-        if (!circle.played && center - judgeRect.left < 0) {
-          hitSound.currentTime = 0;
-          hitSound.play().catch(e => console.error('Audio play error:', e));
-          circle.played = true;
-          circle.remove();
-          return;
-        }
-        
-        if (circleX + circleRect.width > 0) {
-          requestAnimationFrame(animate);
-        } else {
-          circle.remove();
-        }
-      }
-      requestAnimationFrame(animate);
-    }
-
-    /**
-     * spawnConstantEvent(speed, count, callback):
-     * ・固定の delay (speed) で count 個のノーツを生成します。
-     * ・全ノーツ生成完了後、callback があれば呼び出します。
-     */
-    function spawnConstantEvent(speed, count, callback) {
-      let i = 0;
-      function spawnNext() {
-        if (i < count) {
-          spawnCircle(speed);
-          i++;
-          setTimeout(spawnNext, speed);
-        } else {
-          if (callback) {
-            callback();
-          }
-        }
-      }
-      spawnNext();
-    }
-
-    // time 配列からスピード（delay）をランダム選択
-    const time = [500,700,800,1000,1250,1500,2000,2500,3000,3500,4000,5000,6000];
-    // グローバルな現在のスピード（初期値 3000ms）
-    let currentSpeed = 3000;
-
-    /**
-     * spawnTransition(newTargetSpeed, callback):
-     * ・現在の currentSpeed から newTargetSpeed へ、10秒かけて線形補間しながらノーツを生成します。
-     * ・10秒経過後、currentSpeed を newTargetSpeed に更新し、callback を呼び出します。
-     */
-    function spawnTransition(newTargetSpeed, callback) {
-      const transitionDuration = 10000; // 10秒
-      const startTime = Date.now();
-      function spawnNext() {
-        const elapsed = Date.now() - startTime;
-        if (elapsed >= transitionDuration) {
-          currentSpeed = newTargetSpeed;
-          callback();  // 遷移完了
-          return;
-        }
-        const t = elapsed / transitionDuration;  // 0 ～ 1 までの比率
-        const delay = currentSpeed + t * (newTargetSpeed - currentSpeed);
-        spawnCircle(delay);
-        setTimeout(spawnNext, delay);
-      }
-      spawnNext();
-    }
-
-    /**
-     * startEvent(newTargetSpeed, constantCount):
-     * ・まず、10秒間で currentSpeed から newTargetSpeed へ線形補間する transitional phase を実行し、
-     *   その後 constant phase として、newTargetSpeed の間隔（delay）で constantCount 個のノーツを生成します。
-     */
-    function startEvent(newTargetSpeed, constantCount) {
-      console.log("Transition from " + currentSpeed + " ms to " + newTargetSpeed + " ms over 10 seconds.");
-      spawnTransition(newTargetSpeed, function() {
-         console.log("Transition complete. Starting constant phase with speed " + newTargetSpeed + " ms, count = " + constantCount);
-         spawnConstantEvent(newTargetSpeed, constantCount, startEventCycle);
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/SSD/sw.js').then(function (registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
       });
     }
-
-    /**
-     * startEventCycle():
-     * ・time 配列からランダムにスピードを選び、count = Math.floor(60000 / newSpeed) を算出し、
-     *   startEvent() を呼び出してイベントサイクルを開始します。
-     */
-    function startEventCycle() {
-      const newSpeed = time[Math.floor(Math.random() * time.length)];
-      const count = Math.floor(60000 / newSpeed);
-      console.log("New event: newSpeed = " + newSpeed + " ms, count = " + count);
-      startEvent(newSpeed, count);
-    }
-
-    window.onload = function() {
-      startEventCycle();
-
-      // PWA用 Service Worker の登録
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/PWA/sw.js').then(function(registration) {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }).catch(function(err) {
-            console.log('ServiceWorker registration failed: ', err);
-          });
-        });
-      }
-    };
   </script>
+
 </body>
 </html>
