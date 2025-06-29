@@ -22,7 +22,7 @@ body {
   padding: 0;
 }
 
-/* 各セクションの高さ設定 - 15%, 20%, 35%, 50%, 75%の位置で線を入れて6分割 */
+/* 各セクションの高さ設定 - 画面を7分割 */
 .section-1 {
   height: 15vh; /* 0% - 15% */
   border-bottom: 2px solid #00FFFF;
@@ -61,7 +61,7 @@ body {
 }
 
 .section-2 {
-  height: 10vh; /* DATA STREAM用に拡張 */
+  height: 10vh; /* 15vh → 10vh に変更 */
   border-bottom: 2px solid #00FFFF;
   background: linear-gradient(90deg, #001122 0%, #002244 50%, #001122 100%);
   position: relative;
@@ -142,10 +142,19 @@ body {
 }
 
 .section-3 {
-  height: 15vh; /* 20% - 35% = 15% */
+  height: 15vh; /* 15vh に変更 */
   border-bottom: 2px solid #00FFFF;
   background: linear-gradient(90deg, #000011 0%, #000033 50%, #000011 100%);
   position: relative;
+  box-shadow: 0 2px 10px rgba(0, 255, 255, 0.3);
+}
+
+.section-7 {
+  height: 10vh; /* 5vh → 10vh に変更 */
+  border-bottom: 2px solid #00FFFF;
+  display: flex;
+  position: relative;
+  background: linear-gradient(45deg, #000022 0%, #001144 50%, #000022 100%);
   box-shadow: 0 2px 10px rgba(0, 255, 255, 0.3);
 }
 
@@ -159,16 +168,133 @@ body {
 }
 
 .section-5 {
-  height: 22.5vh; /* セクション2拡張分を差し引き（25vh - 2.5vh = 22.5vh） */
+  height: 17.5vh; /* ボタンセクションを5vh小さく（22.5vh - 5vh = 17.5vh） */
   border-bottom: 2px solid #00FFFF;
   display: flex;
   position: relative;
 }
 
 .section-6 {
-  height: 22.5vh; /* セクション2拡張分を差し引き（25vh - 2.5vh = 22.5vh） */
+  height: 17.5vh; /* ボタンセクションを5vh小さく（22.5vh - 5vh = 17.5vh） */
   display: flex;
   position: relative;
+}
+
+/* セクション7の装飾要素 */
+.section-7::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 98px,
+      rgba(0, 255, 255, 0.1) 100px
+    );
+  pointer-events: none;
+}
+
+/* セクション7のイベント表示スタイル */
+.event-display {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.event-text {
+  font-family: 'Hiragino Sans', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #00FFFF;
+  text-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.8),
+    0 0 20px rgba(0, 255, 255, 0.4),
+    0 0 30px rgba(0, 255, 255, 0.2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.5s ease;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.event-text.event-active {
+  color: #FFFF00;
+  text-shadow: 
+    0 0 15px rgba(255, 255, 0, 0.8),
+    0 0 30px rgba(255, 255, 0, 0.6),
+    0 0 45px rgba(255, 255, 0, 0.4);
+  animation: event-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes event-glow {
+  0% {
+    text-shadow: 
+      0 0 15px rgba(255, 255, 0, 0.8),
+      0 0 30px rgba(255, 255, 0, 0.6),
+      0 0 45px rgba(255, 255, 0, 0.4);
+    transform: scale(1);
+  }
+  100% {
+    text-shadow: 
+      0 0 20px rgba(255, 255, 0, 1),
+      0 0 40px rgba(255, 255, 0, 0.8),
+      0 0 60px rgba(255, 255, 0, 0.6);
+    transform: scale(1.05);
+  }
+}
+
+/* イベントマスの「E」文字スタイル */
+.event-marker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Courier New', monospace;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #FFFF00;
+  text-shadow: 
+    0 0 8px rgba(255, 255, 0, 0.8),
+    0 0 16px rgba(255, 255, 0, 0.4);
+  z-index: 10;
+  pointer-events: none;
+  animation: event-marker-pulse 2s ease-in-out infinite;
+}
+
+@keyframes event-marker-pulse {
+  0% {
+    text-shadow: 
+      0 0 8px rgba(255, 255, 0, 0.8),
+      0 0 16px rgba(255, 255, 0, 0.4);
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    text-shadow: 
+      0 0 12px rgba(255, 255, 0, 1),
+      0 0 24px rgba(255, 255, 0, 0.6);
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% {
+    text-shadow: 
+      0 0 8px rgba(255, 255, 0, 0.8),
+      0 0 16px rgba(255, 255, 0, 0.4);
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 /* 4象限ボタンレイアウト */

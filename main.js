@@ -534,6 +534,7 @@ function getBoardDimensions() {
 const TOTAL_SQUARES = 7; // 表示する固定マス数
 const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'white', 'black'];
 let colorSequence = []; // 無限の色シーケンス
+let eventSequence = []; // イベントマス情報の無限シーケンス
 let boardSquares = []; // 固定された7つのマス要素
 
 // 動的に中央位置を計算する関数
@@ -594,6 +595,16 @@ function generateColorSequence(length) {
   return sequence;
 }
 
+// イベントマスシーケンスを生成する関数
+function generateEventSequence(length) {
+  const sequence = [];
+  for (let i = 0; i < length; i++) {
+    // 2分の1の確率でイベントマス（一時的に確率を上げています）
+    sequence.push(Math.random() < 0.5);
+  }
+  return sequence;
+}
+
 // 固定マスを作成する関数
 function createFixedSquare(index) {
   const square = document.createElement('div');
@@ -611,12 +622,18 @@ function createFixedSquare(index) {
 }
 
 // マスの色を更新する関数
-function updateSquareColor(squareElement, colorName) {
+function updateSquareColor(squareElement, colorName, isEventSquare = false) {
   // 既存の色クラスを全て削除
   colors.forEach(color => squareElement.classList.remove(color));
   
+  // 既存のイベントマーカーを削除
+  const existingMarker = squareElement.querySelector('.event-marker');
+  if (existingMarker) {
+    existingMarker.remove();
+  }
+  
   // デバッグ用ログ
-  console.log(`マス ${squareElement.id} の色を ${colorName || 'デフォルト'} に変更`);
+  console.log(`マス ${squareElement.id} の色を ${colorName || 'デフォルト'} に変更, イベント: ${isEventSquare}`);
   
   // 色変更アニメーションクラスを追加
   squareElement.classList.add('color-shifting');
@@ -624,6 +641,14 @@ function updateSquareColor(squareElement, colorName) {
   // 新しい色クラスを追加（nullの場合は無色）
   if (colorName) {
     squareElement.classList.add(colorName);
+  }
+  
+  // イベントマスの場合は「E」マーカーを追加
+  if (isEventSquare) {
+    const eventMarker = document.createElement('div');
+    eventMarker.classList.add('event-marker');
+    eventMarker.textContent = 'E';
+    squareElement.appendChild(eventMarker);
   }
   
   // 短時間後にアニメーションクラスを削除
@@ -641,11 +666,13 @@ function updateAllSquareColors() {
     setTimeout(() => {
       const actualPosition = displayOffset + i;
       const colorIndex = actualPosition % colorSequence.length;
+      const eventIndex = actualPosition % eventSequence.length;
       const color = colorSequence[colorIndex];
+      const isEvent = eventSequence[eventIndex];
       
-      console.log(`マス${i}: actualPosition=${actualPosition}, colorIndex=${colorIndex}, color=${color}`);
+      console.log(`マス${i}: actualPosition=${actualPosition}, colorIndex=${colorIndex}, color=${color}, isEvent=${isEvent}`);
       
-      updateSquareColor(boardSquares[i], color);
+      updateSquareColor(boardSquares[i], color, isEvent);
     }, i * 100);
   }
 }
@@ -660,6 +687,8 @@ function initializeSugorokuBoard() {
   
   // 十分に長い色シーケンスを生成（1000個）
   colorSequence = generateColorSequence(1000);
+  // イベントマスシーケンスも生成
+  eventSequence = generateEventSequence(1000);
   
   // ボードのスタイルを動的に設定（画面幅いっぱいに配置）
   board.style.gap = `${dimensions.squareGap}px`;
@@ -687,6 +716,7 @@ function initializeSugorokuBoard() {
   }, 300);
 }
 
+// 10の倍数マス目の境界線を更新する関数
 // コマを指定の位置に移動させる（新システム）
 function movePiece(steps) {
   const piece = document.getElementById('piece');
@@ -705,9 +735,17 @@ function movePiece(steps) {
         // 移動完了後にマスの色に応じてノーツを流す
         setTimeout(() => {
           const currentColorIndex = currentPosition % colorSequence.length;
+          const currentEventIndex = currentPosition % eventSequence.length;
           const currentColor = colorSequence[currentColorIndex];
+          const isCurrentEvent = eventSequence[currentEventIndex];
           
-          console.log('移動完了 - 現在のマスの色:', currentColor || 'デフォルト');
+          console.log('移動完了 - 現在のマスの色:', currentColor || 'デフォルト', ', イベント:', isCurrentEvent);
+          
+          // イベントマスをチェック
+          if (isCurrentEvent) {
+            showEventMessage();
+            // イベントマスでもノーツ処理は続行
+          }
           
           if (currentColor && currentColor !== 'white') {
             // 色別のノーツ流し
@@ -781,25 +819,23 @@ function movePiece(steps) {
                 break;
                 
               case 'yellow':
-                // 黄マス：インジケーター追加
-                console.log(`黄マス - インジケーターを追加します`);
-                
-                // ランダムに停止またはスキップのインジケーターを追加
-                const randomChoice = Math.random() < 0.5 ? 'stop' : 'skip';
-                const buttonName = randomChoice === 'stop' ? '停止' : 'スキップ';
-                
+                // 黄マス：白マスと同じ処理
+                console.log('黄マス - ランダムパターンを流します');
+                const yellowPatterns = [
+                  { params: [4000, 20], desc: "4秒で20回" },
+                  { params: [3000, 15], desc: "3秒で15回" },
+                  { params: [3000, 20], desc: "3秒で20回" },
+                  { params: [2500, 30], desc: "2.5秒で30回" },
+                  { params: [2000, 30], desc: "2秒で30回" },
+                  { params: [1000, 15], desc: "1秒で15回" },
+                  { params: [700, 10], desc: "0.7秒で10回" }
+                ];
+                const yellowPattern = yellowPatterns[Math.floor(Math.random() * yellowPatterns.length)];
                 updateSectionBackground('yellow');
-                showPatternRoulette(`${buttonName}のストック＋`, () => {
-                  // インジケーターを追加
-                  IndicatorManager.addIndicator(randomChoice);
-                  
-                  // 3秒後にサイコロを再度有効化
-                  setTimeout(() => {
-                    enableDiceSection();
-                    console.log('黄マス処理完了 - サイコロを振れる状態になりました');
-                  }, 3000);
-                });
-                return; // 通常の処理をスキップ
+                showPatternRoulette(yellowPattern.desc, () => {
+                  startGameCountdown(startGame, ...yellowPattern.params);
+                }, yellowPatterns);
+                break;
                 
               case 'black':
                 // 黒マス：等間隔ノーツ（白マスと同様）
@@ -882,6 +918,12 @@ function shiftColorsAndResetPiece() {
   while (displayOffset + TOTAL_SQUARES >= colorSequence.length) {
     const additionalColors = generateColorSequence(1000);
     colorSequence = colorSequence.concat(additionalColors.slice(1)); // 最初の無色は除く
+  }
+  
+  // イベントシーケンスが足りない場合は追加生成
+  while (displayOffset + TOTAL_SQUARES >= eventSequence.length) {
+    const additionalEvents = generateEventSequence(1000);
+    eventSequence = eventSequence.concat(additionalEvents);
   }
   
   // ボード全体にシフトアニメーションを追加
@@ -1443,12 +1485,20 @@ const IndicatorManager = {
     
     const indicators = button.querySelectorAll('.indicator');
     
-    // 全てのインジケーターをリセット
-    indicators.forEach(indicator => indicator.classList.remove('active'));
+    // 現在のアクティブな数を確認
+    const currentActiveCount = button.querySelectorAll('.indicator.active').length;
     
-    // 左詰めで指定された数だけ点灯
-    for (let i = 0; i < Math.min(count, 3); i++) {
-      indicators[i].classList.add('active');
+    // 増加の場合：左から順番に点灯
+    if (count > currentActiveCount) {
+      for (let i = currentActiveCount; i < Math.min(count, 3); i++) {
+        indicators[i].classList.add('active');
+      }
+    }
+    // 減少の場合：右から順番に消灯
+    else if (count < currentActiveCount) {
+      for (let i = currentActiveCount - 1; i >= count; i--) {
+        indicators[i].classList.remove('active');
+      }
     }
     
     // インジケーターが0個の場合はボタンを無効化
@@ -1458,7 +1508,7 @@ const IndicatorManager = {
       button.classList.remove('no-indicators');
     }
     
-    console.log(`${buttonType}インジケーター更新: ${count}個点灯`);
+    console.log(`${buttonType}インジケーター更新: ${currentActiveCount}個 → ${count}個`);
   },
   
   // インジケーターを消費（右から消える）
@@ -1590,3 +1640,100 @@ const originalCheckEnd = () => {
 };
 
 setTimeout(originalCheckEnd, 1000);
+
+// イベント発生メッセージを表示する関数
+function showEventMessage() {
+  const eventText = document.getElementById('event-text');
+  
+  // ランダムでイベントを選択（4つのうち1つ）
+  const eventType = Math.floor(Math.random() * 4);
+  let eventMessage = '';
+  
+  switch(eventType) {
+    case 0:
+      // 停止ボタンのインジケーターを1つ増加
+      addIndicator('control-matrix');
+      eventMessage = '停止ボタン強化';
+      break;
+    case 1:
+      // スキップボタンのインジケーターを1つ増加
+      addIndicator('skip-button');
+      eventMessage = 'スキップボタン強化';
+      break;
+    case 2:
+      // 5マス戻る
+      moveBackFiveSquares();
+      eventMessage = '5マス後退';
+      break;
+    case 3:
+      // 前方5マスを黒色にする
+      changeForwardSquaresToBlack();
+      eventMessage = '前方妨害';
+      break;
+  }
+  
+  // イベント発生表示
+  eventText.textContent = eventMessage;
+  eventText.classList.add('event-active');
+  
+  console.log(`イベントマスに到着 - ${eventMessage}！`);
+  
+  // 3秒後に元に戻す
+  setTimeout(() => {
+    eventText.textContent = 'SYSTEM READY';
+    eventText.classList.remove('event-active');
+  }, 3000);
+}
+
+// インジケーターを1つ追加する関数
+function addIndicator(buttonId) {
+  const button = document.getElementById(buttonId);
+  const indicators = button.querySelectorAll('.indicator');
+  
+  // 既にすべてのインジケーターがアクティブな場合は何もしない
+  if (indicators.length === 0) return;
+  
+  // 非アクティブなインジケーターを探してアクティブにする
+  for (let indicator of indicators) {
+    if (!indicator.classList.contains('active')) {
+      indicator.classList.add('active');
+      console.log(`${buttonId}のインジケーターを1つ追加`);
+      break;
+    }
+  }
+}
+
+// 5マス戻る関数
+function moveBackFiveSquares() {
+  if (currentPosition >= 5) {
+    currentPosition -= 5;
+    console.log(`5マス後退: 現在位置=${currentPosition}`);
+    
+    // 色をシフトして表示を更新
+    shiftColorsAndResetPiece();
+  } else {
+    // 5マス未満の場合は最初の位置に戻る
+    currentPosition = 0;
+    console.log(`5マス後退: 最初の位置に戻る`);
+    shiftColorsAndResetPiece();
+  }
+}
+
+// 前方5マスを黒色にする関数
+function changeForwardSquaresToBlack() {
+  console.log('前方5マスを黒色に変更開始');
+  
+  // 自分のいるマスの次から5マス先まで黒色に変更
+  for (let i = 1; i <= 5; i++) {
+    const targetPosition = currentPosition + i;
+    const colorIndex = targetPosition % colorSequence.length;
+    
+    // 色シーケンスを黒色に変更
+    colorSequence[colorIndex] = 'black';
+    
+    console.log(`マス${targetPosition}を黒色に変更`);
+  }
+  
+  // 色の変更を即座に反映
+  updateAllSquareColors();
+}
