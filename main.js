@@ -19,12 +19,17 @@ let hitCount = 0; // ヒット数カウンター
 function spawnCircle() {
   if (circleCount >= maxCircles) return;
   
+  console.log('ノーツを生成中:', circleCount + 1, '/', maxCircles); // デバッグログ追加
+  
   const circle = document.createElement('div');
   circle.classList.add('circle');
   circle.style.backgroundColor = circlecolor;
 
   gameArea.appendChild(circle);
   circles.push(circle);
+  
+  console.log('ノーツをDOMに追加:', circle); // デバッグログ追加
+  
   const startTime = performance.now();
   let pausedTime = 0; // 停止時間を追加
   let isPaused = false;
@@ -98,16 +103,23 @@ function startGame(speed, count) {
   hitCount = 0; // ヒットカウンターをリセット
   updateHitCounter(); // 表示を更新
 
+  console.log('ゲーム開始:', speed + 'ms間隔で' + count + '個のノーツ'); // デバッグログ追加
+
   // サイコロセクションを無効化
   disableDiceSection();
 
   // 指定された間隔でノーツを生成
   intervalId = setInterval(() => {
-    if (!isGameActive || isNotesFrozen) return; // 停止中またはゲーム非アクティブなら生成しない
+    if (!isGameActive || isNotesFrozen) {
+      console.log('ノーツ生成スキップ - ゲーム状態:', isGameActive, '停止中:', isNotesFrozen); // デバッグログ追加
+      return; // 停止中またはゲーム非アクティブなら生成しない
+    }
     
+    console.log('ノーツ生成タイマー実行中'); // デバッグログ追加
     spawnCircle();
     if (circleCount >= maxCircles) {
       clearInterval(intervalId);
+      console.log('ノーツ生成完了'); // デバッグログ追加
     }
   }, speed);
 
@@ -463,6 +475,15 @@ document.addEventListener('DOMContentLoaded', function() {
   // インジケーターシステムを初期化
   IndicatorManager.initialize();
   
+  // テスト用：ノーツを1つ生成してテスト
+  console.log('テスト用ノーツを生成します');
+  const testCircle = document.createElement('div');
+  testCircle.classList.add('circle');
+  testCircle.style.backgroundColor = '#fff';
+  testCircle.id = 'test-circle';
+  gameArea.appendChild(testCircle);
+  console.log('テスト用ノーツを追加しました:', testCircle);
+  
   // 初期ノーツは削除（最初は何も流さない）
   console.log('初期化完了 - 初期ノーツは流しません');
 });
@@ -695,68 +716,68 @@ function movePiece(steps) {
                 // 赤マス：加速ノーツ
                 console.log(`赤マス - 加速ノーツを流します`);
                 const redPatterns = [
-                  { params: [800, 100, 2, 15, 5], desc: "3秒⇒1秒20回＋10回" },
-                  { params: [1000, 100, 3, 15, 5], desc: "3秒⇒1秒20回＋10回" },
-                  { params: [600, 80, 2, 12, 8], desc: "2秒⇒1秒18回＋12回" },
-                  { params: [900, 120, 1.5, 18, 2], desc: "3秒⇒1秒20回＋5回" },
-                  { params: [700, 60, 3, 10, 10], desc: "2秒⇒1秒15回＋15回" }
+                  { params: [3000, 1000, 2, 30, 0], desc: "3秒⇒1秒20回" },
+                  { params: [4000, 1000, 2, 25, 10], desc: "4秒⇒1秒25回＋10回" },
+                  { params: [5000, 800, 1.2, 50], desc: "2秒⇒1秒50回" },
+                  { params: [5000, 1000, 1.5, 30, 10], desc: "5秒⇒1秒40回＋10回" },
+                  { params: [4000, 800, 3, 20, 10], desc: "4秒⇒0.8秒20回＋10回" }
                 ];
                 const redPattern = redPatterns[Math.floor(Math.random() * redPatterns.length)];
                 updateSectionBackground('red');
                 showPatternRoulette(redPattern.desc, () => {
                   startGameCountdown(startGameA, ...redPattern.params);
-                });
+                }, redPatterns);
                 break;
                 
               case 'blue':
                 // 青マス：ランダム間隔ノーツ
                 console.log(`青マス - ランダム間隔ノーツを流します`);
                 const bluePatterns = [
-                  { params: [200, 600, 20, 1], desc: "1秒～2秒20回" },
-                  { params: [150, 800, 25, 1], desc: "1秒～3秒25回" },
-                  { params: [300, 500, 15, 2], desc: "1秒～2秒15回" },
-                  { params: [100, 700, 30, 2], desc: "1秒～3秒30回" },
-                  { params: [250, 450, 22, 1], desc: "1秒～2秒22回" }
+                  { params: [500, 2000, 20, 1], desc: "0.5秒～2秒20回" },
+                  { params: [500, 3000, 30, 1], desc: "0.5秒～3秒30回" },
+                  { params: [500, 4000, 40, 1], desc: "0.5秒～4秒40回" },
+                  { params: [1000, 5000, 40, 2], desc: "1秒＞3秒40回" },
+                  { params: [500, 3000, 25, 2], desc: "0.5秒＞3秒25回" }
                 ];
                 const bluePattern = bluePatterns[Math.floor(Math.random() * bluePatterns.length)];
                 updateSectionBackground('blue');
                 showPatternRoulette(bluePattern.desc, () => {
                   startGameCountdown(startGameR, ...bluePattern.params);
-                });
+                }, bluePatterns);
                 break;
                 
               case 'green':
                 // 緑マス：段階的速度変化ノーツ
                 console.log(`緑マス - 段階的速度変化ノーツを流します`);
                 const greenPatterns = [
-                  { params: [400, 200, 5, 3, 3], desc: "1秒5回⇔0.2秒3回×3" },
-                  { params: [600, 150, 4, 4, 2], desc: "2秒4回⇔0.2秒4回×2" },
-                  { params: [300, 100, 6, 2, 4], desc: "1秒6回⇔0.1秒2回×4" },
-                  { params: [500, 250, 3, 5, 3], desc: "2秒3回⇔1秒5回×3" },
-                  { params: [350, 120, 4, 3, 3], desc: "1秒4回⇔0.1秒3回×3" }
+                  { params: [4000, 1000, 10, 5, 2], desc: "4秒10回⇔1秒5回×3" },
+                  { params: [2000, 1500, 5, 5, 3], desc: "2秒5回⇔1.5秒5回×3" },
+                  { params: [2000, 1000, 6, 2, 3], desc: "2秒6回⇔1秒2回×3" },
+                  { params: [4000, 1000, 3, 7, 5], desc: "4秒3回⇔1秒7回×5" },
+                  { params: [3000, 700, 2, 2, 9], desc: "3秒2回⇔0.7秒2回×9" }
                 ];
                 const greenPattern = greenPatterns[Math.floor(Math.random() * greenPatterns.length)];
                 updateSectionBackground('green');
                 showPatternRoulette(greenPattern.desc, () => {
                   startGameCountdown(startGameT2, ...greenPattern.params);
-                });
+                }, greenPatterns);
                 break;
                 
               case 'purple':
                 // 紫マス：確率的爆弾ノーツ
                 console.log(`紫マス - 確率的爆弾ノーツを流します`);
                 const purplePatterns = [
-                  { params: [500, 15, 0.3, 100, 5], desc: "2秒15回||30%0.1秒5回" },
-                  { params: [400, 20, 0.2, 80, 7], desc: "1秒20回||20%0.1秒7回" },
-                  { params: [600, 12, 0.4, 120, 4], desc: "2秒12回||40%0.1秒4回" },
-                  { params: [350, 18, 0.25, 90, 6], desc: "1秒18回||25%0.1秒6回" },
-                  { params: [450, 16, 0.35, 110, 5], desc: "2秒16回||35%0.1秒5回" }
+                  { params: [3000, 15, 0.01, 1000, 30], desc: "3秒15回||1%1秒30回" },
+                  { params: [3000, 20, 0.05, 500, 10], desc: "3秒20回||5%0.5秒10回" },
+                  { params: [2000, 12, 0.1, 10, 4], desc: "2秒12回||10%0.1秒4回" },
+                  { params: [4000, 15, 0.5, 2000, 3], desc: "4秒15回||50%2秒3回" },
+                  { params: [1000, 30, 0.03, 5000, 1], desc: "1秒30回||3%5秒1回" }
                 ];
                 const purplePattern = purplePatterns[Math.floor(Math.random() * purplePatterns.length)];
                 updateSectionBackground('purple');
                 showPatternRoulette(purplePattern.desc, () => {
                   startGameCountdown(startGameP, ...purplePattern.params);
-                });
+                }, purplePatterns);
                 break;
                 
               case 'yellow':
@@ -784,28 +805,34 @@ function movePiece(steps) {
                 // 黒マス：等間隔ノーツ（白マスと同様）
                 console.log(`黒マス - 等間隔ノーツを流します`);
                 const blackPatterns = [
-                  { params: [300, 15], desc: "0.3秒で15回" },
-                  { params: [400, 20], desc: "0.4秒で20回" },
-                  { params: [350, 18], desc: "0.35秒で18回" },
-                  { params: [450, 25], desc: "0.45秒で25回" },
                   { params: [500, 30], desc: "0.5秒で30回" },
-                  { params: [250, 12], desc: "0.25秒で12回" },
-                  { params: [600, 35], desc: "0.6秒で35回" }
+                  { params: [800, 40], desc: "0.8秒で40回" },
+                  { params: [1000, 50], desc: "1秒で50回" }
                 ];
                 const blackPattern = blackPatterns[Math.floor(Math.random() * blackPatterns.length)];
                 updateSectionBackground('black');
                 showPatternRoulette(blackPattern.desc, () => {
                   startGameCountdown(startGame, ...blackPattern.params);
-                });
+                }, blackPatterns);
                 break;
             }
           } else {
-            // 白マスまたは無色マス：通常の20個のノーツ
-            console.log('白マスまたは無色マス - 通常ノーツを流します');
+            // 白マスまたは無色マス：ランダムパターンから選択
+            console.log('白マスまたは無色マス - ランダムパターンを流します');
+            const whitePatterns = [
+              { params: [4000, 20], desc: "4秒で20回" },
+              { params: [3000, 15], desc: "3秒で15回" },
+              { params: [3000, 20], desc: "3秒で20回" },
+              { params: [2500, 30], desc: "2.5秒で30回" },
+              { params: [2000, 30], desc: "2秒で30回" },
+              { params: [1000, 15], desc: "1秒で15回" },
+              { params: [700, 10], desc: "0.7秒で10回" }
+            ];
+            const whitePattern = whitePatterns[Math.floor(Math.random() * whitePatterns.length)];
             updateSectionBackground('white');
-            showPatternRoulette("0.4秒で20回", () => {
-              startGameCountdown(startGame, 400, 20);
-            });
+            showPatternRoulette(whitePattern.desc, () => {
+              startGameCountdown(startGame, ...whitePattern.params);
+            }, whitePatterns);
           }
         }, 500);
       }, 300);
@@ -1182,8 +1209,8 @@ let isWaitingForGame = false;
 let currentGameFunction = null;
 let currentGameArgs = [];
 
-// パターンルーレット表示（数字パラパラ演出）
-function showPatternRoulette(finalPattern, callback) {
+// パターンルーレット表示（候補desc切り替え演出）
+function showPatternRoulette(finalPattern, callback, patternCandidates = null) {
   const patternRoulette = document.getElementById('pattern-roulette');
   const patternText = document.getElementById('pattern-text');
   
@@ -1192,28 +1219,30 @@ function showPatternRoulette(finalPattern, callback) {
   // ルーレット開始
   patternRoulette.classList.add('spinning');
   
-  // 最終パターンから数字部分を抽出して変化させる
-  let currentText = finalPattern;
-  
   let spinCount = 0;
-  const maxSpins = 25; // 変化回数を短縮
+  const maxSpins = 20; // 変化回数
+  
   const spinInterval = setInterval(() => {
-    // 数字部分をランダムに変化させる
-    currentText = finalPattern.replace(/(\d+\.?\d*)(\D*)/g, (match, number, suffix) => {
-      // 「秒」が含まれる場合は小数を含むランダム値、それ以外は整数
-      if (suffix.includes('秒')) {
-        // 小数を含む秒数（0.1～9.9の範囲）
-        const randomFloat = (Math.random() * 9.8 + 0.1);
-        return randomFloat.toFixed(1) + suffix;
-      } else {
-        // 整数値（元の桁数を保持）
-        const digits = number.length;
-        const randomNum = Math.floor(Math.random() * Math.pow(10, digits));
-        return randomNum.toString().padStart(digits, '0') + suffix;
-      }
-    });
+    // 候補配列がある場合は候補からランダム選択、なければ従来の数字変化
+    if (patternCandidates && patternCandidates.length > 0) {
+      // 候補のdescからランダムに選択して表示
+      const randomPattern = patternCandidates[Math.floor(Math.random() * patternCandidates.length)];
+      patternText.textContent = randomPattern.desc;
+    } else {
+      // 従来の数字変化（後方互換性のため）
+      const currentText = finalPattern.replace(/(\d+\.?\d*)(\D*)/g, (match, number, suffix) => {
+        if (suffix.includes('秒')) {
+          const randomFloat = (Math.random() * 9.8 + 0.1);
+          return randomFloat.toFixed(1) + suffix;
+        } else {
+          const digits = number.length;
+          const randomNum = Math.floor(Math.random() * Math.pow(10, digits));
+          return randomNum.toString().padStart(digits, '0') + suffix;
+        }
+      });
+      patternText.textContent = currentText;
+    }
     
-    patternText.textContent = currentText;
     spinCount++;
     
     if (spinCount >= maxSpins) {
@@ -1230,7 +1259,7 @@ function showPatternRoulette(finalPattern, callback) {
         if (callback) callback();
       }, 300);
     }
-  }, 60); // 間隔を短縮してテンポ良く
+  }, 80); // 間隔を少し長くして読みやすく
 }
 
 // ゲーム開始カウントダウン（セクション4で表示）
