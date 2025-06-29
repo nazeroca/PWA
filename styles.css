@@ -944,7 +944,7 @@ body {
 /* システムタイマーのスタイル */
 .system-timer {
   font-family: 'Courier New', monospace;
-  font-size: 5.3vw; /* 2.4em → 450px基準で約5.3vw */
+  font-size: 9vw; /* 時刻表示を少しだけ小さく */
   font-weight: bold;
   color: #00FFFF;
   text-shadow: 
