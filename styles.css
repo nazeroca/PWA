@@ -265,7 +265,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'Courier New', monospace;
-  font-size: 1.5em;
+  font-size: 2em;
   font-weight: bold;
   color: #FFFF00;
   text-shadow: 
@@ -557,21 +557,32 @@ body {
   left: 20%;
   top: 0;
   box-shadow: 
-    0 0 20px rgba(0, 255, 255, 0.8),
-    0 0 40px rgba(0, 255, 255, 0.4);
-  animation: glow 2s ease-in-out infinite alternate;
+    0 0 10px rgba(0, 255, 255, 0.4),
+    0 0 20px rgba(0, 255, 255, 0.2);
+  transition: box-shadow 0.2s ease;
 }
 
-@keyframes glow {
+/* ヒット時の判定ライン光効果 */
+.judgeline.hit {
+  animation: hit-glow 0.5s ease-out forwards;
+}
+
+@keyframes hit-glow {
   0% {
     box-shadow: 
-      0 0 20px rgba(0, 255, 255, 0.8),
-      0 0 40px rgba(0, 255, 255, 0.4);
+      0 0 10px rgba(0, 255, 255, 0.4),
+      0 0 20px rgba(0, 255, 255, 0.2);
+  }
+  30% {
+    box-shadow: 
+      0 0 40px rgba(0, 255, 255, 0.9),
+      0 0 80px rgba(0, 255, 255, 0.5),
+      0 0 120px rgba(0, 255, 255, 0.2);
   }
   100% {
     box-shadow: 
-      0 0 30px rgba(0, 255, 255, 1),
-      0 0 60px rgba(0, 255, 255, 0.6);
+      0 0 10px rgba(0, 255, 255, 0.4),
+      0 0 20px rgba(0, 255, 255, 0.2);
   }
 }
 

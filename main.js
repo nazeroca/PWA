@@ -75,6 +75,15 @@ function spawnCircle() {
         hitSound.play().catch(error => console.error('音声再生エラー:', error));
         circle.played = true;
         
+        // 判定ラインにヒット効果を追加
+        const judgeline = document.querySelector('.judgeline');
+        if (judgeline) {
+          judgeline.classList.add('hit');
+          setTimeout(() => {
+            judgeline.classList.remove('hit');
+          }, 500);
+        }
+        
         // ヒット数をカウント
         hitCount++;
         updateHitCounter();
@@ -600,7 +609,7 @@ function generateEventSequence(length) {
   const sequence = [];
   for (let i = 0; i < length; i++) {
     // 2分の1の確率でイベントマス（一時的に確率を上げています）
-    sequence.push(Math.random() < 0.5);
+    sequence.push(Math.random() < 0.1);
   }
   return sequence;
 }
@@ -670,9 +679,12 @@ function updateAllSquareColors() {
       const color = colorSequence[colorIndex];
       const isEvent = eventSequence[eventIndex];
       
-      console.log(`マス${i}: actualPosition=${actualPosition}, colorIndex=${colorIndex}, color=${color}, isEvent=${isEvent}`);
+      // スタートマス（位置0）にはイベントマスを表示しない
+      const shouldShowEvent = isEvent && actualPosition > 0;
       
-      updateSquareColor(boardSquares[i], color, isEvent);
+      console.log(`マス${i}: actualPosition=${actualPosition}, colorIndex=${colorIndex}, color=${color}, isEvent=${shouldShowEvent}`);
+      
+      updateSquareColor(boardSquares[i], color, shouldShowEvent);
     }, i * 100);
   }
 }
@@ -1481,22 +1493,31 @@ const IndicatorManager = {
       document.getElementById('control-matrix') : 
       document.getElementById('skip-button');
     
-    if (!button) return;
+    if (!button) {
+      console.error(`${buttonType}ボタンが見つかりません`);
+      return;
+    }
     
     const indicators = button.querySelectorAll('.indicator');
+    console.log(`${buttonType}ボタンのインジケーター総数: ${indicators.length}`);
     
     // 現在のアクティブな数を確認
     const currentActiveCount = button.querySelectorAll('.indicator.active').length;
+    console.log(`${buttonType}インジケーター更新開始: 現在${currentActiveCount}個 → 目標${count}個`);
     
     // 増加の場合：左から順番に点灯
     if (count > currentActiveCount) {
+      console.log(`インジケーター増加処理: ${currentActiveCount} → ${count}`);
       for (let i = currentActiveCount; i < Math.min(count, 3); i++) {
+        console.log(`インジケーター${i}を点灯`);
         indicators[i].classList.add('active');
       }
     }
     // 減少の場合：右から順番に消灯
     else if (count < currentActiveCount) {
+      console.log(`インジケーター減少処理: ${currentActiveCount} → ${count}`);
       for (let i = currentActiveCount - 1; i >= count; i--) {
+        console.log(`インジケーター${i}を消灯`);
         indicators[i].classList.remove('active');
       }
     }
@@ -1504,31 +1525,40 @@ const IndicatorManager = {
     // インジケーターが0個の場合はボタンを無効化
     if (count === 0) {
       button.classList.add('no-indicators');
+      console.log(`${buttonType}ボタンを無効化（インジケーター0個）`);
     } else {
       button.classList.remove('no-indicators');
+      console.log(`${buttonType}ボタンを有効化（インジケーター${count}個）`);
     }
     
-    console.log(`${buttonType}インジケーター更新: ${currentActiveCount}個 → ${count}個`);
+    // 最終確認
+    const finalActiveCount = button.querySelectorAll('.indicator.active').length;
+    console.log(`${buttonType}インジケーター更新完了: ${currentActiveCount}個 → ${finalActiveCount}個 (目標: ${count}個)`);
   },
   
   // インジケーターを消費（右から消える）
   consumeIndicator(buttonType) {
     const currentCount = buttonType === 'stop' ? this.stopCount : this.skipCount;
     
+    console.log(`${buttonType}インジケーター消費開始: 現在${currentCount}個`);
+    
     if (currentCount <= 0) {
-      console.log(`${buttonType}インジケーターが足りません`);
+      console.log(`${buttonType}インジケーターが足りません（現在${currentCount}個）`);
       return false;
     }
     
+    // カウントを減らす
     if (buttonType === 'stop') {
       this.stopCount--;
+      console.log(`停止インジケーターを1個消費: ${currentCount} → ${this.stopCount}`);
       this.updateIndicators('stop', this.stopCount);
     } else {
       this.skipCount--;
+      console.log(`スキップインジケーターを1個消費: ${currentCount} → ${this.skipCount}`);
       this.updateIndicators('skip', this.skipCount);
     }
     
-    console.log(`${buttonType}インジケーターを消費: 残り${buttonType === 'stop' ? this.stopCount : this.skipCount}個`);
+    console.log(`${buttonType}インジケーター消費完了: 残り${buttonType === 'stop' ? this.stopCount : this.skipCount}個`);
     return true;
   },
   
@@ -1547,6 +1577,23 @@ const IndicatorManager = {
   
   // 初期化
   initialize() {
+    // 全てのインジケーターを一度リセット
+    const stopButton = document.getElementById('control-matrix');
+    const skipButton = document.getElementById('skip-button');
+    
+    if (stopButton) {
+      const stopIndicators = stopButton.querySelectorAll('.indicator');
+      stopIndicators.forEach(indicator => indicator.classList.remove('active'));
+      console.log('停止ボタンのインジケーターをリセット');
+    }
+    
+    if (skipButton) {
+      const skipIndicators = skipButton.querySelectorAll('.indicator');
+      skipIndicators.forEach(indicator => indicator.classList.remove('active'));
+      console.log('スキップボタンのインジケーターをリセット');
+    }
+    
+    // 初期値に基づいて正しく設定
     this.updateIndicators('stop', this.stopCount);
     this.updateIndicators('skip', this.skipCount);
     console.log('インジケーターシステム初期化完了');
@@ -1687,19 +1734,11 @@ function showEventMessage() {
 
 // インジケーターを1つ追加する関数
 function addIndicator(buttonId) {
-  const button = document.getElementById(buttonId);
-  const indicators = button.querySelectorAll('.indicator');
-  
-  // 既にすべてのインジケーターがアクティブな場合は何もしない
-  if (indicators.length === 0) return;
-  
-  // 非アクティブなインジケーターを探してアクティブにする
-  for (let indicator of indicators) {
-    if (!indicator.classList.contains('active')) {
-      indicator.classList.add('active');
-      console.log(`${buttonId}のインジケーターを1つ追加`);
-      break;
-    }
+  // IndicatorManagerを使って正しく管理
+  if (buttonId === 'control-matrix') {
+    IndicatorManager.addIndicator('stop');
+  } else if (buttonId === 'skip-button') {
+    IndicatorManager.addIndicator('skip');
   }
 }
 
