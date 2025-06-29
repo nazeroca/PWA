@@ -9,10 +9,11 @@ let maxCircles = 100;
 let circles = [];
 let circlecolor = '#fff';
 let isGameActive = false; // ゲーム実行中フラグ
-let stopDuration = 5000; // 停止時間（5秒）
+let stopDuration = 10000; // 停止時間（10秒）
 let stopTimeout = null; // 停止タイマーID
 let isNotesFrozen = false; // ノーツ停止状態フラグ
 let frozenNotes = []; // 停止中のノーツ情報を保存
+let hitCount = 0; // ヒット数カウンター
 
 // ノーツを生成する関数
 function spawnCircle() {
@@ -68,6 +69,11 @@ function spawnCircle() {
         hitSound.currentTime = 0;
         hitSound.play().catch(error => console.error('音声再生エラー:', error));
         circle.played = true;
+        
+        // ヒット数をカウント
+        hitCount++;
+        updateHitCounter();
+        
         circle.remove();
         circles = circles.filter(c => c !== circle);
         return; // アニメーション終了
@@ -89,6 +95,8 @@ function startGame(speed, count) {
   maxCircles = count;
   circles = [];
   isGameActive = true;
+  hitCount = 0; // ヒットカウンターをリセット
+  updateHitCounter(); // 表示を更新
 
   // サイコロセクションを無効化
   disableDiceSection();
@@ -113,6 +121,7 @@ function startGame(speed, count) {
     if (allGone && circleCount >= maxCircles) {
       isGameActive = false;
       enableDiceSection(); // サイコロセクションを有効化
+      showSection4Text('finish'); // FINISH表示
     } else {
       setTimeout(checkEnd, 200);
     }
@@ -128,6 +137,8 @@ function startGameA(speed1, speed2, type, count1, count2) {
   circles = [];
   isGameActive = true;
   let noteIndex = 0;
+  hitCount = 0; // ヒットカウンターをリセット
+  updateHitCounter(); // 表示を更新
 
   // サイコロセクションを無効化
   disableDiceSection();
@@ -173,6 +184,7 @@ function startGameA(speed1, speed2, type, count1, count2) {
     if (allGone && circleCount >= maxCircles) {
       isGameActive = false;
       enableDiceSection();
+      showSection4Text('finish'); // FINISH表示
       console.log('加速ゲーム完了');
     } else {
       setTimeout(checkEnd, 200);
@@ -194,85 +206,86 @@ function freezeNotes() {
   
   isNotesFrozen = true;
   
+  // STOP表示
+  showSection4Text('stop', stopDuration);
+  
   // CONTROL MATRIXボタンを無効化
   const controlMatrix = document.getElementById('control-matrix');
   if (controlMatrix) {
     controlMatrix.classList.add('disabled');
   }
   
-  console.log('🛑 ノーツ動作と生成を5秒間停止 - 現在のノーツ数:', circles.length, '生成済み数:', circleCount);
+  console.log('🛑 ノーツ動作と生成を10秒間停止 - 現在のノーツ数:', circles.length, '生成済み数:', circleCount);
   
   // 既存のタイムアウトをクリア
   if (stopTimeout) {
     clearTimeout(stopTimeout);
   }
   
-  // カウントダウン表示を開始
-  startCountdown(controlMatrix);
+  // セクション4にカウントダウン表示を開始
+  startStopCountdown(controlMatrix);
   
-  // 5秒後にノーツの動きと生成を再開
+  // 10秒後にノーツの動きと生成を再開
   stopTimeout = setTimeout(() => {
-    console.log('⏱️ 5秒経過 - ノーツ動作と生成を再開します');
+    console.log('⏱️ 10秒経過 - ノーツ動作と生成を再開します');
     isNotesFrozen = false;
+    
+    // STOP表示を隠す
+    hideSection4Text();
     
     // CONTROL MATRIXボタンを有効化（ゲームが実行中の場合のみ）
     if (controlMatrix && isGameActive) {
       controlMatrix.classList.remove('disabled');
     }
     
-    // カウントダウン表示を削除
-    removeCountdown(controlMatrix);
-    
     console.log('▶️ ノーツ動作と生成を再開 - 残りノーツ数:', circles.length, '残り生成数:', maxCircles - circleCount);
   }, stopDuration);
 }
 
-// カウントダウン表示を開始する関数
-function startCountdown(buttonElement) {
+// 停止時のカウントダウン表示を開始する関数（停止ボタン上に表示）
+function startStopCountdown(buttonElement) {
   if (!buttonElement) return;
   
-  // カウントダウン表示要素を作成
+  // カウントダウン要素を作成（停止ボタンの中央に表示）
   const countdownElement = document.createElement('div');
-  countdownElement.id = 'countdown-display';
+  countdownElement.className = 'stop-countdown';
+  countdownElement.id = 'stop-countdown';
   countdownElement.style.cssText = `
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #FF0000;
-    font-size: 24px;
+    font-size: 48px;
     font-weight: bold;
-    text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+    color: #00FFFF;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
     z-index: 1000;
     pointer-events: none;
     font-family: 'Courier New', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   `;
-  
   buttonElement.appendChild(countdownElement);
   
-  let countdown = 5;
+  let countdown = 10;
   countdownElement.textContent = countdown;
   
+  console.log('停止カウントダウン10秒開始（停止ボタン上）');
+  
   // 1秒ごとにカウントダウンを更新
-  const countdownInterval = setInterval(() => {
+  const stopCountdownInterval = setInterval(() => {
     countdown--;
     if (countdown > 0) {
       countdownElement.textContent = countdown;
     } else {
-      clearInterval(countdownInterval);
+      // カウントダウン完了
+      clearInterval(stopCountdownInterval);
+      countdownElement.remove();
     }
   }, 1000);
 }
 
-// カウントダウン表示を削除する関数
-function removeCountdown(buttonElement) {
-  if (!buttonElement) return;
-  
-  const countdownElement = buttonElement.querySelector('#countdown-display');
-  if (countdownElement) {
-    countdownElement.remove();
-  }
-}
 
 // サイコロセクション無効化
 function disableDiceSection() {
@@ -319,8 +332,11 @@ function enableDiceSection() {
     stopTimeout = null;
   }
   
-  // カウントダウン表示も削除
-  removeCountdown(controlMatrix);
+  // 停止カウントダウン表示も削除
+  const stopCountdownElement = document.getElementById('stop-countdown');
+  if (stopCountdownElement) {
+    stopCountdownElement.remove();
+  }
   
   // サイコロボタンを有効化
   enableDiceButton();
@@ -426,6 +442,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // データストリームを初期化
   updateDataStream(0, null);
   
+  // ヒットカウンターを初期化
+  updateHitCounter();
+  
   // すごろく盤を初期化
   initializeSugorokuBoard();
   
@@ -492,7 +511,7 @@ function getBoardDimensions() {
 }
 
 const TOTAL_SQUARES = 7; // 表示する固定マス数
-const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'white'];
+const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'white', 'black'];
 let colorSequence = []; // 無限の色シーケンス
 let boardSquares = []; // 固定された7つのマス要素
 
@@ -532,10 +551,10 @@ function selectRandomColor() {
     // 10%の確率で紫（加速ノーツ）
     return 'purple';
   } else {
-    // 残り40%を4色で等分（各10%、全て加速ノーツ）
-    const remainingColors = ['red', 'blue', 'green', 'yellow'];
-    const index = Math.floor((random - 60) / 10); // 0-3の範囲
-    return remainingColors[Math.min(index, 3)]; // 安全のため上限を3に制限
+    // 残り40%を5色で等分（各8%、全て加速ノーツ）
+    const remainingColors = ['red', 'blue', 'green', 'yellow', 'black'];
+    const index = Math.floor((random - 60) / 8); // 0-4の範囲
+    return remainingColors[Math.min(index, 4)]; // 安全のため上限を4に制限
   }
 }
 
@@ -760,6 +779,25 @@ function movePiece(steps) {
                   }, 3000);
                 });
                 return; // 通常の処理をスキップ
+                
+              case 'black':
+                // 黒マス：等間隔ノーツ（白マスと同様）
+                console.log(`黒マス - 等間隔ノーツを流します`);
+                const blackPatterns = [
+                  { params: [300, 15], desc: "0.3秒で15回" },
+                  { params: [400, 20], desc: "0.4秒で20回" },
+                  { params: [350, 18], desc: "0.35秒で18回" },
+                  { params: [450, 25], desc: "0.45秒で25回" },
+                  { params: [500, 30], desc: "0.5秒で30回" },
+                  { params: [250, 12], desc: "0.25秒で12回" },
+                  { params: [600, 35], desc: "0.6秒で35回" }
+                ];
+                const blackPattern = blackPatterns[Math.floor(Math.random() * blackPatterns.length)];
+                updateSectionBackground('black');
+                showPatternRoulette(blackPattern.desc, () => {
+                  startGameCountdown(startGame, ...blackPattern.params);
+                });
+                break;
             }
           } else {
             // 白マスまたは無色マス：通常の20個のノーツ
@@ -905,28 +943,22 @@ function startSystemTimer() {
 // データストリーム情報を更新する関数
 function updateDataStream(position, color) {
   const positionInfo = document.getElementById('position-info');
-  const colorInfo = document.getElementById('color-info');
   
   if (positionInfo) {
     positionInfo.textContent = `POSITION: ${position.toString().padStart(3, '0')}`;
   }
-  
-  if (colorInfo) {
-    // 既存の色クラスを削除
-    colorInfo.classList.remove('color-red', 'color-blue', 'color-green', 'color-yellow', 'color-purple', 'color-white');
+}
+
+// ヒットカウンターを更新する関数
+function updateHitCounter() {
+  const hitCounterElement = document.getElementById('hit-counter');
+  if (hitCounterElement) {
+    hitCounterElement.textContent = `HITS: ${hitCount.toString().padStart(3, '0')}`;
     
-    let colorText = 'NEUTRAL';
-    if (color) {
-      colorText = color.toUpperCase();
-      colorInfo.classList.add(`color-${color}`);
-    }
-    
-    colorInfo.textContent = `COLOR: ${colorText}`;
-    
-    // データ更新時のエフェクト
-    colorInfo.style.animation = 'none';
+    // ヒット時のエフェクト
+    hitCounterElement.style.animation = 'none';
     setTimeout(() => {
-      colorInfo.style.animation = 'data-stream 4s linear infinite';
+      hitCounterElement.style.animation = 'data-stream 4s linear infinite';
     }, 10);
   }
 }
@@ -941,6 +973,8 @@ function startGameR(speed1, speed2, count, type) {
   maxCircles = count;
   circles = [];
   isGameActive = true;
+  hitCount = 0; // ヒットカウンターをリセット
+  updateHitCounter(); // 表示を更新
 
   // サイコロセクションを無効化
   disableDiceSection();
@@ -985,6 +1019,7 @@ function startGameR(speed1, speed2, count, type) {
     if (allGone && circleCount >= maxCircles) {
       isGameActive = false;
       enableDiceSection();
+      showSection4Text('finish'); // FINISH表示
       console.log('ランダムゲーム完了');
     } else {
       setTimeout(checkEnd, 200);
@@ -1001,6 +1036,8 @@ function startGameT2(speed1, speed2, count1, count2, sets) {
   circles = [];
   isGameActive = true;
   let noteIndex = 0;
+  hitCount = 0; // ヒットカウンターをリセット
+  updateHitCounter(); // 表示を更新
 
   // サイコロセクションを無効化
   disableDiceSection();
@@ -1044,6 +1081,7 @@ function startGameT2(speed1, speed2, count1, count2, sets) {
     if (allGone && circleCount >= maxCircles) {
       isGameActive = false;
       enableDiceSection();
+      showSection4Text('finish'); // FINISH表示
       console.log('段階的ゲーム完了');
     } else {
       setTimeout(checkEnd, 200);
@@ -1060,6 +1098,8 @@ function startGameP(speed1, count1, probability, speed2, count2) {
   circles = [];
   isGameActive = true;
   let mainSpawned = 0;
+  hitCount = 0; // ヒットカウンターをリセット
+  updateHitCounter(); // 表示を更新
 
   // サイコロセクションを無効化
   disableDiceSection();
@@ -1125,6 +1165,7 @@ function startGameP(speed1, count1, probability, speed2, count2) {
     if (allGone) {
       isGameActive = false;
       enableDiceSection();
+      showSection4Text('finish'); // FINISH表示
       console.log('確率的ゲーム完了');
     } else {
       setTimeout(checkEnd, 200);
@@ -1229,11 +1270,11 @@ function startGameCountdown(gameFunction, ...args) {
   `;
   gameArea.appendChild(countdownElement);
   
-  let countdown = 5;
+  let countdown = 3;
   countdownElement.textContent = countdown;
   countdownElement.classList.add('pulse');
   
-  console.log('ゲーム開始5秒カウントダウン開始（セクション4）');
+  console.log('ゲーム開始3秒カウントダウン開始（セクション4）');
   
   // 1秒ごとにカウントダウンを更新
   gameCountdownInterval = setInterval(() => {
@@ -1288,6 +1329,9 @@ function skipGameToCompleted() {
   }
   
   console.log('ゲームをスキップして完了状態にします');
+  
+  // SKIP表示
+  showSection4Text('skip');
   
   // カウントダウンをクリア
   clearGameCountdown();
@@ -1435,3 +1479,85 @@ IndicatorManager.initialize();
 
 // サイコロボタンの初期化（有効状態）
 enableDiceButton();
+
+// セクション4テキスト表示制御
+const section4Text = document.getElementById('section-4-text');
+
+// テキスト表示関数
+function showSection4Text(type, duration = 1500) {
+  if (!section4Text) return;
+  
+  // 既存のクラスを削除
+  section4Text.classList.remove('visible', 'finish', 'stop', 'skip');
+  section4Text.textContent = '';
+  
+  // テキストとクラスを設定
+  switch (type) {
+    case 'finish':
+      section4Text.textContent = 'FINISH';
+      section4Text.classList.add('finish');
+      break;
+    case 'stop':
+      section4Text.textContent = 'STOP';
+      section4Text.classList.add('stop');
+      break;
+    case 'skip':
+      section4Text.textContent = 'SKIP';
+      section4Text.classList.add('skip');
+      break;
+    default:
+      return;
+  }
+  
+  // 表示
+  section4Text.classList.add('visible');
+  
+  // 指定時間後に非表示（skipの場合はアニメーション終了後自動非表示）
+  if (type !== 'skip') {
+    setTimeout(() => {
+      section4Text.classList.remove('visible');
+    }, duration);
+  } else {
+    // skipアニメーションは1.5秒で終了
+    setTimeout(() => {
+      section4Text.classList.remove('visible');
+    }, 1500);
+  }
+}
+
+// テキストを隠す関数
+function hideSection4Text() {
+  if (section4Text) {
+    section4Text.classList.remove('visible');
+  }
+}
+
+// ノーツ終了時にFINISHを表示（既存の終了処理に追加）
+function onNotesFinish() {
+  // FINISHテキストを表示
+  showSection4Text('finish', 1500);
+  
+  // サイコロセクションを有効化
+  enableDiceSection();
+}
+
+// ノーツが全て処理された後に呼び出し
+const originalCheckEnd = () => {
+  const allGone = circles.every(c => {
+    const left = parseInt(c.style.left || '9999', 10);
+    return left <= -60;
+  });
+  
+  if (allGone && circleCount >= maxCircles) {
+    isGameActive = false;
+    enableDiceSection();
+    console.log('ゲーム完了');
+    
+    // ノーツ終了処理を追加
+    onNotesFinish();
+  } else {
+    setTimeout(originalCheckEnd, 200);
+  }
+};
+
+setTimeout(originalCheckEnd, 1000);

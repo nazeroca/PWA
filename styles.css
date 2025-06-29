@@ -96,6 +96,10 @@ body {
   background: linear-gradient(90deg, #440044 0%, #660066 50%, #440044 100%);
 }
 
+.section-2.bg-black {
+  background: linear-gradient(90deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+}
+
 /* セクション2のパターン表示スタイル */
 .pattern-display {
   width: 100%;
@@ -203,8 +207,8 @@ body {
 }
 
 .button-quadrant.top-right {
-  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.2));
-  border: 1px solid #00FFFF;
+  background: linear-gradient(135deg, #001122 0%, #002244 50%, #001122 100%);
+  border: 1px solid rgba(0, 255, 255, 0.3);
   border-bottom: 1px solid #00FFFF;
   border-left: none;
 }
@@ -255,22 +259,32 @@ body {
 
 /* SKIP（右上）専用スタイル */
 .button-quadrant.skip-button.disabled {
-  opacity: 0.3;
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
   cursor: not-allowed;
-  background: linear-gradient(135deg, rgba(128, 128, 128, 0.1), rgba(128, 128, 128, 0.2));
-  border-color: #666;
+  opacity: 0.6;
 }
 
 .button-quadrant.skip-button.disabled:hover {
-  transform: none;
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
   box-shadow: none;
+  transform: none;
 }
 
 /* サイコロボタン（右下）無効化時 */
 .section-6.disabled .button-quadrant.bottom-right {
-  background: linear-gradient(135deg, #111111 0%, #222222 50%, #111111 100%);
-  border-color: #555555;
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  cursor: not-allowed;
   opacity: 0.6;
+}
+
+.section-6.disabled .button-quadrant.bottom-right:hover {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  box-shadow: none;
+  transform: none;
 }
 
 .section-6.disabled .button-quadrant.bottom-right .cyber-text {
@@ -292,37 +306,115 @@ body {
   /* overflow: hidden; は .section-4 で既に設定済み */
 }
 
-/* 円のノーツ - より安定したサイズ設定 */
-.circle {
+/* セクション4のテキスト表示 */
+.section-4-text {
   position: absolute;
   top: 50%;
-  left: 100%;
-  transform: translateY(-50%);
-  width: 60px; /* vh単位から固定サイズに変更 */
-  height: 60px; /* vh単位から固定サイズに変更 */
-  background: radial-gradient(circle, #00FFFF 0%, #0088FF  50%, #004488 100%);
-  border-radius: 50%;
-  border: 2px solid #00FFFF;
-  box-shadow: 
-    0 0 20px rgba(0, 255, 255, 0.6),
-    inset 0 0 10px rgba(255, 255, 255, 0.2);
-  will-change: transform;
-  animation: pulse 1s ease-in-out infinite alternate;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Courier New', monospace;
+  font-size: 3em;
+  font-weight: bold;
+  text-align: center;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
-@keyframes pulse {
+.section-4-text.visible {
+  opacity: 1;
+}
+
+/* FINISH表示 */
+.section-4-text.finish {
+  color: #00FF00;
+  text-shadow: 
+    0 0 15px rgba(0, 255, 0, 0.8),
+    0 0 30px rgba(0, 255, 0, 0.6),
+    0 0 45px rgba(0, 255, 0, 0.4);
+  animation: finish-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes finish-glow {
   0% {
-    box-shadow: 
-      0 0 20px rgba(0, 255, 255, 0.6),
-      inset 0 0 10px rgba(255, 255, 255, 0.2);
+    text-shadow: 
+      0 0 15px rgba(0, 255, 0, 0.8),
+      0 0 30px rgba(0, 255, 0, 0.6),
+      0 0 45px rgba(0, 255, 0, 0.4);
   }
   100% {
-    box-shadow: 
-      0 0 30px rgba(0, 255, 255, 0.8),
-      inset 0 0 15px rgba(255, 255, 255, 0.3);
+    text-shadow: 
+      0 0 20px rgba(0, 255, 0, 1),
+      0 0 40px rgba(0, 255, 0, 0.8),
+      0 0 60px rgba(0, 255, 0, 0.6);
   }
 }
 
+/* STOP表示 */
+.section-4-text.stop {
+  color: #00FFFF;
+  text-shadow: 
+    0 0 15px rgba(0, 255, 255, 0.8),
+    0 0 30px rgba(0, 255, 255, 0.6),
+    0 0 45px rgba(0, 255, 255, 0.4);
+  animation: stop-pulse 1s ease-in-out infinite;
+}
+
+@keyframes stop-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    text-shadow: 
+      0 0 15px rgba(0, 255, 255, 0.8),
+      0 0 30px rgba(0, 255, 255, 0.6),
+      0 0 45px rgba(0, 255, 255, 0.4);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    text-shadow: 
+      0 0 20px rgba(0, 255, 255, 1),
+      0 0 40px rgba(0, 255, 255, 0.8),
+      0 0 60px rgba(0, 255, 255, 0.6);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    text-shadow: 
+      0 0 15px rgba(0, 255, 255, 0.8),
+      0 0 30px rgba(0, 255, 255, 0.6),
+      0 0 45px rgba(0, 255, 255, 0.4);
+  }
+}
+
+/* SKIP表示 */
+.section-4-text.skip {
+  color: #00FFFF;
+  text-shadow: 
+    0 0 15px rgba(0, 255, 255, 0.8),
+    0 0 30px rgba(0, 255, 255, 0.6),
+    0 0 45px rgba(0, 255, 255, 0.4);
+  animation: skip-slide 1.5s ease-in-out;
+}
+
+@keyframes skip-slide {
+  0% {
+    transform: translate(-150%, -50%) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    text-shadow: 
+      0 0 25px rgba(0, 255, 255, 1),
+      0 0 50px rgba(0, 255, 255, 0.8),
+      0 0 75px rgba(0, 255, 255, 0.6);
+  }
+  100% {
+    transform: translate(150%, -50%) scale(0.8);
+    opacity: 0;
+  }
+}
 /* 判定ライン */
 .judgeline {
   position: absolute;
@@ -706,6 +798,12 @@ body {
     inset 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
+.board-square.color-shifting.black {
+  box-shadow: 
+    0 0 20px rgba(64, 64, 64, 0.8),
+    inset 0 0 20px rgba(128, 128, 128, 0.2);
+}
+
 /* マスの色バリエーション */
 .board-square.red {
   background: linear-gradient(135deg, #330000 0%, #660000 100%);
@@ -753,6 +851,14 @@ body {
   box-shadow: 
     0 0 10px rgba(255, 255, 255, 0.3),
     inset 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.board-square.black {
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  border-color: #808080;
+  box-shadow: 
+    0 0 10px rgba(128, 128, 128, 0.3),
+    inset 0 0 10px rgba(128, 128, 128, 0.1);
 }
 
 /* コマのスタイル */
@@ -899,6 +1005,12 @@ body {
   animation: data-stream 4s linear infinite;
 }
 
+/* 2行目の大きなフォント用クラス */
+.stream-line.large-font {
+  font-size: 1.4em; /* より大きなフォントサイズ */
+  padding: 5px 8px; /* 少し多めのパディング */
+}
+
 .stream-line::before {
   content: '';
   position: absolute;
@@ -971,6 +1083,12 @@ body {
   border-left-color: rgba(255, 255, 255, 0.5);
 }
 
+.stream-line.color-black {
+  color: #808080;
+  text-shadow: 0 0 8px rgba(128, 128, 128, 0.6);
+  border-left-color: rgba(128, 128, 128, 0.5);
+}
+
 /* CONTROL MATRIXボタンのスタイル（象限用に統合） */
 .stop-display {
   position: absolute;
@@ -985,19 +1103,19 @@ body {
 
 .stop-icon {
   font-size: 20px;
-  color: #FF0000;
+  color: #00FFFF;
   text-shadow: 
-    0 0 10px rgba(255, 0, 0, 0.8),
-    0 0 20px rgba(255, 0, 0, 0.5);
+    0 0 10px rgba(0, 255, 255, 0.8),
+    0 0 20px rgba(0, 255, 255, 0.5);
   font-weight: bold;
   transition: all 0.3s ease;
 }
 
 .stop-text {
   font-size: 8px;
-  color: #FF0000;
+  color: #00FFFF;
   text-shadow: 
-    0 0 5px rgba(255, 0, 0, 0.8);
+    0 0 5px rgba(0, 255, 255, 0.8);
   font-family: 'Courier New', monospace;
   font-weight: bold;
   letter-spacing: 1px;
@@ -1005,16 +1123,16 @@ body {
 }
 
 .button-quadrant.control-matrix-button:hover .stop-icon {
-  color: #FF4444;
+  color: #FFFFFF;
   text-shadow: 
-    0 0 15px rgba(255, 68, 68, 1),
-    0 0 25px rgba(255, 68, 68, 0.7);
+    0 0 15px rgba(0, 255, 255, 1),
+    0 0 25px rgba(0, 255, 255, 0.7);
 }
 
 .button-quadrant.control-matrix-button:hover .stop-text {
-  color: #FF4444;
+  color: #FFFFFF;
   text-shadow: 
-    0 0 8px rgba(255, 68, 68, 1);
+    0 0 8px rgba(0, 255, 255, 1);
 }
 
 .button-quadrant.control-matrix-button.disabled .stop-icon,
@@ -1027,8 +1145,8 @@ body {
 /* 大きな記号用スタイル */
 .stop-icon-large {
   font-size: 80px;
-  color: #FF4444;
-  text-shadow: 0 0 20px rgba(255, 68, 68, 0.8);
+  color: #00FFFF;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1040,10 +1158,10 @@ body {
 }
 
 .button-quadrant.control-matrix-button:hover .stop-icon-large {
-  color: #FF4444;
+  color: #00FFFF;
   text-shadow: 
-    0 0 25px rgba(255, 68, 68, 1),
-    0 0 50px rgba(255, 68, 68, 0.7);
+    0 0 25px rgba(0, 255, 255, 1),
+    0 0 50px rgba(0, 255, 255, 0.7);
   transform: scale(1.1);
 }
 
@@ -1139,45 +1257,149 @@ body {
 
 /* インジケーターが0個の時のボタンスタイル */
 .button-quadrant.no-indicators {
-  background: linear-gradient(135deg, #111 0%, #222 50%, #111 100%);
-  border-color: #333;
-  opacity: 0.5;
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;
   pointer-events: none;
+}
+
+.button-quadrant.no-indicators:hover {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  box-shadow: none;
+  transform: none;
 }
 
 .button-quadrant.no-indicators .stop-icon-large,
 .button-quadrant.no-indicators .skip-icon-large {
-  color: #333;
-  text-shadow: none;
+  color: #555555;
+  text-shadow: 0 0 5px rgba(85, 85, 85, 0.5);
 }
 
 .button-quadrant.no-indicators .skip-triangle-large {
-  border-left-color: #333;
+  border-left-color: #555555;
+  filter: drop-shadow(0 0 5px rgba(85, 85, 85, 0.5));
 }
 
 /* サイコロボタンが無効化された時のスタイル */
 .button-quadrant.dice-disabled {
-  /* 見た目は変更せず、クリックのみ無効化 */
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;
   pointer-events: none;
 }
 
-/* 注意: dice-disabled時はbackground、border-color、opacityを変更しない */
-/* サイコロの2Dスタイルやドットの色も変更しない */
+.button-quadrant.dice-disabled:hover {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  box-shadow: none;
+  transform: none;
+}
 
-/* スキップボタンが無効化された時のスタイル（no-indicatorsと同様） */
+.button-quadrant.dice-disabled .cyber-text {
+  color: #555555;
+  text-shadow: 0 0 5px rgba(85, 85, 85, 0.5);
+}
+
+/* スキップボタンが無効化された時のスタイル */
 .button-quadrant.skip-disabled {
-  background: linear-gradient(135deg, #111 0%, #222 50%, #111 100%);
-  border-color: #333;
-  opacity: 0.5;
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;
   pointer-events: none;
+}
+
+.button-quadrant.skip-disabled:hover {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  box-shadow: none;
+  transform: none;
 }
 
 .button-quadrant.skip-disabled .skip-icon-large {
-  color: #333;
-  text-shadow: none;
+  color: #555555;
+  text-shadow: 0 0 5px rgba(85, 85, 85, 0.5);
 }
 
 .button-quadrant.skip-disabled .skip-triangle-large {
-  border-left-color: #333;
-  filter: drop-shadow(0 0 5px rgba(85, 85, 85, 0.3));
+  border-left-color: #555555;
+  filter: drop-shadow(0 0 5px rgba(85, 85, 85, 0.5));
+}
+
+/* 円のノーツ - より安定したサイズ設定 */
+.circle {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  width: 60px; /* vh単位から固定サイズに変更 */
+  height: 60px; /* vh単位から固定サイズに変更 */
+  background: radial-gradient(circle, #00FFFF 0%, #0088FF  50%, #004488 100%);
+  border-radius: 50%;
+  border: 2px solid #00FFFF;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.6),
+    inset 0 0 10px rgba(255, 255, 255, 0.2);
+  will-change: transform;
+  animation: pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 
+      0 0 20px rgba(0, 255, 255, 0.6),
+      inset 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    box-shadow: 
+      0 0 30px rgba(0, 255, 255, 0.8),
+      inset 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* 停止ボタンのカウントダウン表示 */
+.stop-countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Courier New', monospace;
+  font-size: 48px;
+  font-weight: bold;
+  color: #00FFFF;
+  text-shadow: 
+    0 0 15px rgba(0, 255, 255, 0.8),
+    0 0 30px rgba(0, 255, 255, 0.6),
+    0 0 45px rgba(0, 255, 255, 0.4);
+  z-index: 1000;
+  pointer-events: none;
+  text-align: center;
+  animation: countdown-pulse 1s ease-in-out infinite;
+}
+
+@keyframes countdown-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    text-shadow: 
+      0 0 15px rgba(0, 255, 255, 0.8),
+      0 0 30px rgba(0, 255, 255, 0.6),
+      0 0 45px rgba(0, 255, 255, 0.4);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    text-shadow: 
+      0 0 20px rgba(0, 255, 255, 1),
+      0 0 40px rgba(0, 255, 255, 0.8),
+      0 0 60px rgba(0, 255, 255, 0.6);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    text-shadow: 
+      0 0 15px rgba(0, 255, 255, 0.8),
+      0 0 30px rgba(0, 255, 255, 0.6),
+      0 0 45px rgba(0, 255, 255, 0.4);
+  }
 }
