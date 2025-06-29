@@ -575,15 +575,14 @@ function calculateCenterPosition() {
 function selectRandomColor() {
   const random = Math.random() * 100; // 0-100の乱数
   
-  if (random < 50) {
+  if (random < 60) {
     // 50%の確率で白（通常ノーツ）
     return 'white';
-  } else if (random < 60) {
-    // 10%の確率で紫（加速ノーツ）
-    return 'purple';
+  } else if (random < 65) {
+    return 'black';
   } else {
     // 残り40%を5色で等分（各8%、全て加速ノーツ）
-    const remainingColors = ['red', 'blue', 'green', 'yellow', 'black'];
+    const remainingColors = ['red', 'blue', 'green', 'yellow', 'purple'];
     const index = Math.floor((random - 60) / 8); // 0-4の範囲
     return remainingColors[Math.min(index, 4)]; // 安全のため上限を4に制限
   }
