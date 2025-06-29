@@ -61,13 +61,13 @@ function spawnCircle() {
     
     if (progress < 1) {
       const startX = gameArea.clientWidth;
-      const endX = -60; // ノーツサイズに合わせて-80から-60に調整
+      const endX = -window.innerWidth * 0.133; // ノーツサイズ13.3vwに合わせて調整
       const posX = startX + (endX - startX) * progress;
       circle.style.left = posX + 'px';
       
       // 判定ライン（画面の20%の位置）
       const judgeX = gameArea.clientWidth * 0.2;
-      const center = posX + 30; // ノーツサイズを60pxに変更したので30pxに調整
+      const center = posX + (window.innerWidth * 0.0665); // ノーツサイズ13.3vwの半分
       
       // 判定ラインに到達したら音を鳴らして削除
       if (!circle.played && center <= judgeX) {
@@ -127,7 +127,7 @@ function startGame(speed, count) {
   const checkEnd = () => {
     const allGone = circles.every(c => {
       const left = parseInt(c.style.left || '9999', 10);
-      return left <= -60; // ノーツサイズに合わせて-80から-60に調整
+      return left <= -(window.innerWidth * 0.133); // ノーツサイズ13.3vwに合わせて調整
     });
     
     if (allGone && circleCount >= maxCircles) {
@@ -190,7 +190,7 @@ function startGameA(speed1, speed2, type, count1, count2) {
   const checkEnd = () => {
     const allGone = circles.every(c => {
       const left = parseInt(c.style.left || '9999', 10);
-      return left <= -60;
+      return left <= -(window.innerWidth * 0.133); // ノーツサイズ13.3vwに合わせて調整
     });
     
     if (allGone && circleCount >= maxCircles) {
@@ -1040,7 +1040,7 @@ function startGameR(speed1, speed2, count, type) {
   const checkEnd = () => {
     const allGone = circles.every(c => {
       const left = parseInt(c.style.left || '9999', 10);
-      return left <= -60;
+      return left <= -(window.innerWidth * 0.133); // ノーツサイズ13.3vwに合わせて調整
     });
     
     if (allGone && circleCount >= maxCircles) {
@@ -1102,7 +1102,7 @@ function startGameT2(speed1, speed2, count1, count2, sets) {
   const checkEnd = () => {
     const allGone = circles.every(c => {
       const left = parseInt(c.style.left || '9999', 10);
-      return left <= -60;
+      return left <= -(window.innerWidth * 0.133); // ノーツサイズ13.3vwに合わせて調整
     });
     
     if (allGone && circleCount >= maxCircles) {
@@ -1186,7 +1186,7 @@ function startGameP(speed1, count1, probability, speed2, count2) {
   function checkEnd() {
     const allGone = circles.every(c => {
       const left = parseInt(c.style.left || '9999', 10);
-      return left <= -60;
+      return left <= -(window.innerWidth * 0.133); // ノーツサイズ13.3vwに合わせて調整
     });
     
     if (allGone) {
@@ -1574,7 +1574,7 @@ function onNotesFinish() {
 const originalCheckEnd = () => {
   const allGone = circles.every(c => {
     const left = parseInt(c.style.left || '9999', 10);
-    return left <= -60;
+    return left <= -(window.innerWidth * 0.133); // ノーツサイズ13.3vwに合わせて調整
   });
   
   if (allGone && circleCount >= maxCircles) {
