@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="manifest" href="manifest.json">
+  <title>SSD - 固定盤面</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- セクション1: 15% - 左右分割 -->
+    <div class="section-1">
+      <div class="left-half">
+        <div class="cyber-text">TIMER</div>
+        <div class="system-timer" id="system-timer">00:00:00</div>
+      </div>
+      <div class="right-half">
+        <div class="data-stream-info" id="data-stream-info">
+          <div class="stream-line large-font" id="position-info">POSITION: STANDBY</div>
+          <div class="stream-line large-font" id="hit-counter">HITS: 000</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- セクション2: パターン表示エリア -->
+    <div class="section-2">
+      <div class="pattern-display" id="pattern-display">
+        <div class="pattern-roulette" id="pattern-roulette">
+          <div class="pattern-text" id="pattern-text">PATTERN ANALYSIS</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- セクション7: 新しいセクション -->
+    <div class="section-7">
+      <div class="event-display" id="event-display">
+        <div class="event-text" id="event-text">SYSTEM READY</div>
+      </div>
+    </div>
+
+    <!-- セクション4: ノーツレーン -->
+    <div class="section-4 notes-lane" id="game-area">
+      <div class="judgeline"></div>
+      <div class="section-4-text" id="section-4-text"></div>
+    </div>
+
+    <!-- セクション3: すごろく盤 -->
+    <div class="section-3">
+      <div class="sugoroku-container" id="sugoroku-container">
+        <div class="sugoroku-board" id="sugoroku-board">
+          <!-- マスは動的に生成される -->
+        </div>
+        <div class="piece" id="piece"></div>
+      </div>
+    </div>
+
+    <!-- セクション5: 75% - 左右分割（上段） -->
+    <div class="section-5">
+      <div class="button-quadrant top-left control-matrix-button" id="control-matrix">
+        <div class="stop-icon-large">■</div>
+        <div class="indicator-container">
+          <div class="indicator active" data-index="0"></div>
+          <div class="indicator" data-index="1"></div>
+          <div class="indicator" data-index="2"></div>
+        </div>
+      </div>
+      <div class="button-quadrant top-right skip-button" id="skip-button">
+        <div class="skip-icon-large">
+          <div class="skip-triangle-large"></div>
+          <div class="skip-triangle-large"></div>
+        </div>
+        <div class="indicator-container">
+          <div class="indicator active" data-index="0"></div>
+          <div class="indicator" data-index="1"></div>
+          <div class="indicator" data-index="2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- セクション6: 残り - 左右分割（下段） -->
+    <div class="section-6">
+      <div class="button-quadrant bottom-left" id="green-dice-button">
+        <div class="dice-container-2d" id="green-dice-container">
+          <div class="dice-2d green-dice" id="green-dice">
+            <div class="dice-dots face-1" id="green-dice-display">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="button-quadrant bottom-right" id="dice-button">
+        <div class="dice-container-2d" id="dice-container">
+          <div class="dice-2d" id="dice">
+            <div class="dice-dots face-1" id="dice-display">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="hit" src="./sounds/hit.mp3" preload="auto"></audio>
+
+  <!-- コアファイル読み込み -->
+  <script src="main.js"></script>
+  <!-- 固定盤面モード読み込み -->
+  <script src="js/board-fixed.js"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/SSD/sw.js').then(function (registration) {
+
+        }, function (err) {
+
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="manifest" href="manifest.json">
-  <title>SSD</title>
+  <title>SSD - ランダム盤面</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -81,8 +81,22 @@
 
     <!-- セクション6: 残り - 左右分割（下段） -->
     <div class="section-6">
-      <div class="button-quadrant bottom-left">
-        <div class="terminal-icon-large">▣</div>
+      <div class="button-quadrant bottom-left" id="green-dice-button">
+        <div class="dice-container-2d" id="green-dice-container">
+          <div class="dice-2d green-dice" id="green-dice">
+            <div class="dice-dots face-1" id="green-dice-display">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="button-quadrant bottom-right" id="dice-button">
         <div class="dice-container-2d" id="dice-container">
@@ -106,15 +120,18 @@
 
   <audio id="hit" src="./sounds/hit.mp3" preload="auto"></audio>
 
+  <!-- コアファイル読み込み -->
   <script src="main.js"></script>
+  <!-- ランダム盤面モード読み込み -->
+  <script src="js/board-random.js"></script>
 
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
         navigator.serviceWorker.register('/SSD/sw.js').then(function (registration) {
-          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
         }, function (err) {
-          console.log('ServiceWorker registration failed: ', err);
+
         });
       });
     }

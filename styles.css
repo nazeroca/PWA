@@ -724,29 +724,24 @@ body {
 /* サイコロの各面のドット配置 */
 /* 1の目 - 中央 */
 .dice-dots.face-1 .dot:nth-child(5) { opacity: 1; }
-
 /* 2の目 - 対角線 */
 .dice-dots.face-2 .dot:nth-child(3) { opacity: 1; }
 .dice-dots.face-2 .dot:nth-child(7) { opacity: 1; }
-
 /* 3の目 - 対角線 */
 .dice-dots.face-3 .dot:nth-child(3) { opacity: 1; }
 .dice-dots.face-3 .dot:nth-child(5) { opacity: 1; }
 .dice-dots.face-3 .dot:nth-child(7) { opacity: 1; }
-
 /* 4の目 - 四隅 */
 .dice-dots.face-4 .dot:nth-child(1) { opacity: 1; }
 .dice-dots.face-4 .dot:nth-child(3) { opacity: 1; }
 .dice-dots.face-4 .dot:nth-child(7) { opacity: 1; }
 .dice-dots.face-4 .dot:nth-child(9) { opacity: 1; }
-
 /* 5の目 - 四隅+中央 */
 .dice-dots.face-5 .dot:nth-child(1) { opacity: 1; }
 .dice-dots.face-5 .dot:nth-child(3) { opacity: 1; }
 .dice-dots.face-5 .dot:nth-child(5) { opacity: 1; }
 .dice-dots.face-5 .dot:nth-child(7) { opacity: 1; }
 .dice-dots.face-5 .dot:nth-child(9) { opacity: 1; }
-
 /* 6の目 - 左右の縦列 */
 .dice-dots.face-6 .dot:nth-child(1) { opacity: 1; }
 .dice-dots.face-6 .dot:nth-child(3) { opacity: 1; }
@@ -754,6 +749,80 @@ body {
 .dice-dots.face-6 .dot:nth-child(6) { opacity: 1; }
 .dice-dots.face-6 .dot:nth-child(7) { opacity: 1; }
 .dice-dots.face-6 .dot:nth-child(9) { opacity: 1; }
+
+/* 緑色のサイコロのスタイル */
+.dice-2d.green-dice {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #003300 0%, #006600 50%, #003300 100%);
+  border: 3px solid #00FF00;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 
+    0 0 30px rgba(0, 255, 0, 0.5),
+    inset 0 0 20px rgba(0, 255, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dice-2d.green-dice.rolling {
+  animation: greenDiceRoll2D 1s ease-out;
+  box-shadow: 
+    0 0 50px rgba(0, 255, 0, 0.8),
+    inset 0 0 30px rgba(0, 255, 0, 0.2);
+}
+
+.dice-2d.green-dice .dice-dots .dot {
+  width: 10px;
+  height: 10px;
+  background: #00FF00;
+  border-radius: 50%;
+  box-shadow: 
+    0 0 8px rgba(0, 255, 0, 0.8),
+    0 0 15px rgba(0, 255, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  justify-self: center;
+  align-self: center;
+}
+
+.dice-2d.green-dice.rolling .dice-dots .dot {
+  background: #FFFFFF;
+  box-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.9),
+    0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+/* 緑色のサイコロのドット配置ルール */
+/* 1の目 - 中央 */
+.dice-2d.green-dice .dice-dots.face-1 .dot:nth-child(5) { opacity: 1; }
+/* 2の目 - 対角線 */
+.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(7) { opacity: 1; }
+/* 3の目 - 対角線 */
+.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(5) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(7) { opacity: 1; }
+/* 4の目 - 四隅 */
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(1) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(7) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(9) { opacity: 1; }
+/* 5の目 - 四隅+中央 */
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(1) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(5) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(7) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(9) { opacity: 1; }
+/* 6の目 - 左右の縦列 */
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(1) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(4) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(6) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(7) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(9) { opacity: 1; }
 
 @keyframes diceRoll2D {
   0% { 
@@ -787,6 +856,136 @@ body {
       inset 0 0 20px rgba(0, 255, 255, 0.1);
   }
 }
+
+/* 緑色のサイコロのスタイル */
+.dice-2d.green-dice {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #003300 0%, #006600 50%, #003300 100%);
+  border: 3px solid #00FF00;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 
+    0 0 30px rgba(0, 255, 0, 0.5),
+    inset 0 0 20px rgba(0, 255, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dice-2d.green-dice.rolling {
+  animation: greenDiceRoll2D 1s ease-out;
+  box-shadow: 
+    0 0 50px rgba(0, 255, 0, 0.8),
+    inset 0 0 30px rgba(0, 255, 0, 0.2);
+}
+
+.dice-2d.green-dice .dice-dots .dot {
+  width: 10px;
+  height: 10px;
+  background: #00FF00;
+  border-radius: 50%;
+  box-shadow: 
+    0 0 8px rgba(0, 255, 0, 0.8),
+    0 0 15px rgba(0, 255, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  justify-self: center;
+  align-self: center;
+}
+
+.dice-2d.green-dice.rolling .dice-dots .dot {
+  background: #FFFFFF;
+  box-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.9),
+    0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+/* 緑色のサイコロのドット配置ルール */
+/* 1の目 - 中央 */
+.dice-2d.green-dice .dice-dots.face-1 .dot:nth-child(5) { opacity: 1; }
+/* 2の目 - 対角線 */
+.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(7) { opacity: 1; }
+/* 3の目 - 対角線 */
+.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(5) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(7) { opacity: 1; }
+/* 4の目 - 四隅 */
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(1) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(7) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(9) { opacity: 1; }
+/* 5の目 - 四隅+中央 */
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(1) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(5) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(7) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(9) { opacity: 1; }
+/* 6の目 - 左右の縦列 */
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(1) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(4) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(6) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(7) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(9) { opacity: 1; }
+
+@keyframes greenDiceRoll2D {
+  0% { 
+    transform: rotate(0deg) scale(1); 
+    box-shadow: 
+      0 0 30px rgba(0, 255, 0, 0.5),
+      inset 0 0 20px rgba(0, 255, 0, 0.1);
+  }
+  25% { 
+    transform: rotate(90deg) scale(1.1); 
+    box-shadow: 
+      0 0 40px rgba(0, 255, 0, 0.7),
+      inset 0 0 25px rgba(0, 255, 0, 0.15);
+  }
+  50% { 
+    transform: rotate(180deg) scale(1.2); 
+    box-shadow: 
+      0 0 50px rgba(0, 255, 0, 0.8),
+      inset 0 0 30px rgba(0, 255, 0, 0.2);
+  }
+  75% { 
+    transform: rotate(270deg) scale(1.1); 
+    box-shadow: 
+      0 0 40px rgba(0, 255, 0, 0.7),
+      inset 0 0 25px rgba(0, 255, 0, 0.15);
+  }
+  100% { 
+    transform: rotate(360deg) scale(1); 
+    box-shadow: 
+      0 0 30px rgba(0, 255, 0, 0.5),
+      inset 0 0 20px rgba(0, 255, 0, 0.1);
+  }
+}
+
+/* 緑色のサイコロのドット配置ルール */
+.dice-2d.green-dice .dice-dots.face-1 .dot:nth-child(5) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(7) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(5) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(7) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(1) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(7) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(9) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(1) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(5) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(7) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(9) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(1) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(3) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(4) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(6) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(7) { opacity: 1; }
+.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(9) { opacity: 1; }
 
 /* LOG TRACEボタンの拡張 */
 #dice-button {
@@ -1483,61 +1682,4 @@ body {
     inset 0 0 2.2vw rgba(255, 255, 255, 0.2); /* 10px → 450px基準で約2.2vw */
   will-change: transform;
   animation: pulse 1s ease-in-out infinite alternate;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 
-      0 0 20px rgba(0, 255, 255, 0.6),
-      inset 0 0 10px rgba(255, 255, 255, 0.2);
-  }
-  100% {
-    box-shadow: 
-      0 0 30px rgba(0, 255, 255, 0.8),
-      inset 0 0 15px rgba(255, 255, 255, 0.3);
-  }
-}
-
-/* 停止ボタンのカウントダウン表示 */
-.stop-countdown {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Courier New', monospace;
-  font-size: 48px;
-  font-weight: bold;
-  color: #00FFFF;
-  text-shadow: 
-    0 0 15px rgba(0, 255, 255, 0.8),
-    0 0 30px rgba(0, 255, 255, 0.6),
-    0 0 45px rgba(0, 255, 255, 0.4);
-  z-index: 1000;
-  pointer-events: none;
-  text-align: center;
-  animation: countdown-pulse 1s ease-in-out infinite;
-}
-
-@keyframes countdown-pulse {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    text-shadow: 
-      0 0 15px rgba(0, 255, 255, 0.8),
-      0 0 30px rgba(0, 255, 255, 0.6),
-      0 0 45px rgba(0, 255, 255, 0.4);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.1);
-    text-shadow: 
-      0 0 20px rgba(0, 255, 255, 1),
-      0 0 40px rgba(0, 255, 255, 0.8),
-      0 0 60px rgba(0, 255, 255, 0.6);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    text-shadow: 
-      0 0 15px rgba(0, 255, 255, 0.8),
-      0 0 30px rgba(0, 255, 255, 0.6),
-      0 0 45px rgba(0, 255, 255, 0.4);
-  }
 }
