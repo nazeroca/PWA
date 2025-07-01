@@ -1019,7 +1019,7 @@ function updateDataStream(position, color) {
   const positionInfo = document.getElementById('position-info');
   
   if (positionInfo) {
-    positionInfo.textContent = `POSITION: ${position.toString().padStart(3, '0')}`;
+    positionInfo.textContent = `SPACE: ${position.toString().padStart(3, '0')}`;
   }
 }
 
