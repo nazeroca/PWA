@@ -25,9 +25,9 @@ body {
 /* 各セクションの高さ設定 - 画面を7分割 */
 .section-1 {
   height: 15vh; /* 0% - 15% */
-  border-bottom: 2px solid #00FFFF;
+  border-bottom: 0.29vh solid #00FFFF;
   display: flex;
-  box-shadow: 0 2px 10px rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0.29vh 1.43vh rgba(0, 255, 255, 0.3);
   position: relative;
   z-index: 1;
 }
@@ -40,8 +40,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  border-right: 2px solid #00FFFF;
+  padding: 1.43vh;
+  border-right: 0.29vh solid #00FFFF;
   background: linear-gradient(135deg, #001122 0%, #002244 50%, #001122 100%);
   position: relative;
   box-sizing: border-box;
@@ -54,7 +54,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 1.43vh;
   background: linear-gradient(135deg, #000011 0%, #001133 50%, #000011 100%);
   position: relative;
   box-sizing: border-box;
@@ -62,10 +62,10 @@ body {
 
 .section-2 {
   height: 10vh; /* 15vh → 10vh に変更 */
-  border-bottom: 2px solid #00FFFF;
+  border-bottom: 0.29vh solid #00FFFF;
   background: linear-gradient(90deg, #001122 0%, #002244 50%, #001122 100%);
   position: relative;
-  box-shadow: 0 2px 10px rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0.29vh 1.43vh rgba(0, 255, 255, 0.3);
   margin-top: 0;
   z-index: 2;
   transition: background 1s ease-in-out;
@@ -134,14 +134,14 @@ body {
 
 .pattern-text {
   font-family: 'Hiragino Sans', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif;
-  font-size: 28px;
+  font-size: 4vh; /* 28pxから4vhに変更 */
   font-weight: bold;
   color: #00FFFF;
   text-align: center;
   text-shadow: 
-    0 0 10px rgba(0, 255, 255, 0.8),
-    0 0 20px rgba(0, 255, 255, 0.4),
-    0 0 30px rgba(0, 255, 255, 0.2);
+    0 0 1.43vh rgba(0, 255, 255, 0.8),
+    0 0 2.86vh rgba(0, 255, 255, 0.4),
+    0 0 4.29vh rgba(0, 255, 255, 0.2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -157,33 +157,33 @@ body {
 
 .section-3 {
   height: 15vh; /* 15vh に変更 */
-  border-bottom: 2px solid #00FFFF;
+  border-bottom: 0.29vh solid #00FFFF;
   background: linear-gradient(90deg, #000011 0%, #000033 50%, #000011 100%);
   position: relative;
-  box-shadow: 0 2px 10px rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0.29vh 1.43vh rgba(0, 255, 255, 0.3);
 }
 
 .section-7 {
   height: 10vh; /* 5vh → 10vh に変更 */
-  border-bottom: 2px solid #00FFFF;
+  border-bottom: 0.29vh solid #00FFFF;
   display: flex;
   position: relative;
   background: linear-gradient(45deg, #000022 0%, #001144 50%, #000022 100%);
-  box-shadow: 0 2px 10px rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0.29vh 1.43vh rgba(0, 255, 255, 0.3);
 }
 
 .section-4 {
   height: 15vh; /* 35% - 50% = 15% */
-  border-bottom: 2px solid #00FFFF;
+  border-bottom: 0.29vh solid #00FFFF;
   background: linear-gradient(45deg, #000 0%, #001133 50%, #000 100%);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0.29vh 1.43vh rgba(0, 255, 255, 0.3);
 }
 
 .section-5 {
   height: 17.5vh; /* ボタンセクションを5vh小さく（22.5vh - 5vh = 17.5vh） */
-  border-bottom: 2px solid #00FFFF;
+  border-bottom: 0.29vh solid #00FFFF;
   display: flex;
   position: relative;
 }
@@ -206,8 +206,8 @@ body {
     repeating-linear-gradient(
       90deg,
       transparent,
-      transparent 98px,
-      rgba(0, 255, 255, 0.1) 100px
+      transparent 23.3vw,
+      rgba(0, 255, 255, 0.1) 23.8vw
     );
   pointer-events: none;
 }
@@ -224,13 +224,13 @@ body {
 
 .event-text {
   font-family: 'Hiragino Sans', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif;
-  font-size: 28px;
+  font-size: 4vh; /* 28pxから4vhに変更 */
   font-weight: bold;
   color: #00FFFF;
   text-shadow: 
-    0 0 10px rgba(0, 255, 255, 0.8),
-    0 0 20px rgba(0, 255, 255, 0.4),
-    0 0 30px rgba(0, 255, 255, 0.2);
+    0 0 1.43vh rgba(0, 255, 255, 0.8),
+    0 0 2.86vh rgba(0, 255, 255, 0.4),
+    0 0 4.29vh rgba(0, 255, 255, 0.2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -305,12 +305,12 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'Courier New', monospace;
-  font-size: 2em;
+  font-size: 4.6vh; /* 2emから4.6vhに変更 */
   font-weight: bold;
   color: #FFFF00;
   text-shadow: 
-    0 0 8px rgba(255, 255, 0, 0.8),
-    0 0 16px rgba(255, 255, 0, 0.4);
+    0 0 1.14vh rgba(255, 255, 0, 0.8),
+    0 0 2.29vh rgba(255, 255, 0, 0.4);
   z-index: 10;
   pointer-events: none;
   animation: event-marker-pulse 2s ease-in-out infinite;
@@ -319,20 +319,20 @@ body {
 @keyframes event-marker-pulse {
   0% {
     text-shadow: 
-      0 0 8px rgba(255, 255, 0, 0.8),
-      0 0 16px rgba(255, 255, 0, 0.4);
+      0 0 1.14vh rgba(255, 255, 0, 0.8),
+      0 0 2.29vh rgba(255, 255, 0, 0.4);
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
     text-shadow: 
-      0 0 12px rgba(255, 255, 0, 1),
-      0 0 24px rgba(255, 255, 0, 0.6);
+      0 0 1.71vh rgba(255, 255, 0, 1),
+      0 0 3.43vh rgba(255, 255, 0, 0.6);
     transform: translate(-50%, -50%) scale(1.1);
   }
   100% {
     text-shadow: 
-      0 0 8px rgba(255, 255, 0, 0.8),
-      0 0 16px rgba(255, 255, 0, 0.4);
+      0 0 1.14vh rgba(255, 255, 0, 0.8),
+      0 0 2.29vh rgba(255, 255, 0, 0.4);
     transform: translate(-50%, -50%) scale(1);
   }
 }
@@ -458,6 +458,51 @@ body {
   text-shadow: 0 0 5px rgba(85, 85, 85, 0.5);
 }
 
+/* 新レイアウト用 - CONTROL MATRIX（左）専用スタイル */
+.button-third.control-matrix-button.disabled {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button-third.control-matrix-button.disabled:hover {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  box-shadow: none;
+  transform: none;
+}
+
+/* 新レイアウト用 - SKIP（右）専用スタイル */
+.button-third.skip-button.disabled {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button-third.skip-button.disabled:hover {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  box-shadow: none;
+  transform: none;
+}
+
+/* 新レイアウト用 - ダイスボタン無効化時 */
+.section-6.disabled .dice-button-full {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.section-6.disabled .dice-button-full:hover {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  box-shadow: none;
+  transform: none;
+}
+
 /* ノーツレーン（セクション4専用スタイル） */
 .section-4.notes-lane {
   /* セクション4の基本スタイルを継承し、ノーツレーン専用の設定を追加 */
@@ -479,7 +524,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'Courier New', monospace;
-  font-size: 3em;
+  font-size: 6.9vh; /* 3emから6.9vhに変更 */
   font-weight: bold;
   text-align: center;
   z-index: 100;
@@ -584,7 +629,7 @@ body {
 /* 判定ライン */
 .judgeline {
   position: absolute;
-  width: 4px;
+  width: 0.95vw;
   height: 100%;
   background: linear-gradient(
     180deg,
@@ -597,8 +642,8 @@ body {
   left: 20%;
   top: 0;
   box-shadow: 
-    0 0 10px rgba(0, 255, 255, 0.4),
-    0 0 20px rgba(0, 255, 255, 0.2);
+    0 0 1.43vh rgba(0, 255, 255, 0.4),
+    0 0 2.86vh rgba(0, 255, 255, 0.2);
   transition: box-shadow 0.2s ease;
 }
 
@@ -610,19 +655,19 @@ body {
 @keyframes hit-glow {
   0% {
     box-shadow: 
-      0 0 10px rgba(0, 255, 255, 0.4),
-      0 0 20px rgba(0, 255, 255, 0.2);
+      0 0 1.43vh rgba(0, 255, 255, 0.4),
+      0 0 2.86vh rgba(0, 255, 255, 0.2);
   }
   30% {
     box-shadow: 
-      0 0 40px rgba(0, 255, 255, 0.9),
-      0 0 80px rgba(0, 255, 255, 0.5),
-      0 0 120px rgba(0, 255, 255, 0.2);
+      0 0 5.71vh rgba(0, 255, 255, 0.9),
+      0 0 11.43vh rgba(0, 255, 255, 0.5),
+      0 0 17.14vh rgba(0, 255, 255, 0.2);
   }
   100% {
     box-shadow: 
-      0 0 10px rgba(0, 255, 255, 0.4),
-      0 0 20px rgba(0, 255, 255, 0.2);
+      0 0 1.43vh rgba(0, 255, 255, 0.4),
+      0 0 2.86vh rgba(0, 255, 255, 0.2);
   }
 }
 
@@ -790,79 +835,6 @@ body {
 .dice-dots.face-6 .dot:nth-child(7) { opacity: 1; }
 .dice-dots.face-6 .dot:nth-child(9) { opacity: 1; }
 
-/* 緑色のサイコロのスタイル */
-.dice-2d.green-dice {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, #003300 0%, #006600 50%, #003300 100%);
-  border: 3px solid #00FF00;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-shadow: 
-    0 0 30px rgba(0, 255, 0, 0.5),
-    inset 0 0 20px rgba(0, 255, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.dice-2d.green-dice.rolling {
-  animation: greenDiceRoll2D 1s ease-out;
-  box-shadow: 
-    0 0 50px rgba(0, 255, 0, 0.8),
-    inset 0 0 30px rgba(0, 255, 0, 0.2);
-}
-
-.dice-2d.green-dice .dice-dots .dot {
-  width: 10px;
-  height: 10px;
-  background: #00FF00;
-  border-radius: 50%;
-  box-shadow: 
-    0 0 8px rgba(0, 255, 0, 0.8),
-    0 0 15px rgba(0, 255, 0, 0.4);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  justify-self: center;
-  align-self: center;
-}
-
-.dice-2d.green-dice.rolling .dice-dots .dot {
-  background: #FFFFFF;
-  box-shadow: 
-    0 0 10px rgba(255, 255, 255, 0.9),
-    0 0 20px rgba(0, 255, 255, 0.6);
-}
-
-/* 緑色のサイコロのドット配置ルール */
-/* 1の目 - 中央 */
-.dice-2d.green-dice .dice-dots.face-1 .dot:nth-child(5) { opacity: 1; }
-/* 2の目 - 対角線 */
-.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(7) { opacity: 1; }
-/* 3の目 - 対角線 */
-.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(5) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(7) { opacity: 1; }
-/* 4の目 - 四隅 */
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(1) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(7) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(9) { opacity: 1; }
-/* 5の目 - 四隅+中央 */
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(1) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(5) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(7) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(9) { opacity: 1; }
-/* 6の目 - 左右の縦列 */
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(1) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(4) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(6) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(7) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(9) { opacity: 1; }
 
 @keyframes diceRoll2D {
   0% { 
@@ -897,135 +869,6 @@ body {
   }
 }
 
-/* 緑色のサイコロのスタイル */
-.dice-2d.green-dice {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, #003300 0%, #006600 50%, #003300 100%);
-  border: 3px solid #00FF00;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-shadow: 
-    0 0 30px rgba(0, 255, 0, 0.5),
-    inset 0 0 20px rgba(0, 255, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.dice-2d.green-dice.rolling {
-  animation: greenDiceRoll2D 1s ease-out;
-  box-shadow: 
-    0 0 50px rgba(0, 255, 0, 0.8),
-    inset 0 0 30px rgba(0, 255, 0, 0.2);
-}
-
-.dice-2d.green-dice .dice-dots .dot {
-  width: 10px;
-  height: 10px;
-  background: #00FF00;
-  border-radius: 50%;
-  box-shadow: 
-    0 0 8px rgba(0, 255, 0, 0.8),
-    0 0 15px rgba(0, 255, 0, 0.4);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  justify-self: center;
-  align-self: center;
-}
-
-.dice-2d.green-dice.rolling .dice-dots .dot {
-  background: #FFFFFF;
-  box-shadow: 
-    0 0 10px rgba(255, 255, 255, 0.9),
-    0 0 20px rgba(0, 255, 255, 0.6);
-}
-
-/* 緑色のサイコロのドット配置ルール */
-/* 1の目 - 中央 */
-.dice-2d.green-dice .dice-dots.face-1 .dot:nth-child(5) { opacity: 1; }
-/* 2の目 - 対角線 */
-.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(7) { opacity: 1; }
-/* 3の目 - 対角線 */
-.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(5) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(7) { opacity: 1; }
-/* 4の目 - 四隅 */
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(1) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(7) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(9) { opacity: 1; }
-/* 5の目 - 四隅+中央 */
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(1) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(5) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(7) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(9) { opacity: 1; }
-/* 6の目 - 左右の縦列 */
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(1) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(4) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(6) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(7) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(9) { opacity: 1; }
-
-@keyframes greenDiceRoll2D {
-  0% { 
-    transform: rotate(0deg) scale(1); 
-    box-shadow: 
-      0 0 30px rgba(0, 255, 0, 0.5),
-      inset 0 0 20px rgba(0, 255, 0, 0.1);
-  }
-  25% { 
-    transform: rotate(90deg) scale(1.1); 
-    box-shadow: 
-      0 0 40px rgba(0, 255, 0, 0.7),
-      inset 0 0 25px rgba(0, 255, 0, 0.15);
-  }
-  50% { 
-    transform: rotate(180deg) scale(1.2); 
-    box-shadow: 
-      0 0 50px rgba(0, 255, 0, 0.8),
-      inset 0 0 30px rgba(0, 255, 0, 0.2);
-  }
-  75% { 
-    transform: rotate(270deg) scale(1.1); 
-    box-shadow: 
-      0 0 40px rgba(0, 255, 0, 0.7),
-      inset 0 0 25px rgba(0, 255, 0, 0.15);
-  }
-  100% { 
-    transform: rotate(360deg) scale(1); 
-    box-shadow: 
-      0 0 30px rgba(0, 255, 0, 0.5),
-      inset 0 0 20px rgba(0, 255, 0, 0.1);
-  }
-}
-
-/* 緑色のサイコロのドット配置ルール */
-.dice-2d.green-dice .dice-dots.face-1 .dot:nth-child(5) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-2 .dot:nth-child(7) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(5) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-3 .dot:nth-child(7) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(1) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(7) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-4 .dot:nth-child(9) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(1) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(5) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(7) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-5 .dot:nth-child(9) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(1) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(3) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(4) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(6) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(7) { opacity: 1; }
-.dice-2d.green-dice .dice-dots.face-6 .dot:nth-child(9) { opacity: 1; }
 
 /* LOG TRACEボタンの拡張 */
 #dice-button {
@@ -1366,17 +1209,17 @@ body {
 
 .stream-line {
   font-family: 'Courier New', monospace;
-  font-size: 1.0em; /* 0.75emから1.0emに拡大 */
+  font-size: 2.3vh; /* 1.0emから2.3vhに変更 */
   font-weight: bold;
   color: #00FFFF;
-  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
-  letter-spacing: 1px;
-  padding: 3px 8px; /* パディングも少し拡大 */
+  text-shadow: 0 0 1.14vh rgba(0, 255, 255, 0.6);
+  letter-spacing: 0.24vw;
+  padding: 0.43vh 1.9vw; /* 3px 8pxから変更 */
   background: linear-gradient(90deg, 
     rgba(0, 255, 255, 0.1) 0%, 
     rgba(0, 255, 255, 0.05) 50%, 
     transparent 100%);
-  border-left: 2px solid rgba(0, 255, 255, 0.5);
+  border-left: 0.29vh solid rgba(0, 255, 255, 0.5);
   position: relative;
   overflow: hidden;
   animation: data-stream 4s linear infinite;
@@ -1384,8 +1227,8 @@ body {
 
 /* 2行目の大きなフォント用クラス */
 .stream-line.large-font {
-  font-size: 1.4em; /* より大きなフォントサイズ */
-  padding: 5px 8px; /* 少し多めのパディング */
+  font-size: 3.5vh; 
+  padding: 0.71vh 1.9vw; /* 5px 8pxから変更 */
 }
 
 .stream-line::before {
@@ -1521,24 +1364,26 @@ body {
 
 /* 大きな記号用スタイル */
 .stop-icon-large {
-  font-size: 80px;
+  font-size: 11.4vh; /* 80pxから11.4vhに変更 */
   color: #00FFFF;
-  text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+  text-shadow: 0 0 2.86vh rgba(0, 255, 255, 0.8); /* 20pxから2.86vhに変更 */
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  height: 70%; /* アイコンを上に配置するため高さを調整 */
   margin: 0;
   padding: 0;
   line-height: 1;
+  position: relative;
+  top: -10%; /* アイコンを少し上に移動 */
 }
 
 .button-quadrant.control-matrix-button:hover .stop-icon-large {
   color: #00FFFF;
   text-shadow: 
-    0 0 25px rgba(0, 255, 255, 1),
-    0 0 50px rgba(0, 255, 255, 0.7);
+    0 0 3.57vh rgba(0, 255, 255, 1), /* 25pxから3.57vhに変更 */
+    0 0 7.14vh rgba(0, 255, 255, 0.7); /* 50pxから7.14vhに変更 */
   transform: scale(1.1);
 }
 
@@ -1554,19 +1399,21 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  height: 70%; /* アイコンを上に配置するため高さを調整 */
   margin: 0;
   padding: 0;
+  position: relative;
+  top: -10%; /* アイコンを少し上に移動 */
 }
 
 .skip-triangle-large {
   width: 0;
   height: 0;
-  border-left: 25px solid #00FFFF;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
-  margin-right: 5px;
-  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.8));
+  border-left: 6.0vw solid #00FFFF; /* 25pxから6.0vwに変更し、少し大きく */
+  border-top: 3.6vw solid transparent; /* 15pxから3.6vwに変更し、少し大きく */
+  border-bottom: 3.6vw solid transparent; /* 15pxから3.6vwに変更し、少し大きく */
+  margin-right: 1.2vw; /* 5pxから1.2vwに変更 */
+  filter: drop-shadow(0 0 1.43vh rgba(0, 255, 255, 0.8)); /* 10pxから1.43vhに変更 */
 }
 
 .skip-triangle-large:last-child {
@@ -1575,47 +1422,49 @@ body {
 
 /* ターミナルアイコン */
 .terminal-icon-large {
-  font-size: 80px;
+  font-size: 11.4vh; /* 80pxから11.4vhに変更 */
   color: #00FF00;
   text-shadow: 
-    0 0 20px rgba(0, 255, 0, 0.8);
+    0 0 2.86vh rgba(0, 255, 0, 0.8); /* 20pxから2.86vhに変更 */
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  height: 70%; /* アイコンを上に配置するため高さを調整 */
   margin: 0;
   padding: 0;
+  position: relative;
+  top: -10%; /* アイコンを少し上に移動 */
   line-height: 1;
 }
 
 /* インジケーター関連スタイル */
 .indicator-container {
   position: absolute;
-  bottom: 10px;
+  bottom: 2.14vh; /* 1.43vhから2.14vhに変更してアイコンとの間隔を広げる */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  gap: 1.9vw; /* 8pxから1.9vwに変更し、少し間隔を広げる */
   z-index: 10;
 }
 
 .indicator {
-  width: 12px;
-  height: 12px;
+  width: 2.86vw; /* 12pxから2.86vwに変更 */
+  height: 2.86vw; /* 12pxから2.86vwに変更 */
   border-radius: 50%;
   background-color: #333;
-  border: 2px solid #555;
+  border: 0.48vw solid #555; /* 2pxから0.48vwに変更 */
   transition: all 0.3s ease;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 0.71vh rgba(0, 0, 0, 0.5); /* 5pxから0.71vhに変更 */
 }
 
 .indicator.active {
   background-color: #00FFFF;
   border-color: #00FFFF;
   box-shadow: 
-    0 0 10px rgba(0, 255, 255, 0.6),
-    inset 0 0 5px rgba(255, 255, 255, 0.3);
+    0 0 1.43vh rgba(0, 255, 255, 0.6), /* 10pxから1.43vhに変更 */
+    inset 0 0 0.71vh rgba(255, 255, 255, 0.3); /* 5pxから0.71vhに変更 */
   animation: indicator-glow 2s ease-in-out infinite alternate;
 }
 
@@ -1650,13 +1499,13 @@ body {
 
 .button-quadrant.no-indicators .stop-icon-large,
 .button-quadrant.no-indicators .skip-icon-large {
-  color: #555555;
-  text-shadow: 0 0 5px rgba(85, 85, 85, 0.5);
+  color: #666666;
+  text-shadow: 0 0 1.43vh rgba(102, 102, 102, 0.3);
 }
 
 .button-quadrant.no-indicators .skip-triangle-large {
-  border-left-color: #555555;
-  filter: drop-shadow(0 0 5px rgba(85, 85, 85, 0.5));
+  border-left-color: #666666;
+  filter: drop-shadow(0 0 0.71vh rgba(102, 102, 102, 0.3));
 }
 
 /* サイコロボタンが無効化された時のスタイル */
@@ -1839,4 +1688,175 @@ body {
     filter: brightness(0) hue-rotate(360deg);
     text-shadow: none;
   }
+}
+
+/* 3つのボタンレイアウト */
+.button-third {
+  width: 33.333%;
+  height: 100%;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  user-select: none;
+}
+
+/* 3つのボタン間の境界線 */
+.button-third.left,
+.button-third.center {
+  border-right: 0.29vh solid #00FFFF;
+}
+
+/* 各ボタンの基本スタイル */
+.button-third.left {
+  background: linear-gradient(135deg, #001133 0%, #002255 50%, #001133 100%);
+  border: 0.24vh solid rgba(0, 255, 255, 0.3);
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+}
+
+.button-third.center {
+  background: linear-gradient(135deg, #001122 0%, #002244 50%, #001122 100%);
+  border: 0.24vh solid rgba(0, 255, 255, 0.3);
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+}
+
+.button-third.right {
+  background: linear-gradient(135deg, #001122 0%, #002244 50%, #001122 100%);
+  border: 0.24vh solid rgba(0, 255, 255, 0.3);
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+/* フルサイズダイスボタン */
+.dice-button-full {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  user-select: none;
+  background: linear-gradient(135deg, #001122 0%, #002244 50%, #001122 100%);
+  border: 0.24vh solid rgba(0, 255, 255, 0.3);
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+/* ホバー効果 */
+.button-third:hover {
+  background: linear-gradient(135deg, #002244 0%, #003366 50%, #002244 100%);
+  box-shadow: 
+    0 0.57vh 2.86vh rgba(0, 255, 255, 0.5),
+    inset 0 0.29vh 0.57vh rgba(0, 255, 255, 0.2);
+  border-color: rgba(0, 255, 255, 0.6);
+}
+
+.dice-button-full:hover {
+  background: linear-gradient(135deg, #002244 0%, #003366 50%, #002244 100%);
+  box-shadow: 
+    0 0.57vh 2.86vh rgba(0, 255, 255, 0.5),
+    inset 0 0.29vh 0.57vh rgba(0, 255, 255, 0.2);
+  border-color: rgba(0, 255, 255, 0.6);
+}
+
+/* アクティブ効果 */
+.button-third:active {
+  background: linear-gradient(135deg, #000011 0%, #001122 50%, #000011 100%);
+  box-shadow: 
+    inset 0 0.29vh 0.57vh rgba(0, 0, 0, 0.5);
+  transform: translateY(0.14vh);
+}
+
+.dice-button-full:active {
+  background: linear-gradient(135deg, #000011 0%, #001122 50%, #000011 100%);
+  box-shadow: 
+    inset 0 0.29vh 0.57vh rgba(0, 0, 0, 0.5);
+  transform: translateY(0.14vh);
+}
+
+/* プレースホルダーアイコン */
+.placeholder-icon-large {
+  font-size: 11.4vh; /* 他のアイコンと同じサイズ */
+  color: #666666; /* 無効化状態の色 */
+  text-shadow: 0 0 2.86vh rgba(102, 102, 102, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 70%; /* 他のアイコンと同じ配置 */
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  position: relative;
+  top: -10%; /* 他のアイコンと同じ位置調整 */
+}
+
+/* 真ん中のボタンの無効化スタイル */
+.button-third.center.disabled {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button-third.center.disabled:hover {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  box-shadow: none;
+  transform: none;
+}
+
+.button-third.center.disabled .placeholder-icon-large {
+  color: #444444;
+  text-shadow: 0 0 1.43vh rgba(68, 68, 68, 0.3);
+}
+
+.button-third.center.disabled .indicator {
+  background-color: #222222;
+  border-color: #444444;
+  box-shadow: inset 0 0 0.36vh rgba(0, 0, 0, 0.8);
+}
+
+/* 新レイアウト用 - インジケーターがない場合の無効化 */
+.button-third.no-indicators {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.button-third.no-indicators:hover {
+  background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
+  border-color: #666666;
+  box-shadow: none;
+  transform: none;
+}
+
+.button-third.no-indicators .stop-icon-large,
+.button-third.no-indicators .skip-icon-large {
+  color: #666666;
+  text-shadow: 0 0 1.43vh rgba(102, 102, 102, 0.3);
+}
+
+.button-third.no-indicators .skip-triangle-large {
+  border-left-color: #666666;
+  filter: drop-shadow(0 0 0.71vh rgba(102, 102, 102, 0.3));
 }

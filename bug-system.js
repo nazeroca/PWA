@@ -6,8 +6,8 @@ let lastHitCount = 0; // 前回の移動後のHITS値を記録
 // バグの定義
 const BUGS = {
   normalBug: {
-    name: '白色バグ',
-    description: '白色停止で1秒5個',
+    name: 'White Bug',
+    description: '白マス停止時に1秒5回',
     triggerCondition: (color, diceResult) => color === 'white',
     effect: {
       speed: 1000,
@@ -16,7 +16,7 @@ const BUGS = {
     }
   },
   mutationBug: {
-    name: '変異バグ',
+    name: 'Change Bug',
     description: '黄色停止で1秒10個',
     triggerCondition: (color, diceResult) => color === 'yellow',
     effect: {
@@ -26,7 +26,7 @@ const BUGS = {
     }
   },
   independentBug: {
-    name: '素数バグ',
+    name: 'Space Bug',
     description: 'SPACE素数で1秒7個',
     triggerCondition: (color, diceResult) => {
       // 現在の位置が素数かチェック
@@ -39,7 +39,7 @@ const BUGS = {
     }
   },
   loadBug: {
-    name: '回数バグ',
+    name: 'Hits Bug',
     description: 'HITS+50で1秒10個',
     triggerCondition: (color, diceResult) => {
       // 前回から50以上HITSが増加したかチェック
@@ -54,7 +54,7 @@ const BUGS = {
     }
   },
   unluckyBug: {
-    name: '賽子呪術',
+    name: 'Dice Bug',
     description: '1の目で1秒10個',
     triggerCondition: (color, diceResult) => diceResult === 1,
     effect: {
@@ -89,7 +89,7 @@ function applyBug() {
   const selectedBugKey = availableBugs[randomIndex];
   currentBug = BUGS[selectedBugKey];
   
-  console.log('バグが発生されました:', currentBug.name);
+
   
   // セクション7にバグの内容を表示
   updateBugDisplay();
@@ -115,7 +115,7 @@ function updateBugDisplay() {
 // バグの効果をチェックして実行する関数
 function checkAndExecuteBug(currentColor, diceResult) {
   if (!currentBug) {
-    console.log('バグが発生されていません');
+
     // lastHitCountを更新
     if (typeof hitCount !== 'undefined') {
       lastHitCount = hitCount;
@@ -125,7 +125,7 @@ function checkAndExecuteBug(currentColor, diceResult) {
   
   // バグの発動条件をチェック
   if (currentBug.triggerCondition(currentColor, diceResult)) {
-    console.log('バグが発動しました:', currentBug.name);
+
     
     // バグによるノーツ処理を実行
     const bugPromise = executeBugEffect(currentBug);
@@ -153,7 +153,7 @@ function checkAndExecuteBug(currentColor, diceResult) {
 // バグの効果を実行する関数
 function executeBugEffect(bug) {
   return new Promise((resolve) => {
-    console.log(`バグの効果を実行中: ${bug.name}`);
+
     
     // セクション7の文字色を紫に変更
     const eventText = document.getElementById('event-text');
@@ -177,7 +177,7 @@ function startBugGame(speed, count, callback) {
   const maxBugCircles = count;
   let bugCircles = [];
   
-  console.log(`バグのノーツを開始: ${speed}ms間隔で${count}個`);
+
   
   // バグのノーツを生成
   function spawnBugCircle() {
@@ -286,7 +286,7 @@ function startBugGame(speed, count, callback) {
     });
     
     if (allGone && bugCircleCount >= maxBugCircles) {
-      console.log('バグのノーツが全て終了しました');
+
       
       // バグモードを解除
       isChallengeMode = false;
@@ -311,11 +311,11 @@ function startBugGame(speed, count, callback) {
 function purgeBug() {
   // バグがかかっていない場合は何もしない
   if (!currentBug) {
-    console.log('バグがかかっていないため、削除処理をスキップします');
+
     return;
   }
   
-  console.log('バグを削除します:', currentBug.name);
+
   
   // セクション7のバグ表示に近未来的な消去アニメーションを適用
   const eventText = document.getElementById('event-text');
@@ -334,13 +334,13 @@ function purgeBug() {
       // アニメーションクラスとバグ色を解除
       eventText.classList.remove('bug-purge-animation', 'bug-active');
       
-      console.log('バグが浄化されました');
+
     }, 1500);
   } else {
     // eventTextが見つからない場合は即座に削除
     currentBug = null;
     updateBugDisplay();
-    console.log('バグが浄化されました');
+
   }
 }
 

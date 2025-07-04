@@ -62,8 +62,8 @@ function initializeSugorokuBoard() {
   board.style.gap = `${dimensions.squareGap}px`;
   board.style.paddingLeft = `${dimensions.leftMargin}px`;
   board.style.paddingRight = `${dimensions.leftMargin}px`;
-  board.style.paddingTop = '10px';
-  board.style.paddingBottom = '10px';
+  board.style.paddingTop = '1.43vh';
+  board.style.paddingBottom = '1.43vh';
   board.style.justifyContent = 'flex-start'; // 左から均等配置
   
   // 7つの固定マスを作成
@@ -128,4 +128,4 @@ function shiftColorsAndResetPiece() {
   }, 900);
 }
 
-console.log('ランダム盤面モードが読み込まれました');
+

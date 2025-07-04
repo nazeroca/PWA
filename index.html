@@ -56,9 +56,9 @@
       </div>
     </div>
 
-    <!-- セクション5: 75% - 左右分割（上段） -->
+    <!-- セクション5: 75% - 3つのボタン（上段） -->
     <div class="section-5">
-      <div class="button-quadrant top-left control-matrix-button" id="control-matrix">
+      <div class="button-third left control-matrix-button" id="control-matrix">
         <div class="stop-icon-large">■</div>
         <div class="indicator-container">
           <div class="indicator active" data-index="0"></div>
@@ -66,7 +66,15 @@
           <div class="indicator" data-index="2"></div>
         </div>
       </div>
-      <div class="button-quadrant top-right skip-button" id="skip-button">
+      <div class="button-third center disabled" id="green-dice-button">
+        <div class="placeholder-icon-large">◆</div>
+        <div class="indicator-container">
+          <div class="indicator" data-index="0"></div>
+          <div class="indicator" data-index="1"></div>
+          <div class="indicator" data-index="2"></div>
+        </div>
+      </div>
+      <div class="button-third right skip-button" id="skip-button">
         <div class="skip-icon-large">
           <div class="skip-triangle-large"></div>
           <div class="skip-triangle-large"></div>
@@ -79,26 +87,9 @@
       </div>
     </div>
 
-    <!-- セクション6: 残り - 左右分割（下段） -->
+    <!-- セクション6: 残り - ダイスボタンのみ（下段） -->
     <div class="section-6">
-      <div class="button-quadrant bottom-left" id="green-dice-button">
-        <div class="dice-container-2d" id="green-dice-container">
-          <div class="dice-2d green-dice" id="green-dice">
-            <div class="dice-dots face-1" id="green-dice-display">
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="button-quadrant bottom-right" id="dice-button">
+      <div class="dice-button-full" id="dice-button">
         <div class="dice-container-2d" id="dice-container">
           <div class="dice-2d" id="dice">
             <div class="dice-dots face-1" id="dice-display">
@@ -121,6 +112,11 @@
   <audio id="hit" src="hit.mp3" preload="auto"></audio>
 
   <!-- コアファイル読み込み -->
+   <script src="Bottom.js"></script>
+   <script src="Board.js"></script>
+   <script src="Dice.js"></script>
+     <script src="Note.js"></script>
+      <script src="Text.js"></script>
   <script src="bug-system.js"></script>
   <script src="main.js"></script>
   <!-- ランダム盤面モード読み込み -->
