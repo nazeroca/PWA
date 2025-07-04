@@ -100,12 +100,12 @@ body {
   background: linear-gradient(90deg, #000000 0%, #0a0a0a 50%, #000000 100%);
 }
 
-.section-2.bg-curse {
+.section-2.bg-bug {
   background: linear-gradient(90deg, #4B0082 0%, #8B008B 50%, #4B0082 100%);
-  animation: curse-pulse 2s ease-in-out infinite;
+  animation: bug-pulse 2s ease-in-out infinite;
 }
 
-@keyframes curse-pulse {
+@keyframes bug-pulse {
   0%, 100% {
     background: linear-gradient(90deg, #4B0082 0%, #8B008B 50%, #4B0082 100%);
   }
@@ -255,13 +255,13 @@ body {
   animation: event-glow 2s ease-in-out infinite alternate;
 }
 
-.event-text.curse-active {
+.event-text.bug-active {
   color: #8B008B;
   text-shadow: 
     0 0 15px rgba(139, 0, 139, 0.8),
     0 0 30px rgba(139, 0, 139, 0.6),
     0 0 45px rgba(139, 0, 139, 0.4);
-  animation: curse-text-glow 2s ease-in-out infinite alternate;
+  animation: bug-text-glow 2s ease-in-out infinite alternate;
 }
 
 @keyframes event-glow {
@@ -281,7 +281,7 @@ body {
   }
 }
 
-@keyframes curse-text-glow {
+@keyframes bug-text-glow {
   0% {
     text-shadow: 
       0 0 15px rgba(139, 0, 139, 0.8),
@@ -1724,17 +1724,17 @@ body {
   animation: pulse 1s ease-in-out infinite alternate;
 }
 
-/* 呪いのノーツ */
-.circle.curse-circle {
+/* バグのノーツ */
+.circle.bug-circle {
   background: radial-gradient(circle, #8B008B 0%, #4B0082 50%, #2F0A2F 100%);
   border-color: #8B008B;
   box-shadow: 
     0 0 4.4vw rgba(139, 0, 139, 0.6),
     inset 0 0 2.2vw rgba(255, 255, 255, 0.2);
-  animation: curse-pulse 1s ease-in-out infinite alternate;
+  animation: bug-pulse 1s ease-in-out infinite alternate;
 }
 
-@keyframes curse-pulse {
+@keyframes bug-pulse {
   0% {
     transform: translateY(-50%) scale(0.9);
     box-shadow: 
@@ -1746,5 +1746,97 @@ body {
     box-shadow: 
       0 0 6.6vw rgba(139, 0, 139, 0.8),
       inset 0 0 2.2vw rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* インジケーター増加時の光るアニメーション */
+.button-quadrant.indicator-gained {
+  animation: indicator-gained-glow 3s ease-in-out;
+}
+
+@keyframes indicator-gained-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transform: scale(1);
+  }
+  25% {
+    box-shadow: 
+      0 0 30px rgba(255, 255, 0, 0.8),
+      0 0 60px rgba(255, 255, 0, 0.6),
+      0 0 90px rgba(255, 255, 0, 0.4);
+    transform: scale(1.02);
+  }
+  50% {
+    box-shadow: 
+      0 0 40px rgba(255, 255, 0, 0.9),
+      0 0 80px rgba(255, 255, 0, 0.7),
+      0 0 120px rgba(255, 255, 0, 0.5);
+    transform: scale(1.02);
+  }
+  75% {
+    box-shadow: 
+      0 0 30px rgba(255, 255, 0, 0.8),
+      0 0 60px rgba(255, 255, 0, 0.6),
+      0 0 90px rgba(255, 255, 0, 0.4);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transform: scale(1);
+  }
+}
+
+/* 光るアニメーション中のテキスト色調整 */
+.button-quadrant.indicator-gained .cyber-text {
+  color: #000 !important;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* 光るアニメーション中のインジケーター色調整 */
+.button-quadrant.indicator-gained .indicator {
+  background: #000 !important;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.8) !important;
+}
+
+.button-quadrant.indicator-gained .indicator.active {
+  background: #222 !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.9) !important;
+}
+
+
+
+/* バグ消去アニメーション */
+.bug-purge-animation {
+  animation: bugPurge 1.5s ease-in-out forwards;
+}
+
+@keyframes bugPurge {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1) hue-rotate(0deg);
+    text-shadow: 0 0 10px #ff6b6b;
+  }
+  25% {
+    transform: scale(1.1);
+    filter: brightness(1.5) hue-rotate(90deg);
+    text-shadow: 0 0 20px #4ecdc4, 0 0 30px #4ecdc4;
+  }
+  50% {
+    transform: scale(1.2);
+    filter: brightness(2) hue-rotate(180deg);
+    text-shadow: 0 0 30px #45b7d1, 0 0 40px #45b7d1, 0 0 50px #45b7d1;
+  }
+  75% {
+    transform: scale(0.8);
+    opacity: 0.7;
+    filter: brightness(3) hue-rotate(270deg);
+    text-shadow: 0 0 40px #96ceb4, 0 0 60px #96ceb4;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+    filter: brightness(0) hue-rotate(360deg);
+    text-shadow: none;
   }
 }

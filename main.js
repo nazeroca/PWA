@@ -702,6 +702,7 @@ function getBoardDimensions() {
 const TOTAL_SQUARES = 7; // 表示する固定マス数
 const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'white', 'black'];
 let colorSequence = []; // 無限の色シーケンス
+let eventSequence = []; // イベントマス情報の無限シーケンス
 let boardSquares = []; // 固定された7つのマス要素
 
 // 動的に中央位置を計算する関数
@@ -748,12 +749,18 @@ function createFixedSquare(index) {
 }
 
 // マスの色を更新する関数
-function updateSquareColor(squareElement, colorName) {
+function updateSquareColor(squareElement, colorName, isEventSquare = false) {
   // 既存の色クラスを全て削除
   colors.forEach(color => squareElement.classList.remove(color));
   
+  // 既存のイベントマーカーを削除
+  const existingMarker = squareElement.querySelector('.event-marker');
+  if (existingMarker) {
+    existingMarker.remove();
+  }
+  
   // デバッグ用ログ
-
+  console.log(`マス ${squareElement.id} の色を ${colorName || 'デフォルト'} に変更, イベント: ${isEventSquare}`);
   
   // 色変更アニメーションクラスを追加
   squareElement.classList.add('color-shifting');
@@ -761,6 +768,14 @@ function updateSquareColor(squareElement, colorName) {
   // 新しい色クラスを追加（nullの場合は無色）
   if (colorName) {
     squareElement.classList.add(colorName);
+  }
+  
+  // イベントマスの場合は「E」マーカーを追加
+  if (isEventSquare) {
+    const eventMarker = document.createElement('div');
+    eventMarker.classList.add('event-marker');
+    eventMarker.textContent = 'E';
+    squareElement.appendChild(eventMarker);
   }
   
   // 短時間後にアニメーションクラスを削除
@@ -771,19 +786,23 @@ function updateSquareColor(squareElement, colorName) {
 
 // すべてのマスの色を更新（左から右に順番に）
 function updateAllSquareColors() {
-
+  console.log(`色更新開始: displayOffset=${displayOffset}, colorSequence長さ=${colorSequence.length}`);
   
   for (let i = 0; i < TOTAL_SQUARES; i++) {
     // 左から右に順番に色を変更（100msずつ遅延）
     setTimeout(() => {
       const actualPosition = displayOffset + i;
       const colorIndex = actualPosition % colorSequence.length;
+      const eventIndex = actualPosition % eventSequence.length;
       const color = colorSequence[colorIndex];
+      const isEvent = eventSequence[eventIndex];
       
-
-
+      // スタートマス（位置0）にはイベントマスを表示しない
+      const shouldShowEvent = isEvent && actualPosition > 0;
       
-      updateSquareColor(boardSquares[i], color);
+      console.log(`マス${i}: actualPosition=${actualPosition}, colorIndex=${colorIndex}, color=${color}, isEvent=${shouldShowEvent}`);
+      
+      updateSquareColor(boardSquares[i], color, shouldShowEvent);
     }, i * 100);
   }
 }
@@ -808,14 +827,26 @@ function movePiece(steps) {
         // 移動完了後にマスの色に応じてノーツを流す
         setTimeout(() => {
           const currentColorIndex = currentPosition % colorSequence.length;
+          const currentEventIndex = currentPosition % eventSequence.length;
           const currentColor = colorSequence[currentColorIndex];
+          const isCurrentEvent = eventSequence[currentEventIndex];
           
-          // 呪い効果をチェックして実行（通常マス処理の前）
-          const cursePromise = (typeof checkAndExecuteCurse !== 'undefined') ? 
-            checkAndExecuteCurse(currentColor, lastDiceResult) : Promise.resolve();
+          console.log('移動完了 - 現在のマスの色:', currentColor || 'デフォルト', ', イベント:', isCurrentEvent);
           
-          // 呪い処理がある場合は完了を待ってから通常処理
-          cursePromise.then(() => {
+          // 処理順序：1. イベントの処理 → 2. バグの処理 → 3. マスの処理
+          
+          // 1. イベントマスの処理（最優先）
+          if (isCurrentEvent) {
+            showEventMessage();
+            // イベント処理完了後にバグ処理とマス処理を続行
+          }
+          
+          // 2. バグ効果をチェックして実行（通常マス処理の前）
+          const bugPromise = (typeof checkAndExecuteBug !== 'undefined') ? 
+            checkAndExecuteBug(currentColor, lastDiceResult) : Promise.resolve();
+          
+          // 3. バグ処理がある場合は完了を待ってから通常処理
+          bugPromise.then(() => {
             if (currentColor && currentColor !== 'white') {
               // 色別のノーツ流し
               switch(currentColor) {
@@ -828,6 +859,21 @@ function movePiece(steps) {
                     { params: [5000, 1000, 1.5, 30, 10], desc: "5秒⇒1秒40回＋10回" },
                     { params: [4000, 800, 3, 20, 10], desc: "4秒⇒0.8秒20回＋10回" }
                   ];
+                  
+                  // SPACE（現在位置）に応じた追加パターン（1回だけ追加）
+                  if (currentPosition >= 10 && !redPatterns.some(p => p.params.join(',') === '6000,500,1.8,60,0')) {
+                    redPatterns.push({ params: [6000, 500, 1.8, 60, 0], desc: "6秒⇒0.5秒60回" });
+                  }
+                  if (currentPosition >= 25 && !redPatterns.some(p => p.params.join(',') === '3000,400,2.5,40,20')) {
+                    redPatterns.push({ params: [3000, 400, 2.5, 40, 20], desc: "3秒⇒0.4秒40回＋20回" });
+                  }
+                  if (currentPosition >= 50 && !redPatterns.some(p => p.params.join(',') === '8000,300,3,80,0')) {
+                    redPatterns.push({ params: [8000, 300, 3, 80, 0], desc: "8秒⇒0.3秒80回" });
+                  }
+                  if (currentPosition >= 100 && !redPatterns.some(p => p.params.join(',') === '5000,200,4,100,50')) {
+                    redPatterns.push({ params: [5000, 200, 4, 100, 50], desc: "5秒⇒0.2秒100回＋50回" });
+                  }
+                  
                   const redPattern = redPatterns[Math.floor(Math.random() * redPatterns.length)];
                   updateSectionBackground('red');
                   showPatternRoulette(redPattern.desc, () => {
@@ -884,19 +930,48 @@ function movePiece(steps) {
                   break;
                   
                 case 'yellow':
-                  // 黄マス：呪い付与
+                  // 黄マス：バグ発生
                   updateSectionBackground('yellow');
-                  // セクション2に「呪い付与」テキストを表示
-                  showPatternRoulette('呪い付与', () => {
-                    if (typeof applyCurse !== 'undefined') {
-                      applyCurse();
+                  
+                  // バグの候補配列を作成
+                  const bugCandidates = [];
+                  if (typeof BUGS !== 'undefined') {
+                    Object.keys(BUGS).forEach(key => {
+                      const bug = BUGS[key];
+                      // 現在のバグは除外
+                      if (!currentBug || bug !== currentBug) {
+                        bugCandidates.push({
+                          params: [key],
+                          desc: `${bug.name}: ${bug.description}`
+                        });
+                      }
+                    });
+                  }
+                  
+                  // バグが決定された場合の最終表示テキストを取得
+                  let finalBugText = 'バグ発生';
+                  if (bugCandidates.length > 0) {
+                    const selectedBug = bugCandidates[Math.floor(Math.random() * bugCandidates.length)];
+                    finalBugText = selectedBug.desc;
+                  }
+                  
+                  // セクション2には固定テキストを表示
+                  const patternText = document.getElementById('pattern-text');
+                  if (patternText) {
+                    patternText.textContent = 'バグ発生';
+                  }
+                  
+                  // セクション7でバグルーレット演出を表示
+                  showBugRoulette(finalBugText, () => {
+                    if (typeof applyBug !== 'undefined') {
+                      applyBug();
                     }
-                    // 呪い付与後にサイコロを有効化
+                    // バグ発生後にサイコロを有効化
                     setTimeout(() => {
                       updateSectionBackground('white'); // 背景を元に戻す
                       enableDiceSection();
                     }, 1000);
-                  });
+                  }, bugCandidates);
                   break;
                   
                 case 'black':
@@ -931,7 +1006,7 @@ function movePiece(steps) {
               }, whitePatterns);
             }
           }).catch(error => {
-            console.error('呪い処理エラー:', error);
+            console.error('バグ処理エラー:', error);
             // エラーが発生した場合でも通常処理を続行
           });
         }, 500);
@@ -1270,6 +1345,16 @@ function startGameP(speed1, count1, probability, speed2, count2) {
   spawnMain();
 }
 
+// イベントマスシーケンスを生成する関数
+function generateEventSequence(length) {
+  const sequence = [];
+  for (let i = 0; i < length; i++) {
+    // 10分の1の確率でイベントマス
+    sequence.push(Math.random() < 0.1);
+  }
+  return sequence;
+}
+
 // パターン表示とカウントダウン関連の変数
 let gameCountdownTimeout = null;
 let gameCountdownInterval = null;
@@ -1284,6 +1369,13 @@ function showPatternRoulette(finalPattern, callback, patternCandidates = null) {
   
   if (!patternRoulette || !patternText) return;
   
+  // 候補配列が必須
+  if (!patternCandidates || patternCandidates.length === 0) {
+    console.warn('patternCandidates is required for pattern roulette');
+    if (callback) callback();
+    return;
+  }
+  
   // ルーレット開始
   patternRoulette.classList.add('spinning');
   
@@ -1291,25 +1383,9 @@ function showPatternRoulette(finalPattern, callback, patternCandidates = null) {
   const maxSpins = 20; // 変化回数
   
   const spinInterval = setInterval(() => {
-    // 候補配列がある場合は候補からランダム選択、なければ従来の数字変化
-    if (patternCandidates && patternCandidates.length > 0) {
-      // 候補のdescからランダムに選択して表示
-      const randomPattern = patternCandidates[Math.floor(Math.random() * patternCandidates.length)];
-      patternText.textContent = randomPattern.desc;
-    } else {
-      // 従来の数字変化（後方互換性のため）
-      const currentText = finalPattern.replace(/(\d+\.?\d*)(\D*)/g, (match, number, suffix) => {
-        if (suffix.includes('秒')) {
-          const randomFloat = (Math.random() * 9.8 + 0.1);
-          return randomFloat.toFixed(1) + suffix;
-        } else {
-          const digits = number.length;
-          const randomNum = Math.floor(Math.random() * Math.pow(10, digits));
-          return randomNum.toString().padStart(digits, '0') + suffix;
-        }
-      });
-      patternText.textContent = currentText;
-    }
+    // 候補のdescからランダムに選択して表示
+    const randomPattern = patternCandidates[Math.floor(Math.random() * patternCandidates.length)];
+    patternText.textContent = randomPattern.desc;
     
     spinCount++;
     
@@ -1324,6 +1400,50 @@ function showPatternRoulette(finalPattern, callback, patternCandidates = null) {
       setTimeout(() => {
         patternRoulette.classList.remove('spinning');
         patternText.classList.remove('final');
+        if (callback) callback();
+      }, 300);
+    }
+  }, 80); // 間隔を少し長くして読みやすく
+}
+
+// セクション7でのルーレット演出（バグ用）
+function showBugRoulette(finalBug, callback, bugCandidates = null) {
+  const eventDisplay = document.getElementById('event-display');
+  const eventText = document.getElementById('event-text');
+  
+  if (!eventDisplay || !eventText) return;
+  
+  // 候補配列が必須
+  if (!bugCandidates || bugCandidates.length === 0) {
+    console.warn('bugCandidates is required for bug roulette');
+    if (callback) callback();
+    return;
+  }
+  
+  // ルーレット開始
+  eventDisplay.classList.add('spinning');
+  
+  let spinCount = 0;
+  const maxSpins = 20; // 変化回数
+  
+  const spinInterval = setInterval(() => {
+    // 候補のdescからランダムに選択して表示
+    const randomBug = bugCandidates[Math.floor(Math.random() * bugCandidates.length)];
+    eventText.textContent = randomBug.desc;
+    
+    spinCount++;
+    
+    if (spinCount >= maxSpins) {
+      clearInterval(spinInterval);
+      
+      // 最終バグを表示
+      eventText.textContent = finalBug;
+      eventText.classList.add('final');
+      
+      // スピンアニメーション終了
+      setTimeout(() => {
+        eventDisplay.classList.remove('spinning');
+        eventText.classList.remove('final');
         if (callback) callback();
       }, 300);
     }
@@ -1805,10 +1925,52 @@ function startChallengeNotesFlow(speed, count, onComplete) {
   setTimeout(checkEnd, 1000);
 }
 
-// イベント表示を更新する関数
-function updateEventDisplay(message) {
-  const eventText = document.getElementById('event-text');
-  if (eventText) {
-    eventText.textContent = message || 'SYSTEM READY';
+// イベント発生メッセージを表示する関数
+function showEventMessage() {
+  // ランダムで3つのイベントから選択（停止ボタン、スキップボタン、バグ削除）
+  const eventType = Math.floor(Math.random() * 1)+2;
+  
+  switch(eventType) {
+    case 0:
+      // 停止ボタンのインジケーターを1つ増加
+      addIndicator('control-matrix');
+      console.log('イベントマスに到着 - 停止ボタン強化！');
+      break;
+    case 1:
+      // スキップボタンのインジケーターを1つ増加
+      addIndicator('skip-button');
+      console.log('イベントマスに到着 - スキップボタン強化！');
+      break;
+    case 2:
+      // バグ削除
+      purgeBug();
+      console.log('イベントマスに到着 - バグ浄化！');
+      break;
+  }
+}
+
+// インジケーターを1つ追加する関数
+function addIndicator(buttonId) {
+  // IndicatorManagerを使って正しく管理
+  if (buttonId === 'control-matrix') {
+    IndicatorManager.addIndicator('stop');
+    // 停止ボタンを光らせる
+    const controlMatrix = document.getElementById('control-matrix');
+    if (controlMatrix) {
+      controlMatrix.classList.add('indicator-gained');
+      setTimeout(() => {
+        controlMatrix.classList.remove('indicator-gained');
+      }, 3000);
+    }
+  } else if (buttonId === 'skip-button') {
+    IndicatorManager.addIndicator('skip');
+    // スキップボタンを光らせる
+    const skipButton = document.getElementById('skip-button');
+    if (skipButton) {
+      skipButton.classList.add('indicator-gained');
+      setTimeout(() => {
+        skipButton.classList.remove('indicator-gained');
+      }, 3000);
+    }
   }
 }

@@ -7,20 +7,30 @@ function selectRandomColor() {
   
   if (random < 50) {
     // 50%の確率で白（通常ノーツ）
-    return 'yellow';
-  } else if (random < 99) {
-    // 10%の確率で紫（加速ノーツ）
     return 'white';
+  } else if (random < 52) {
+    // 2%の確率で黒（加速ノーツ）
+    return 'black';
   } else {
-    // 残り40%を5色で等分（各8%、全て加速ノーツ）
-    const remainingColors = ['red', 'blue', 'green', 'yellow', 'black'];
-    const index = Math.floor((random - 60) / 8); // 0-4の範囲
+    // 残り48%を5色で等分（各9.6%、全て加速ノーツ）
+    const remainingColors = ['red', 'blue', 'green', 'yellow', 'purple'];
+    const index = Math.floor((random - 52) / 9.6); // 0-4の範囲
     return remainingColors[Math.min(index, 4)]; // 安全のため上限を4に制限
   }
 }
 
 // ランダムな無限の色シーケンスを生成
 function generateRandomColorSequence(length) {
+  const sequence = [];
+  for (let i = 0; i < length; i++) {
+    // 確率に基づいて色を選択
+    sequence.push(selectRandomColor());
+  }
+  return sequence;
+}
+
+// 初期シーケンス生成（最初だけnull）
+function generateInitialColorSequence(length) {
   const sequence = [];
   for (let i = 0; i < length; i++) {
     if (i === 0) {
@@ -43,7 +53,10 @@ function initializeSugorokuBoard() {
   boardSquares = [];
   
   // 十分に長いランダム色シーケンスを生成（1000個）
-  colorSequence = generateRandomColorSequence(1000);
+  colorSequence = generateInitialColorSequence(1000);
+  
+  // イベントマスシーケンスも生成
+  eventSequence = generateEventSequence(1000);
   
   // ボードのスタイルを動的に設定（画面幅いっぱいに配置）
   board.style.gap = `${dimensions.squareGap}px`;
@@ -81,7 +94,13 @@ function shiftColorsAndResetPiece() {
   // 色シーケンスが足りない場合は追加生成
   while (displayOffset + TOTAL_SQUARES >= colorSequence.length) {
     const additionalColors = generateRandomColorSequence(1000);
-    colorSequence = colorSequence.concat(additionalColors.slice(1)); // 最初の無色は除く
+    colorSequence = colorSequence.concat(additionalColors); // nullは含まれないので全て追加
+  }
+  
+  // イベントシーケンスが足りない場合は追加生成
+  while (displayOffset + TOTAL_SQUARES >= eventSequence.length) {
+    const additionalEvents = generateEventSequence(1000);
+    eventSequence = eventSequence.concat(additionalEvents);
   }
   
   // ボード全体にシフトアニメーションを追加
