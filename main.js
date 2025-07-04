@@ -810,118 +810,130 @@ function movePiece(steps) {
           const currentColorIndex = currentPosition % colorSequence.length;
           const currentColor = colorSequence[currentColorIndex];
           
-
+          // 呪い効果をチェックして実行（通常マス処理の前）
+          const cursePromise = (typeof checkAndExecuteCurse !== 'undefined') ? 
+            checkAndExecuteCurse(currentColor, lastDiceResult) : Promise.resolve();
           
-          if (currentColor && currentColor !== 'white') {
-            // 色別のノーツ流し
-            switch(currentColor) {
-              case 'red':
-                // 赤マス：加速ノーツ
-
-                const redPatterns = [
-                  { params: [3000, 1000, 2, 30, 0], desc: "3秒⇒1秒20回" },
-                  { params: [4000, 1000, 2, 25, 10], desc: "4秒⇒1秒25回＋10回" },
-                  { params: [5000, 800, 1.2, 50], desc: "2秒⇒1秒50回" },
-                  { params: [5000, 1000, 1.5, 30, 10], desc: "5秒⇒1秒40回＋10回" },
-                  { params: [4000, 800, 3, 20, 10], desc: "4秒⇒0.8秒20回＋10回" }
-                ];
-                const redPattern = redPatterns[Math.floor(Math.random() * redPatterns.length)];
-                updateSectionBackground('red');
-                showPatternRoulette(redPattern.desc, () => {
-                  startGameCountdown(startGameA, ...redPattern.params);
-                }, redPatterns);
-                break;
-                
-              case 'blue':
-                // 青マス：ランダム間隔ノーツ
-
-                const bluePatterns = [
-                  { params: [500, 2000, 20, 1], desc: "0.5秒～2秒20回" },
-                  { params: [500, 3000, 30, 1], desc: "0.5秒～3秒30回" },
-                  { params: [500, 4000, 40, 1], desc: "0.5秒～4秒40回" },
-                  { params: [1000, 5000, 40, 2], desc: "1秒＞3秒40回" },
-                  { params: [500, 3000, 25, 2], desc: "0.5秒＞3秒25回" }
-                ];
-                const bluePattern = bluePatterns[Math.floor(Math.random() * bluePatterns.length)];
-                updateSectionBackground('blue');
-                showPatternRoulette(bluePattern.desc, () => {
-                  startGameCountdown(startGameR, ...bluePattern.params);
-                }, bluePatterns);
-                break;
-                
-              case 'green':
-                // 緑マス：段階的速度変化ノーツ
-
-                const greenPatterns = [
-                  { params: [4000, 1000, 10, 5, 2], desc: "4秒10回⇔1秒5回×3" },
-                  { params: [2000, 1500, 5, 5, 3], desc: "2秒5回⇔1.5秒5回×3" },
-                  { params: [2000, 1000, 6, 2, 3], desc: "2秒6回⇔1秒2回×3" },
-                  { params: [4000, 1000, 3, 7, 5], desc: "4秒3回⇔1秒7回×5" },
-                  { params: [3000, 700, 2, 2, 9], desc: "3秒2回⇔0.7秒2回×9" }
-                ];
-                const greenPattern = greenPatterns[Math.floor(Math.random() * greenPatterns.length)];
-                updateSectionBackground('green');
-                showPatternRoulette(greenPattern.desc, () => {
-                  startGameCountdown(startGameT2, ...greenPattern.params);
-                }, greenPatterns);
-                break;
-                
-              case 'purple':
-                // 紫マス：確率的爆弾ノーツ
-
-                const purplePatterns = [
-                  { params: [3000, 15, 0.01, 1000, 30], desc: "3秒15回||1%1秒30回" },
-                  { params: [3000, 20, 0.05, 500, 10], desc: "3秒20回||5%0.5秒10回" },
-                  { params: [2000, 12, 0.1, 10, 4], desc: "2秒12回||10%0.1秒4回" },
-                  { params: [4000, 15, 0.5, 2000, 3], desc: "4秒15回||50%2秒3回" },
-                  { params: [1000, 30, 0.03, 5000, 1], desc: "1秒30回||3%5秒1回" }
-                ];
-                const purplePattern = purplePatterns[Math.floor(Math.random() * purplePatterns.length)];
-                updateSectionBackground('purple');
-                showPatternRoulette(purplePattern.desc, () => {
-                  startGameCountdown(startGameP, ...purplePattern.params);
-                }, purplePatterns);
-                break;
-                
-              case 'yellow':
-                // 黄マス：試練システム
-                updateSectionBackground('yellow');
-                executeYellowSquareChallenge();
-                return; // 通常の処理をスキップ
-                
-              case 'black':
-                // 黒マス：等間隔ノーツ（白マスと同様）
-
-                const blackPatterns = [
-                  { params: [500, 30], desc: "0.5秒で30回" },
-                  { params: [800, 40], desc: "0.8秒で40回" },
-                  { params: [1000, 50], desc: "1秒で50回" }
-                ];
-                const blackPattern = blackPatterns[Math.floor(Math.random() * blackPatterns.length)];
-                updateSectionBackground('black');
-                showPatternRoulette(blackPattern.desc, () => {
-                  startGameCountdown(startGame, ...blackPattern.params);
-                }, blackPatterns);
-                break;
+          // 呪い処理がある場合は完了を待ってから通常処理
+          cursePromise.then(() => {
+            if (currentColor && currentColor !== 'white') {
+              // 色別のノーツ流し
+              switch(currentColor) {
+                case 'red':
+                  // 赤マス：加速ノーツ
+                  const redPatterns = [
+                    { params: [3000, 1000, 2, 30, 0], desc: "3秒⇒1秒20回" },
+                    { params: [4000, 1000, 2, 25, 10], desc: "4秒⇒1秒25回＋10回" },
+                    { params: [5000, 800, 1.2, 50], desc: "2秒⇒1秒50回" },
+                    { params: [5000, 1000, 1.5, 30, 10], desc: "5秒⇒1秒40回＋10回" },
+                    { params: [4000, 800, 3, 20, 10], desc: "4秒⇒0.8秒20回＋10回" }
+                  ];
+                  const redPattern = redPatterns[Math.floor(Math.random() * redPatterns.length)];
+                  updateSectionBackground('red');
+                  showPatternRoulette(redPattern.desc, () => {
+                    startGameCountdown(startGameA, ...redPattern.params);
+                  }, redPatterns);
+                  break;
+                  
+                case 'blue':
+                  // 青マス：ランダム間隔ノーツ
+                  const bluePatterns = [
+                    { params: [500, 2000, 20, 1], desc: "0.5秒～2秒20回" },
+                    { params: [500, 3000, 30, 1], desc: "0.5秒～3秒30回" },
+                    { params: [500, 4000, 40, 1], desc: "0.5秒～4秒40回" },
+                    { params: [1000, 5000, 40, 2], desc: "1秒＞3秒40回" },
+                    { params: [500, 3000, 25, 2], desc: "0.5秒＞3秒25回" }
+                  ];
+                  const bluePattern = bluePatterns[Math.floor(Math.random() * bluePatterns.length)];
+                  updateSectionBackground('blue');
+                  showPatternRoulette(bluePattern.desc, () => {
+                    startGameCountdown(startGameR, ...bluePattern.params);
+                  }, bluePatterns);
+                  break;
+                  
+                case 'green':
+                  // 緑マス：段階的速度変化ノーツ
+                  const greenPatterns = [
+                    { params: [4000, 1000, 10, 5, 2], desc: "4秒10回⇔1秒5回×3" },
+                    { params: [2000, 1500, 5, 5, 3], desc: "2秒5回⇔1.5秒5回×3" },
+                    { params: [2000, 1000, 6, 2, 3], desc: "2秒6回⇔1秒2回×3" },
+                    { params: [4000, 1000, 3, 7, 5], desc: "4秒3回⇔1秒7回×5" },
+                    { params: [3000, 700, 2, 2, 9], desc: "3秒2回⇔0.7秒2回×9" }
+                  ];
+                  const greenPattern = greenPatterns[Math.floor(Math.random() * greenPatterns.length)];
+                  updateSectionBackground('green');
+                  showPatternRoulette(greenPattern.desc, () => {
+                    startGameCountdown(startGameT2, ...greenPattern.params);
+                  }, greenPatterns);
+                  break;
+                  
+                case 'purple':
+                  // 紫マス：確率的爆弾ノーツ
+                  const purplePatterns = [
+                    { params: [3000, 15, 0.01, 1000, 30], desc: "3秒15回||1%1秒30回" },
+                    { params: [3000, 20, 0.05, 500, 10], desc: "3秒20回||5%0.5秒10回" },
+                    { params: [2000, 12, 0.1, 10, 4], desc: "2秒12回||10%0.1秒4回" },
+                    { params: [4000, 15, 0.5, 2000, 3], desc: "4秒15回||50%2秒3回" },
+                    { params: [1000, 30, 0.03, 5000, 1], desc: "1秒30回||3%5秒1回" }
+                  ];
+                  const purplePattern = purplePatterns[Math.floor(Math.random() * purplePatterns.length)];
+                  updateSectionBackground('purple');
+                  showPatternRoulette(purplePattern.desc, () => {
+                    startGameCountdown(startGameP, ...purplePattern.params);
+                  }, purplePatterns);
+                  break;
+                  
+                case 'yellow':
+                  // 黄マス：呪い付与
+                  updateSectionBackground('yellow');
+                  // セクション2に「呪い付与」テキストを表示
+                  showPatternRoulette('呪い付与', () => {
+                    if (typeof applyCurse !== 'undefined') {
+                      applyCurse();
+                    }
+                    // 呪い付与後にサイコロを有効化
+                    setTimeout(() => {
+                      updateSectionBackground('white'); // 背景を元に戻す
+                      enableDiceSection();
+                    }, 1000);
+                  });
+                  break;
+                  
+                case 'black':
+                  // 黒マス：等間隔ノーツ（白マスと同様）
+                  const blackPatterns = [
+                    { params: [500, 30], desc: "0.5秒で30回" },
+                    { params: [800, 40], desc: "0.8秒で40回" },
+                    { params: [1000, 50], desc: "1秒で50回" }
+                  ];
+                  const blackPattern = blackPatterns[Math.floor(Math.random() * blackPatterns.length)];
+                  updateSectionBackground('black');
+                  showPatternRoulette(blackPattern.desc, () => {
+                    startGameCountdown(startGame, ...blackPattern.params);
+                  }, blackPatterns);
+                  break;
+              }
+            } else {
+              // 白マスまたは無色マス：ランダムパターンから選択
+              const whitePatterns = [
+                { params: [4000, 20], desc: "4秒で20回" },
+                { params: [3000, 15], desc: "3秒で15回" },
+                { params: [3000, 20], desc: "3秒で20回" },
+                { params: [2500, 30], desc: "2.5秒で30回" },
+                { params: [2000, 30], desc: "2秒で30回" },
+                { params: [1000, 15], desc: "1秒で15回" },
+                { params: [700, 10], desc: "0.7秒で10回" }
+              ];
+              const whitePattern = whitePatterns[Math.floor(Math.random() * whitePatterns.length)];
+              updateSectionBackground('white');
+              showPatternRoulette(whitePattern.desc, () => {
+                startGameCountdown(startGame, ...whitePattern.params);
+              }, whitePatterns);
             }
-          } else {
-            // 白マスまたは無色マス：ランダムパターンから選択
-
-            const whitePatterns = [
-              { params: [4000, 20], desc: "4秒で20回" },
-              { params: [3000, 15], desc: "3秒で15回" },
-              { params: [3000, 20], desc: "3秒で20回" },
-              { params: [2500, 30], desc: "2.5秒で30回" },
-              { params: [2000, 30], desc: "2秒で30回" },
-              { params: [1000, 15], desc: "1秒で15回" },
-              { params: [700, 10], desc: "0.7秒で10回" }
-            ];
-            const whitePattern = whitePatterns[Math.floor(Math.random() * whitePatterns.length)];
-            updateSectionBackground('white');
-            showPatternRoulette(whitePattern.desc, () => {
-              startGameCountdown(startGame, ...whitePattern.params);
-            }, whitePatterns);
-          }
+          }).catch(error => {
+            console.error('呪い処理エラー:', error);
+            // エラーが発生した場合でも通常処理を続行
+          });
         }, 500);
       }, 300);
       
@@ -1658,231 +1670,7 @@ setTimeout(originalCheckEnd, 1000);
 // ==============================================
 
 // 試練の定義配列（新しい試練を追加するときはここに追加）
-const YELLOW_CHALLENGES = [
-  {
-    name: 'diceMultiplyChallenge',
-    description: '緑ダイス×20個ノーツ',
-    execute: executeDiceMultiplyChallenge
-  },
-  {
-    name: 'progressiveChallenge',
-    description: '段階的チャレンジ',
-    execute: executeProgressiveChallenge
-  }
-  // 新しい試練を追加する場合は、ここにオブジェクトを追加します
-  // 例：
-  // {
-  //   name: 'newChallenge',
-  //   description: '新しい試練の説明',
-  //   execute: executeNewChallenge
-  // }
-];
-
-// 黄色マスの試練を実行する関数
-function executeYellowSquareChallenge() {
-  console.log('黄色マス試練開始');
-  
-  // 複数の試練からランダムに選択
-  const challenge = YELLOW_CHALLENGES[Math.floor(Math.random() * YELLOW_CHALLENGES.length)];
-  
-  console.log(`試練実行: ${challenge.description}`);
-  challenge.execute();
-}
-
-// 試練1: 緑ダイス×20個ノーツ
-function executeDiceMultiplyChallenge() {
-  showPatternRoulette('試練開始：緑ダイス×20個ノーツ', () => {
-    // 緑のサイコロを有効化
-    enableGreenDiceButton();
-    
-    // パターン表示を更新
-    updateEventDisplay('緑ダイスを振ってください');
-    
-    console.log('緑ダイス有効化完了。ユーザーのクリックを待機中...');
-    
-    // 緑のサイコロが振られるのを待つ
-    waitForGreenDiceRoll().then((diceValue) => {
-      console.log('緑ダイス結果受信:', diceValue);
-      
-      // 緑のサイコロを再び無効化
-      disableGreenDiceButton();
-      
-      // ノーツ数を計算
-      const notesCount = diceValue * 20;
-      
-      console.log(`緑ダイス結果: ${diceValue}, ノーツ数: ${notesCount}`);
-      console.log('ノーツ流し開始...');
-      
-      // ルーレット演出なしで即座に特殊ノーツを流す
-      executeSpecialNotesFlow(notesCount).then(() => {
-        console.log('ノーツ流し完了');
-        // 試練完了後、青ダイスを有効化
-        setTimeout(() => {
-          enableDiceSection();
-        }, 1000);
-      }).catch((error) => {
-        console.error('ノーツ流し処理でエラー:', error);
-        enableDiceSection();
-      });
-    }).catch((error) => {
-      console.error('サイコロ処理でエラー:', error);
-      disableGreenDiceButton();
-      enableDiceSection();
-    });
-  });
-}
-
-// 試練2: 段階的チャレンジ
-function executeProgressiveChallenge() {
-  showPatternRoulette('試練開始：段階的チャレンジ', () => {
-    // 段階的チャレンジを開始
-    startProgressiveChallenge();
-  });
-}
-
-// 段階的チャレンジのメイン処理
-function startProgressiveChallenge() {
-  // チャレンジの段階設定
-  const challengeStages = [
-    { notesCount: 5, clearValues: [1], description: '5ノーツ → 1でクリア' },
-    { notesCount: 10, clearValues: [1, 2], description: '10ノーツ → 1,2でクリア' },
-    { notesCount: 15, clearValues: [1, 2, 3], description: '15ノーツ → 1,2,3でクリア' },
-    { notesCount: 20, clearValues: [1, 2, 3, 4], description: '20ノーツ → 1,2,3,4でクリア' },
-    { notesCount: 25, clearValues: [1, 2, 3, 4, 5], description: '25ノーツ → 1,2,3,4,5でクリア' },
-    { notesCount: 30, clearValues: [1, 2, 3, 4, 5, 6], description: '30ノーツ → 自動クリア' }
-  ];
-  
-  let currentStage = 0;
-  
-  function executeStage() {
-    const stage = challengeStages[currentStage];
-    console.log(`段階 ${currentStage + 1}: ${stage.description}`);
-    
-    updateEventDisplay(`段階 ${currentStage + 1}: ${stage.notesCount}ノーツ`);
-    
-    executeSpecialNotesFlow(stage.notesCount).then(() => {
-      console.log(`段階 ${currentStage + 1} ノーツ流し完了`);
-      
-      // 最終段階の場合は自動クリア
-      if (currentStage === challengeStages.length - 1) {
-        console.log('最終段階 - 自動クリア');
-        showSection4Text('finish', 2000);
-        setTimeout(() => {
-          enableDiceSection();
-        }, 2000);
-        return;
-      }
-      
-      // 緑ダイスを有効化してクリア判定
-      enableGreenDiceButton();
-      updateEventDisplay(`緑ダイス: ${stage.clearValues.join(',')}でクリア`);
-      
-      waitForGreenDiceRoll().then((diceValue) => {
-        console.log(`段階 ${currentStage + 1} ダイス結果: ${diceValue}`);
-        disableGreenDiceButton();
-        
-        // クリア判定
-        if (stage.clearValues.includes(diceValue)) {
-          // クリア成功
-          console.log(`段階 ${currentStage + 1} クリア成功!`);
-          showSection4Text('finish', 2000);
-          setTimeout(() => {
-            enableDiceSection();
-          }, 2000);
-        } else {
-          // 失敗 - 次の段階へ
-          console.log(`段階 ${currentStage + 1} 失敗 - 次の段階へ`);
-          currentStage++;
-          if (currentStage < challengeStages.length) {
-            setTimeout(() => {
-              executeStage();
-            }, 1000);
-          } else {
-            // 全段階失敗（通常は発生しない）
-            console.log('全段階失敗');
-            enableDiceSection();
-          }
-        }
-      }).catch((error) => {
-        console.error('段階的チャレンジでエラー:', error);
-        disableGreenDiceButton();
-        enableDiceSection();
-      });
-    }).catch((error) => {
-      console.error('ノーツ流し処理でエラー:', error);
-      enableDiceSection();
-    });
-  }
-  
-  // 最初の段階を開始
-  executeStage();
-}
-
-// 緑のサイコロが振られるのを待つPromise
-function waitForGreenDiceRoll() {
-  return new Promise((resolve) => {
-    console.log('緑ダイス待機開始');
-    
-    // 一時的なリスナーを作成
-    function handleGreenDiceClick() {
-      console.log('緑ダイスクリックイベント受信');
-      
-      if (isGreenRolling) {
-        console.log('既に回転中のため無視');
-        return;
-      }
-      
-      // 元のイベントリスナーを削除
-      greenDiceButton.removeEventListener('click', handleGreenDiceClick);
-      console.log('一時リスナー削除');
-      
-      isGreenRolling = true;
-      disableGreenDiceButton();
-      greenDice.classList.add('rolling');
-      
-      // 先に乱数で結果を決定（1-6）
-      const result = Math.floor(Math.random() * 6) + 1;
-      console.log('サイコロ結果決定:', result);
-      
-      // 回転中にランダムなドットパターンを表示
-      let rollCount = 0;
-      const maxRolls = 15;
-      const rollInterval = setInterval(() => {
-        const randomFace = Math.floor(Math.random() * 6) + 1;
-        showGreenDiceFace(randomFace);
-        rollCount++;
-        
-        if (rollCount >= maxRolls) {
-          clearInterval(rollInterval);
-          showGreenDiceFace(result);
-          greenDice.classList.remove('rolling');
-          
-          setTimeout(() => {
-            isGreenRolling = false;
-            
-            // 元のイベントリスナーを復活させる
-            greenDiceButton.addEventListener('click', rollGreenDice);
-            console.log('元のリスナー復活');
-            
-            // 結果を返す
-            console.log('Promise resolve:', result);
-            resolve(result);
-          }, 500);
-          
-          console.log(`緑色のサイコロ結果: ${result}`);
-        }
-      }, 60);
-    }
-    
-    // 元のイベントリスナーを削除
-    greenDiceButton.removeEventListener('click', rollGreenDice);
-    console.log('元のリスナー削除');
-    
-    // 新しいリスナーを追加
-    greenDiceButton.addEventListener('click', handleGreenDiceClick);
-    console.log('新しいリスナー追加');
-  });
-}
+// 黄色マスの処理は削除されました（表示のみ）
 
 // 特殊ノーツ流し処理（Promise版）
 function executeSpecialNotesFlow(count) {
@@ -2024,18 +1812,3 @@ function updateEventDisplay(message) {
     eventText.textContent = message || 'SYSTEM READY';
   }
 }
-
-// ==============================================
-// 新しい試練を追加する方法：
-// 
-// 1. YELLOW_CHALLENGES配列に新しい試練オブジェクトを追加
-// 2. 対応する実行関数を作成
-// 
-// 例：
-// function executeNewChallenge() {
-//   showPatternRoulette('新しい試練の説明', () => {
-//     // 試練の処理をここに書く
-//     // 最後に enableDiceSection() を呼ぶこと
-//   });
-// }
-// ==============================================

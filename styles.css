@@ -100,6 +100,20 @@ body {
   background: linear-gradient(90deg, #000000 0%, #0a0a0a 50%, #000000 100%);
 }
 
+.section-2.bg-curse {
+  background: linear-gradient(90deg, #4B0082 0%, #8B008B 50%, #4B0082 100%);
+  animation: curse-pulse 2s ease-in-out infinite;
+}
+
+@keyframes curse-pulse {
+  0%, 100% {
+    background: linear-gradient(90deg, #4B0082 0%, #8B008B 50%, #4B0082 100%);
+  }
+  50% {
+    background: linear-gradient(90deg, #8B008B 0%, #4B0082 50%, #8B008B 100%);
+  }
+}
+
 /* セクション2のパターン表示スタイル */
 .pattern-display {
   width: 100%;
@@ -241,6 +255,15 @@ body {
   animation: event-glow 2s ease-in-out infinite alternate;
 }
 
+.event-text.curse-active {
+  color: #8B008B;
+  text-shadow: 
+    0 0 15px rgba(139, 0, 139, 0.8),
+    0 0 30px rgba(139, 0, 139, 0.6),
+    0 0 45px rgba(139, 0, 139, 0.4);
+  animation: curse-text-glow 2s ease-in-out infinite alternate;
+}
+
 @keyframes event-glow {
   0% {
     text-shadow: 
@@ -254,6 +277,23 @@ body {
       0 0 20px rgba(255, 255, 0, 1),
       0 0 40px rgba(255, 255, 0, 0.8),
       0 0 60px rgba(255, 255, 0, 0.6);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes curse-text-glow {
+  0% {
+    text-shadow: 
+      0 0 15px rgba(139, 0, 139, 0.8),
+      0 0 30px rgba(139, 0, 139, 0.6),
+      0 0 45px rgba(139, 0, 139, 0.4);
+    transform: scale(1);
+  }
+  100% {
+    text-shadow: 
+      0 0 20px rgba(139, 0, 139, 1),
+      0 0 40px rgba(139, 0, 139, 0.8),
+      0 0 60px rgba(139, 0, 139, 0.6);
     transform: scale(1.05);
   }
 }
@@ -1682,4 +1722,29 @@ body {
     inset 0 0 2.2vw rgba(255, 255, 255, 0.2); /* 10px → 450px基準で約2.2vw */
   will-change: transform;
   animation: pulse 1s ease-in-out infinite alternate;
+}
+
+/* 呪いのノーツ */
+.circle.curse-circle {
+  background: radial-gradient(circle, #8B008B 0%, #4B0082 50%, #2F0A2F 100%);
+  border-color: #8B008B;
+  box-shadow: 
+    0 0 4.4vw rgba(139, 0, 139, 0.6),
+    inset 0 0 2.2vw rgba(255, 255, 255, 0.2);
+  animation: curse-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes curse-pulse {
+  0% {
+    transform: translateY(-50%) scale(0.9);
+    box-shadow: 
+      0 0 4.4vw rgba(139, 0, 139, 0.6),
+      inset 0 0 2.2vw rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 
+      0 0 6.6vw rgba(139, 0, 139, 0.8),
+      inset 0 0 2.2vw rgba(255, 255, 255, 0.3);
+  }
 }

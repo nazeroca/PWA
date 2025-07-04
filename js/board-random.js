@@ -8,9 +8,9 @@ function selectRandomColor() {
   if (random < 50) {
     // 50%の確率で白（通常ノーツ）
     return 'yellow';
-  } else if (random < 60) {
+  } else if (random < 99) {
     // 10%の確率で紫（加速ノーツ）
-    return 'purple';
+    return 'white';
   } else {
     // 残り40%を5色で等分（各8%、全て加速ノーツ）
     const remainingColors = ['red', 'blue', 'green', 'yellow', 'black'];
