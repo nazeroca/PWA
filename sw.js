@@ -5,7 +5,13 @@ var urlsToCache = [
     './manifest.json',
     './sw.js',
     './PWAimage/slime192.png',
-    './PWAimage/slime512.png'
+    './PWAimage/slime512.png',
+    './index-fixed.html',
+    './index.html',
+    './board-random.js',
+    './main.html',
+    './bug-system.js',
+    './styles.css',
 ];
 
 
