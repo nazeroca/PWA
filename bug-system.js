@@ -85,7 +85,7 @@ function applyBug() {
   });
   
   // ランダムにバグを選択
-  const randomIndex = Math.floor(Math.random() * availableBugs.length);
+  const randomIndex = Math.floor(getSecureRandom() * availableBugs.length);
   const selectedBugKey = availableBugs[randomIndex];
   currentBug = BUGS[selectedBugKey];
   

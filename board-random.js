@@ -3,7 +3,7 @@
 
 // 確率に基づいて色を選択する関数
 function selectRandomColor() {
-  const random = Math.random() * 100; // 0-100の乱数
+  const random = getSecureRandom() * 100; // 0-100の乱数
   
   if (random < 50) {
     // 50%の確率で白（通常ノーツ）

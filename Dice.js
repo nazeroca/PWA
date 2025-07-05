@@ -89,14 +89,14 @@ function rollDice() {
   dice.classList.add('rolling');
   
   // 先に乱数で結果を決定（1-6）
-  const result = Math.floor(Math.random() * 6) + 1;
+  const result = Math.floor(getSecureRandom() * 6) + 1;
 
   
   // 回転中にランダムなドットパターンを表示
   let rollCount = 0;
   const maxRolls = 15;
   const rollInterval = setInterval(() => {
-    const randomFace = Math.floor(Math.random() * 6) + 1;
+    const randomFace = Math.floor(getSecureRandom() * 6) + 1;
     showDiceFace(randomFace);
     rollCount++;
     

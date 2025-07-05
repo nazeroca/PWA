@@ -241,7 +241,7 @@ function generateEventSequence(length) {
   const sequence = [];
   for (let i = 0; i < length; i++) {
     // 10分の1の確率でイベントマス
-    sequence.push(Math.random() < 0.1);
+    sequence.push(getSecureRandom() < 0.1);
   }
   return sequence;
 }
@@ -275,7 +275,7 @@ function showPatternRoulette(finalPattern, callback, patternCandidates = null) {
   
   const spinInterval = setInterval(() => {
     // 候補のdescからランダムに選択して表示
-    const randomPattern = patternCandidates[Math.floor(Math.random() * patternCandidates.length)];
+    const randomPattern = patternCandidates[Math.floor(getSecureRandom() * patternCandidates.length)];
     patternText.textContent = randomPattern.desc;
     
     spinCount++;
@@ -319,7 +319,7 @@ function showBugRoulette(finalBug, callback, bugCandidates = null) {
   
   const spinInterval = setInterval(() => {
     // 候補のdescからランダムに選択して表示
-    const randomBug = bugCandidates[Math.floor(Math.random() * bugCandidates.length)];
+    const randomBug = bugCandidates[Math.floor(getSecureRandom() * bugCandidates.length)];
     eventText.textContent = randomBug.desc;
     
     spinCount++;
@@ -492,6 +492,28 @@ const originalCheckEnd = () => {
 };
 
 setTimeout(originalCheckEnd, 1000);
+
+function getSecureRandom() {
+  // Web Crypto APIを使用
+  if (window.crypto && window.crypto.getRandomValues) {
+    const array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    return array[0] / (0xffffffff + 1); // 0-1の範囲に正規化
+  }
+  
+  // フォールバック: より複雑な疑似乱数生成
+  const now = Date.now();
+  const performanceNow = performance.now();
+  const seed = now + performanceNow + getSecureRandom() * 1000000;
+  
+  // Linear Congruential Generator (LCG) の改良版
+  let x = Math.sin(seed) * 10000;
+  x = x - Math.floor(x);
+  x = Math.sin(x * 12.9898) * 43758.5453;
+  x = x - Math.floor(x);
+  
+  return x;
+}
 
 
 

@@ -56,7 +56,7 @@ function hideSection4Text() {
 // イベント発生メッセージを表示する関数
 function showEventMessage() {
   // ランダムで3つのイベントから選択（停止ボタン、スキップボタン、バグ削除）
-  const eventType = Math.floor(Math.random() * 3);
+  const eventType = Math.floor(getSecureRandom() * 3);
   
   switch(eventType) {
     case 0:

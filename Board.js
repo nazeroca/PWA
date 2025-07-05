@@ -193,7 +193,7 @@ function movePiece(steps) {
                     redPatterns.push({ params: [6000, 500, 1.8, 60, 0], desc: "6秒⇒0.5秒60回" });
                   }
                   
-                  const redPattern = redPatterns[Math.floor(Math.random() * redPatterns.length)];
+                  const redPattern = redPatterns[Math.floor(getSecureRandom() * redPatterns.length)];
                   updateSectionBackground('red');
                   showPatternRoulette(redPattern.desc, () => {
                     startGameCountdown(startGameA, ...redPattern.params);
@@ -209,7 +209,7 @@ function movePiece(steps) {
                     { params: [1000, 5000, 40, 2], desc: "1秒＞3秒40回" },
                     { params: [500, 3000, 25, 2], desc: "0.5秒＞3秒25回" }
                   ];
-                  const bluePattern = bluePatterns[Math.floor(Math.random() * bluePatterns.length)];
+                  const bluePattern = bluePatterns[Math.floor(getSecureRandom() * bluePatterns.length)];
                   updateSectionBackground('blue');
                   showPatternRoulette(bluePattern.desc, () => {
                     startGameCountdown(startGameR, ...bluePattern.params);
@@ -225,7 +225,7 @@ function movePiece(steps) {
                     { params: [4000, 1000, 3, 7, 5], desc: "4秒3回⇔1秒7回×5" },
                     { params: [3000, 700, 2, 2, 9], desc: "3秒2回⇔0.7秒2回×9" }
                   ];
-                  const greenPattern = greenPatterns[Math.floor(Math.random() * greenPatterns.length)];
+                  const greenPattern = greenPatterns[Math.floor(getSecureRandom() * greenPatterns.length)];
                   updateSectionBackground('green');
                   showPatternRoulette(greenPattern.desc, () => {
                     startGameCountdown(startGameT2, ...greenPattern.params);
@@ -241,7 +241,7 @@ function movePiece(steps) {
                     { params: [4000, 15, 0.5, 2000, 3], desc: "4秒15回||50%2秒3回" },
                     { params: [1000, 30, 0.03, 5000, 1], desc: "1秒30回||3%5秒1回" }
                   ];
-                  const purplePattern = purplePatterns[Math.floor(Math.random() * purplePatterns.length)];
+                  const purplePattern = purplePatterns[Math.floor(getSecureRandom() * purplePatterns.length)];
                   updateSectionBackground('purple');
                   showPatternRoulette(purplePattern.desc, () => {
                     startGameCountdown(startGameP, ...purplePattern.params);
@@ -270,7 +270,7 @@ function movePiece(steps) {
                   // バグが決定された場合の最終表示テキストを取得
                   let finalBugText = 'バグ発生';
                   if (bugCandidates.length > 0) {
-                    const selectedBug = bugCandidates[Math.floor(Math.random() * bugCandidates.length)];
+                    const selectedBug = bugCandidates[Math.floor(getSecureRandom() * bugCandidates.length)];
                     finalBugText = selectedBug.desc;
                   }
                   
@@ -300,7 +300,7 @@ function movePiece(steps) {
                     { params: [800, 40], desc: "0.8秒で40回" },
                     { params: [1000, 50], desc: "1秒で50回" }
                   ];
-                  const blackPattern = blackPatterns[Math.floor(Math.random() * blackPatterns.length)];
+                  const blackPattern = blackPatterns[Math.floor(getSecureRandom() * blackPatterns.length)];
                   updateSectionBackground('black');
                   showPatternRoulette(blackPattern.desc, () => {
                     startGameCountdown(startGame, ...blackPattern.params);
@@ -318,7 +318,7 @@ function movePiece(steps) {
                 { params: [1000, 15], desc: "1秒で15回" },
                 { params: [700, 10], desc: "0.7秒で10回" }
               ];
-              const whitePattern = whitePatterns[Math.floor(Math.random() * whitePatterns.length)];
+              const whitePattern = whitePatterns[Math.floor(getSecureRandom() * whitePatterns.length)];
               updateSectionBackground('white');
               showPatternRoulette(whitePattern.desc, () => {
                 startGameCountdown(startGame, ...whitePattern.params);

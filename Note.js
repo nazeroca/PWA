@@ -336,10 +336,10 @@ function startGameR(speed1, speed2, count, type) {
       let delay;
       if (type === 1) {
         // startGameR: 均等分布ランダム
-        delay = speed1 + Math.random() * (speed2 - speed1);
+        delay = speed1 + getSecureRandom() * (speed2 - speed1);
       } else {
         // startGameR2: 重み付き分布ランダム
-        const u = Math.random();
+        const u = getSecureRandom();
         const factor = 1 - Math.sqrt(1 - u * u);
         delay = speed1 + factor * (speed2 - speed1);
       }
@@ -462,7 +462,7 @@ function startGameP(speed1, count1, probability, speed2, count2) {
     
     if (mainSpawned < count1) {
       // 確率的に爆弾グループを発生させる
-      if (Math.random() <= probability) {
+      if (getSecureRandom() <= probability) {
         spawnExtraGroup(() => {
           mainSpawned++;
           setTimeout(spawnMain, speed1);
