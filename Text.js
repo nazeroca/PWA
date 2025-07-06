@@ -42,7 +42,7 @@ function showSection4Text(type, duration = 1500) {
     // skipアニメーションは1.5秒で終了
     setTimeout(() => {
       section4Text.classList.remove('visible');
-    }, 1500);
+    }, 1400);
   }
 }
 
