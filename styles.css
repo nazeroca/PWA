@@ -1865,3 +1865,15 @@ body {
   border-left-color: #666666;
   filter: drop-shadow(0 0 0.71vh rgba(102, 102, 102, 0.3));
 }
+
+/* styles.cssに追加 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+body {
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* または、より具体的に */
+* {
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
