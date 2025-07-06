@@ -232,25 +232,25 @@ function movePiece(steps) {
                   }, greenPatterns);
                   break;
                   
-                case 'purple':
+                case 'yellow':
                   // 紫マス：確率的爆弾ノーツ
-                  const purplePatterns = [
+                  const yellowPatterns = [
                     { params: [3000, 15, 0.01, 1000, 30], desc: "3秒15回||1%1秒30回" },
                     { params: [3000, 20, 0.05, 500, 10], desc: "3秒20回||5%0.5秒10回" },
                     { params: [2000, 12, 0.1, 10, 4], desc: "2秒12回||10%0.1秒4回" },
                     { params: [4000, 15, 0.5, 2000, 3], desc: "4秒15回||50%2秒3回" },
                     { params: [1000, 30, 0.03, 5000, 1], desc: "1秒30回||3%5秒1回" }
                   ];
-                  const purplePattern = purplePatterns[Math.floor(getSecureRandom() * purplePatterns.length)];
-                  updateSectionBackground('purple');
-                  showPatternRoulette(purplePattern.desc, () => {
-                    startGameCountdown(startGameP, ...purplePattern.params);
-                  }, purplePatterns);
+                  const yellowPattern = yellowPatterns[Math.floor(getSecureRandom() * yellowPatterns.length)];
+                  updateSectionBackground('yellow');
+                  showPatternRoulette(yellowPattern.desc, () => {
+                    startGameCountdown(startGameP, ...yellowPattern.params);
+                  }, yellowPatterns);
                   break;
                   
-                case 'yellow':
+                case 'purple':
                   // 黄マス：バグ発生
-                  updateSectionBackground('yellow');
+                  updateSectionBackground('purple');
                   
                   // バグの候補配列を作成
                   const bugCandidates = [];

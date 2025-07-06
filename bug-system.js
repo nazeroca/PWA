@@ -18,7 +18,7 @@ const BUGS = {
   mutationBug: {
     name: 'Change Bug',
     description: '黄色停止で1秒10個',
-    triggerCondition: (color, diceResult) => color === 'yellow',
+    triggerCondition: (color, diceResult) => color === 'purple',
     effect: {
       speed: 1000,
       count: 10,

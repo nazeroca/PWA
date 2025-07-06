@@ -149,7 +149,7 @@ let displayOffset = 0; // 表示用のオフセット
 
 
 const TOTAL_SQUARES = 7; // 表示する固定マス数
-const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'white', 'black'];
+const colors = ['red', 'blue', 'green', 'purple', 'yellow', 'white', 'black'];
 let colorSequence = []; // 無限の色シーケンス
 let eventSequence = []; // イベントマス情報の無限シーケンス
 let boardSquares = []; // 固定された7つのマス要素
@@ -163,7 +163,7 @@ function updateSectionBackground(color) {
   if (!section2) return;
   
   // 既存の色クラスを削除
-  section2.classList.remove('bg-red', 'bg-blue', 'bg-green', 'bg-yellow', 'bg-purple', 'bg-white');
+  section2.classList.remove('bg-red', 'bg-blue', 'bg-green', 'bg-purple', 'bg-yellow', 'bg-white');
   
   // 新しい色クラスを追加
   if (color) {

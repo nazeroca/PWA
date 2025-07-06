@@ -13,7 +13,7 @@ function selectRandomColor() {
     return 'black';
   } else {
     // 残り48%を5色で等分（各9.6%、全て加速ノーツ）
-    const remainingColors = ['red', 'blue', 'green', 'yellow', 'purple'];
+    const remainingColors = ['red', 'blue', 'green', 'purple', 'yellow'];
     const index = Math.floor((random - 52) / 9.6); // 0-4の範囲
     return remainingColors[Math.min(index, 4)]; // 安全のため上限を4に制限
   }
