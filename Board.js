@@ -137,6 +137,28 @@ function updateAllSquareColors() {
   }
 }
 
+// 重みづけされた抽選を行う汎用関数
+function selectWeightedRandom(weights) {
+  // 重みの合計を計算
+  const totalWeight = Object.values(weights).reduce((sum, weight) => sum + weight, 0);
+  
+  // 0から合計重みまでの乱数を生成
+  const random = getSecureRandom() * totalWeight;
+  
+  // 累積重みで抽選
+  let currentWeight = 0;
+  for (const [item, weight] of Object.entries(weights)) {
+    currentWeight += weight;
+    if (random < currentWeight) {
+      return item;
+    }
+  }
+  
+  // 安全のため最後のアイテムを返す（通常は到達しない）
+  return Object.keys(weights)[Object.keys(weights).length - 1];
+}
+
+
 // コマを指定の位置に移動させる（新システム）
 function movePiece(steps) {
   const piece = document.getElementById('piece');
@@ -183,15 +205,10 @@ function movePiece(steps) {
                   const redPatterns = [
                     { params: [3000, 1000, 2, 30, 0], desc: "3秒⇒1秒20回" },
                     { params: [4000, 1000, 2, 25, 10], desc: "4秒⇒1秒25回＋10回" },
-                    { params: [5000, 800, 1.2, 50], desc: "2秒⇒1秒50回" },
+                    { params: [5000, 800, 1.2, 50,0], desc: "2秒⇒1秒50回" },
                     { params: [5000, 1000, 1.5, 30, 10], desc: "5秒⇒1秒40回＋10回" },
                     { params: [4000, 800, 3, 20, 10], desc: "4秒⇒0.8秒20回＋10回" }
                   ];
-                  
-                  // SPACE（現在位置）に応じた追加パターン（1回だけ追加）
-                  if (currentPosition >= 10 && !redPatterns.some(p => p.params.join(',') === '6000,500,1.8,60,0')) {
-                    redPatterns.push({ params: [6000, 500, 1.8, 60, 0], desc: "6秒⇒0.5秒60回" });
-                  }
                   
                   const redPattern = redPatterns[Math.floor(getSecureRandom() * redPatterns.length)];
                   updateSectionBackground('red');
@@ -223,7 +240,10 @@ function movePiece(steps) {
                     { params: [2000, 1500, 5, 5, 3], desc: "2秒5回⇔1.5秒5回×3" },
                     { params: [2000, 1000, 6, 2, 3], desc: "2秒6回⇔1秒2回×3" },
                     { params: [4000, 1000, 3, 7, 5], desc: "4秒3回⇔1秒7回×5" },
-                    { params: [3000, 700, 2, 2, 9], desc: "3秒2回⇔0.7秒2回×9" }
+                    { params: [3000, 700, 2, 2, 9], desc: "3秒2回⇔0.7秒2回×9" },
+                    { params: [1500, 5000, 9, 1, 5], desc: "1.5秒10回⇔5秒休み×5" },
+                    { params: [800, 10000, 14, 1, 3], desc: "0.8秒15回⇔10秒休み×3" },
+                    { params: [700, 3000, 2, 1, 15], desc: "0.7秒3回⇔3秒休み×15" }
                   ];
                   const greenPattern = greenPatterns[Math.floor(getSecureRandom() * greenPatterns.length)];
                   updateSectionBackground('green');
@@ -261,7 +281,7 @@ function movePiece(steps) {
                       if (!currentBug || bug !== currentBug) {
                         bugCandidates.push({
                           params: [key],
-                          desc: `${bug.name}: ${bug.description}`
+                          desc: `${bug.description}`
                         });
                       }
                     });
@@ -296,9 +316,8 @@ function movePiece(steps) {
                 case 'black':
                   // 黒マス：等間隔ノーツ（白マスと同様）
                   const blackPatterns = [
-                    { params: [500, 30], desc: "0.5秒で30回" },
-                    { params: [800, 40], desc: "0.8秒で40回" },
-                    { params: [1000, 50], desc: "1秒で50回" }
+                    { params: [800, 30], desc: "0.8秒で30回" },
+                    { params: [1200, 50], desc: "1.2秒で50回" }
                   ];
                   const blackPattern = blackPatterns[Math.floor(getSecureRandom() * blackPatterns.length)];
                   updateSectionBackground('black');

@@ -11,9 +11,7 @@ var urlsToCache = [
     './board-random.js',
     './main.js',
     './bug-system.js',
-    './styles.css',
-    'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap',
-    'https://fonts.gstatic.com/s/notosansjp/v52/k3kCo84MPvpLmixcA63oeAL7Iq4SJjzAw4EuJOtWh_sjlrPE.woff2'
+    './styles.css'
 ];
 
 

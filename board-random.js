@@ -2,22 +2,7 @@
 // すごろく盤面の色をランダムに生成
 
 // 確率に基づいて色を選択する関数
-function selectRandomColor() {
-  const random = getSecureRandom() * 100; // 0-100の乱数
-  
-  if (random < 50) {
-    // 50%の確率で白（通常ノーツ）
-    return 'white';
-  } else if (random < 52) {
-    // 2%の確率で黒（加速ノーツ）
-    return 'black';
-  } else {
-    // 残り48%を5色で等分（各9.6%、全て加速ノーツ）
-    const remainingColors = ['red', 'blue', 'green', 'purple', 'yellow'];
-    const index = Math.floor((random - 52) / 9.6); // 0-4の範囲
-    return remainingColors[Math.min(index, 4)]; // 安全のため上限を4に制限
-  }
-}
+
 
 // ランダムな無限の色シーケンスを生成
 function generateRandomColorSequence(length) {

@@ -1,228 +1,3 @@
-html,
-body {
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-color: #000;
-  color: #00FFFF;
-  font-family: 'Courier New', monospace;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
-  overflow: hidden;
-  position: relative;
-  border: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* 各セクションの高さ設定 - 画面を7分割 */
-.section-1 {
-  height: 15vh; /* 0% - 15% */
-  border-bottom: 0.29vh solid #00FFFF;
-  display: flex;
-  box-shadow: 0 0.29vh 1.43vh rgba(0, 255, 255, 0.3);
-  position: relative;
-  z-index: 1;
-}
-
-/* セクション1の左右分割スタイル */
-.section-1 .left-half {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.43vh;
-  border-right: 0.29vh solid #00FFFF;
-  background: linear-gradient(135deg, #001122 0%, #002244 50%, #001122 100%);
-  position: relative;
-  box-sizing: border-box;
-}
-
-.section-1 .right-half {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.43vh;
-  background: linear-gradient(135deg, #000011 0%, #001133 50%, #000011 100%);
-  position: relative;
-  box-sizing: border-box;
-}
-
-.section-2 {
-  height: 10vh; /* 15vh → 10vh に変更 */
-  border-bottom: 0.29vh solid #00FFFF;
-  background: linear-gradient(90deg, #001122 0%, #002244 50%, #001122 100%);
-  position: relative;
-  box-shadow: 0 0.29vh 1.43vh rgba(0, 255, 255, 0.3);
-  margin-top: 0;
-  z-index: 2;
-  transition: background 1s ease-in-out;
-}
-
-/* セクション2の背景色クラス */
-.section-2.bg-white {
-  background: linear-gradient(90deg, #2a2a2a 0%, #3a3a3a 50%, #2a2a2a 100%);
-}
-
-.section-2.bg-red {
-  background: linear-gradient(90deg, #440011 0%, #660022 50%, #440011 100%);
-}
-
-.section-2.bg-blue {
-  background: linear-gradient(90deg, #001144 0%, #002266 50%, #001144 100%);
-}
-
-.section-2.bg-green {
-  background: linear-gradient(90deg, #114400 0%, #226600 50%, #114400 100%);
-}
-
-.section-2.bg-purple {
-  background: linear-gradient(90deg, #440044 0%, #660066 50%, #440044 100%);
-  
-}
-
-.section-2.bg-yellow {
-  background: linear-gradient(90deg, #444400 0%, #666600 50%, #444400 100%);
-}
-
-.section-2.bg-black {
-  background: linear-gradient(90deg, #000000 0%, #0a0a0a 50%, #000000 100%);
-}
-
-.section-2.bg-bug {
-  background: linear-gradient(90deg, #4B0082 0%, #8B008B 50%, #4B0082 100%);
-  animation: bug-pulse 2s ease-in-out infinite;
-}
-
-@keyframes bug-pulse {
-  0%, 100% {
-    background: linear-gradient(90deg, #4B0082 0%, #8B008B 50%, #4B0082 100%);
-  }
-  50% {
-    background: linear-gradient(90deg, #8B008B 0%, #4B0082 50%, #8B008B 100%);
-  }
-}
-
-/* セクション2のパターン表示スタイル */
-.pattern-display {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.pattern-roulette {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pattern-text {
-  font-family: 'Hiragino Sans', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif;
-  font-size: 4vh; /* 28pxから4vhに変更 */
-  font-weight: bold;
-  color: #00FFFF;
-  text-align: center;
-  text-shadow: 
-    0 0 1.43vh rgba(0, 255, 255, 0.8),
-    0 0 2.86vh rgba(0, 255, 255, 0.4),
-    0 0 4.29vh rgba(0, 255, 255, 0.2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  line-height: 1;
-}
-
-.section-3 {
-  height: 15vh; /* 15vh に変更 */
-  border-bottom: 0.29vh solid #00FFFF;
-  background: linear-gradient(90deg, #000011 0%, #000033 50%, #000011 100%);
-  position: relative;
-  box-shadow: 0 0.29vh 1.43vh rgba(0, 255, 255, 0.3);
-}
-
-.section-7 {
-  height: 10vh; /* 5vh → 10vh に変更 */
-  border-bottom: 0.29vh solid #00FFFF;
-  display: flex;
-  position: relative;
-  background: linear-gradient(45deg, #000022 0%, #001144 50%, #000022 100%);
-  box-shadow: 0 0.29vh 1.43vh rgba(0, 255, 255, 0.3);
-}
-
-.section-4 {
-  height: 15vh; /* 35% - 50% = 15% */
-  border-bottom: 0.29vh solid #00FFFF;
-  background: linear-gradient(45deg, #000 0%, #001133 50%, #000 100%);
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 0.29vh 1.43vh rgba(0, 255, 255, 0.3);
-}
-
-.section-5 {
-  height: 17.5vh; /* ボタンセクションを5vh小さく（22.5vh - 5vh = 17.5vh） */
-  border-bottom: 0.29vh solid #00FFFF;
-  display: flex;
-  position: relative;
-}
-
-.section-6 {
-  height: 17.5vh; /* ボタンセクションを5vh小さく（22.5vh - 5vh = 17.5vh） */
-  display: flex;
-  position: relative;
-}
-
-/* セクション7の装飾要素 */
-.section-7::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 23.3vw,
-      rgba(0, 255, 255, 0.1) 23.8vw
-    );
-  pointer-events: none;
-}
-
-/* セクション7のイベント表示スタイル */
-.event-display {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
 .event-text {
   font-family: 'Hiragino Sans', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif;
   font-size: 4vh; /* 28pxから4vhに変更 */
@@ -1604,7 +1379,8 @@ body {
 }
 
 /* インジケーター増加時の光るアニメーション */
-.button-quadrant.indicator-gained {
+.button-quadrant.indicator-gained,
+.button-third.indicator-gained {
   animation: indicator-gained-glow 3s ease-in-out;
 }
 
@@ -1641,18 +1417,21 @@ body {
 }
 
 /* 光るアニメーション中のテキスト色調整 */
-.button-quadrant.indicator-gained .cyber-text {
+.button-quadrant.indicator-gained .cyber-text,
+.button-third.indicator-gained .cyber-text {
   color: #000 !important;
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.8) !important;
 }
 
 /* 光るアニメーション中のインジケーター色調整 */
-.button-quadrant.indicator-gained .indicator {
+.button-quadrant.indicator-gained .indicator,
+.button-third.indicator-gained .indicator {
   background: #000 !important;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.8) !important;
 }
 
-.button-quadrant.indicator-gained .indicator.active {
+.button-quadrant.indicator-gained .indicator.active,
+.button-third.indicator-gained .indicator.active {
   background: #222 !important;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.9) !important;
 }
@@ -1866,14 +1645,3 @@ body {
   filter: drop-shadow(0 0 0.71vh rgba(102, 102, 102, 0.3));
 }
 
-/* styles.cssに追加 */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
-
-body {
-    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-}
-
-/* または、より具体的に */
-* {
-    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-}

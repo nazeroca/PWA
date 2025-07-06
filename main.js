@@ -236,16 +236,6 @@ updateDataStream(currentPosition, colorSequence[currentPosition]);
 
 
 
-// イベントマスシーケンスを生成する関数
-function generateEventSequence(length) {
-  const sequence = [];
-  for (let i = 0; i < length; i++) {
-    // 10分の1の確率でイベントマス
-    sequence.push(getSecureRandom() < 0.1);
-  }
-  return sequence;
-}
-
 // パターン表示とカウントダウン関連の変数
 let gameCountdownTimeout = null;
 let gameCountdownInterval = null;
@@ -271,7 +261,7 @@ function showPatternRoulette(finalPattern, callback, patternCandidates = null) {
   patternRoulette.classList.add('spinning');
   
   let spinCount = 0;
-  const maxSpins = 20; // 変化回数
+  const maxSpins = 30; // 変化回数
   
   const spinInterval = setInterval(() => {
     // 候補のdescからランダムに選択して表示
@@ -292,9 +282,9 @@ function showPatternRoulette(finalPattern, callback, patternCandidates = null) {
         patternRoulette.classList.remove('spinning');
         patternText.classList.remove('final');
         if (callback) callback();
-      }, 300);
+      }, 200);
     }
-  }, 80); // 間隔を少し長くして読みやすく
+  }, 30); // 間隔を少し長くして読みやすく
 }
 
 // セクション7でのルーレット演出（バグ用）
@@ -315,7 +305,7 @@ function showBugRoulette(finalBug, callback, bugCandidates = null) {
   eventDisplay.classList.add('spinning');
   
   let spinCount = 0;
-  const maxSpins = 20; // 変化回数
+  const maxSpins = 30; // 変化回数
   
   const spinInterval = setInterval(() => {
     // 候補のdescからランダムに選択して表示
@@ -336,9 +326,9 @@ function showBugRoulette(finalBug, callback, bugCandidates = null) {
         eventDisplay.classList.remove('spinning');
         eventText.classList.remove('final');
         if (callback) callback();
-      }, 300);
+      }, 200);
     }
-  }, 80); // 間隔を少し長くして読みやすく
+  }, 30); // 間隔を少し長くして読みやすく
 }
 
 

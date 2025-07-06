@@ -6,41 +6,37 @@ let lastHitCount = 0; // 前回の移動後のHITS値を記録
 // バグの定義
 const BUGS = {
   normalBug: {
-    name: 'White Bug',
-    description: '白マス停止時に1秒5回',
+    description: '白マス停止時に1秒10回',
     triggerCondition: (color, diceResult) => color === 'white',
-    effect: {
-      speed: 1000,
-      count: 5,
-      type: 'normal'
-    }
-  },
-  mutationBug: {
-    name: 'Change Bug',
-    description: '黄色停止で1秒10個',
-    triggerCondition: (color, diceResult) => color === 'purple',
     effect: {
       speed: 1000,
       count: 10,
       type: 'normal'
     }
   },
+  mutationBug: {
+    description: '黄マス停止時に1秒20個',
+    triggerCondition: (color, diceResult) => color === 'purple',
+    effect: {
+      speed: 1000,
+      count: 20,
+      type: 'normal'
+    }
+  },
   independentBug: {
-    name: 'Space Bug',
-    description: 'SPACE素数で1秒7個',
+    description: 'SPACE素数で1.7秒17個',
     triggerCondition: (color, diceResult) => {
       // 現在の位置が素数かチェック
       return isPrime(currentPosition);
     },
     effect: {
-      speed: 1000,
-      count: 7,
+      speed: 1700,
+      count: 17,
       type: 'normal'
     }
   },
   loadBug: {
-    name: 'Hits Bug',
-    description: 'HITS+50で1秒10個',
+    description: 'HITS+50回で2秒20個',
     triggerCondition: (color, diceResult) => {
       // 前回から50以上HITSが増加したかチェック
       const currentHitCount = (typeof hitCount !== 'undefined') ? hitCount : 0;
@@ -48,17 +44,16 @@ const BUGS = {
       return increase >= 50;
     },
     effect: {
-      speed: 1000,
-      count: 10,
+      speed: 2000,
+      count: 20,
       type: 'normal'
     }
   },
   unluckyBug: {
-    name: 'Dice Bug',
-    description: '1の目で1秒10個',
+    description: '1の目で0.7秒10個',
     triggerCondition: (color, diceResult) => diceResult === 1,
     effect: {
-      speed: 1000,
+      speed: 700,
       count: 10,
       type: 'normal'
     }
@@ -104,7 +99,7 @@ function updateBugDisplay() {
   }
   
   if (currentBug) {
-    eventText.textContent = `${currentBug.name}: ${currentBug.description}`;
+    eventText.textContent = `${currentBug.description}`;
     eventText.classList.remove('event-active'); // 黄色のクラスを削除
   } else {
     eventText.textContent = 'SYSTEM READY';
