@@ -56,7 +56,8 @@ let stopDuration = 10000; // 停止時間（10秒）
 let stopTimeout = null; // 停止タイマーID
 let isNotesFrozen = false; // ノーツ停止状態フラグ
 let frozenNotes = []; // 停止中のノーツ情報を保存
-let hitCount = 0; // ヒット数カウンター
+let hitCount = 0; // ヒット数カウンター（内部処理用、リセットされる）
+let totalHitCount = 0; // 累計ヒット数（表示用、リセットされない）
 let isChallengeMode = false; // 試練モードフラグ
 
 
@@ -219,7 +220,7 @@ function updateDataStream(position, color) {
 function updateHitCounter() {
   const hitCounterElement = document.getElementById('hit-counter');
   if (hitCounterElement) {
-    hitCounterElement.textContent = `HITS: ${hitCount.toString().padStart(3, '0')}`;
+    hitCounterElement.textContent = `HITS: ${totalHitCount.toString().padStart(3, '0')}`;
 
 
     // ヒット時のエフェクト

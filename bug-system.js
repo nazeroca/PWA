@@ -236,6 +236,7 @@ function startBugGame(speed, count, callback) {
           // ヒット数をカウント
           if (typeof hitCount !== 'undefined') {
             hitCount++;
+            totalHitCount++; // 累計ヒット数も更新
             updateHitCounter();
           }
           

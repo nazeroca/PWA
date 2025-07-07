@@ -77,6 +77,7 @@ function spawnCircle() {
         
         // ヒット数をカウント
         hitCount++;
+        totalHitCount++; // 累計ヒット数も更新
         updateHitCounter();
         
         circle.remove();
