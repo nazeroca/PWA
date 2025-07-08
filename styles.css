@@ -1,3 +1,5 @@
+@import url('hover-float.css');
+
 .event-text {
   font-family: 'Hiragino Sans', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif;
   font-size: 4vh; /* 28pxから4vhに変更 */
@@ -1802,3 +1804,31 @@
 /* レスポンシブ対応 - 縦画面用に削除 */
 /* 基本的に縦画面での表示に最適化済み */
 
+.floating-pattern-text {
+  position: absolute;
+  left: 50%;
+  top: 38%; /* ノーツレーンの上あたりに調整（必要に応じて%を微調整） */
+  transform: translate(-50%, -30%);
+  min-width: 160px;
+  max-width: 80vw;
+  padding: 14px 28px;
+  background: rgba(0,255,255,0.7); 
+  color: #222;
+  font-size: 1.2rem;
+  font-family: 'Orbitron', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif; /* セクション2と同じ */
+  font-weight: bold;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+  z-index: 1200;
+  pointer-events: none;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.25s, filter 0.25s;
+  filter: drop-shadow(0 0 20px rgba(0,255,255,0.8));
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.floating-pattern-text.show {
+  opacity: 1;
+  filter: blur(0);
+}

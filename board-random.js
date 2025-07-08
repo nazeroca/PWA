@@ -29,6 +29,23 @@ function generateInitialColorSequence(length) {
   return sequence;
 }
 
+// 初期シーケンス生成（色とノーツ内容をセットで）
+function generateInitialColorAndPatternSequence(length) {
+  const colorSeq = [];
+  const noteSeq = [];
+  for (let i = 0; i < length; i++) {
+    if (i === 0) {
+      colorSeq.push(null);
+      noteSeq.push(null);
+    } else {
+      const color = selectRandomColor();
+      colorSeq.push(color);
+      noteSeq.push(getRandomNotePattern(color));
+    }
+  }
+  return { colorSeq, noteSeq };
+}
+
 // ランダム盤面用のボード初期化関数を上書き
 function initializeSugorokuBoard() {
   const board = document.getElementById('sugoroku-board');
@@ -37,8 +54,10 @@ function initializeSugorokuBoard() {
   
   boardSquares = [];
   
-  // 十分に長いランダム色シーケンスを生成（1000個）
-  colorSequence = generateInitialColorSequence(1000);
+  // 十分に長いランダム色・ノーツ内容シーケンスを生成（1000個）
+  const { colorSeq, noteSeq } = generateInitialColorAndPatternSequence(1000);
+  colorSequence = colorSeq;
+  notePatternSequence = noteSeq;
   
   // イベントマスシーケンスも生成
   eventSequence = generateEventSequence(1000);
@@ -56,6 +75,57 @@ function initializeSugorokuBoard() {
     const square = createFixedSquare(i);
     board.appendChild(square);
     boardSquares.push(square);
+
+    // ノーツ内容表示イベントリスナー追加
+    square.addEventListener('mouseenter', () => {
+      const idx = displayOffset + i;
+      const pattern = notePatternSequence[idx];
+      const floating = document.getElementById('floating-pattern-text');
+      const color = colorSequence[idx];
+      if (color === 'purple') {
+        floating.textContent = 'バグ発生';
+      } else if (color === 'black') {
+        floating.textContent = 'ペナルティ';
+      } else if (pattern && pattern.desc) {
+        floating.textContent = pattern.desc;
+      } else {
+        floating.textContent = '';
+      }
+      if (floating.textContent) {
+        floating.style.display = 'block';
+        setTimeout(() => floating.classList.add('show'), 10);
+      }
+    });
+    square.addEventListener('mouseleave', () => {
+      const floating = document.getElementById('floating-pattern-text');
+      floating.classList.remove('show');
+      setTimeout(() => { floating.style.display = 'none'; }, 250);
+    });
+    // モバイル対応
+    square.addEventListener('touchstart', () => {
+      const idx = displayOffset + i;
+      const pattern = notePatternSequence[idx];
+      const floating = document.getElementById('floating-pattern-text');
+      const color = colorSequence[idx];
+      if (color === 'purple') {
+        floating.textContent = 'バグ発生';
+      } else if (color === 'black') {
+        floating.textContent = 'ペナルティ';
+      } else if (pattern && pattern.desc) {
+        floating.textContent = pattern.desc;
+      } else {
+        floating.textContent = '';
+      }
+      if (floating.textContent) {
+        floating.style.display = 'block';
+        setTimeout(() => floating.classList.add('show'), 10);
+      }
+    });
+    square.addEventListener('touchend', () => {
+      const floating = document.getElementById('floating-pattern-text');
+      floating.classList.remove('show');
+      setTimeout(() => { floating.style.display = 'none'; }, 250);
+    });
   }
   
   // 初期の色を設定
@@ -78,8 +148,9 @@ function shiftColorsAndResetPiece() {
   
   // 色シーケンスが足りない場合は追加生成
   while (displayOffset + TOTAL_SQUARES >= colorSequence.length) {
-    const additionalColors = generateRandomColorSequence(1000);
-    colorSequence = colorSequence.concat(additionalColors); // nullは含まれないので全て追加
+    const { colorSeq, noteSeq } = generateInitialColorAndPatternSequence(1000);
+    colorSequence = colorSequence.concat(colorSeq); // nullは含まれないので全て追加
+    notePatternSequence = notePatternSequence.concat(noteSeq);
   }
   
   // イベントシーケンスが足りない場合は追加生成

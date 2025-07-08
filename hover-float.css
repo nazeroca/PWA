@@ -1,0 +1,24 @@
+#hover-pattern-float {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 120px); /* セクション3の下あたりに調整 */
+  transform: translate(-50%, 0);
+  min-width: 200px;
+  max-width: 80vw;
+  padding: 18px 32px;
+  background: rgba(255,255,255,0.92);
+  color: #222;
+  font-size: 1.3rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18), 0 1.5px 8px 0 rgba(0,0,0,0.10);
+  text-align: center;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s, filter 0.25s;
+  filter: blur(2px);
+}
+#hover-pattern-float.active {
+  opacity: 1;
+  filter: blur(0);
+}
