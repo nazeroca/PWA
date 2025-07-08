@@ -124,7 +124,7 @@ function initializeSugorokuBoard() {
         touchHideTimer = setTimeout(() => {
           floating.classList.remove('show');
           setTimeout(() => { floating.style.display = 'none'; }, 250);
-        }, 500); // 0.5秒は必ず表示
+        }, 1000); // 0.5秒は必ず表示
       }
     });
     square.addEventListener('touchend', () => {
