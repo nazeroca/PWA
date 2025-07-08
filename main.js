@@ -178,25 +178,24 @@ function updateSectionBackground(color) {
 let systemStartTime = Date.now();
 let timerInterval = null;
 
-// タイマー表示を更新する関数
 function updateSystemTimer() {
   const now = Date.now();
   const elapsed = now - systemStartTime;
-  
-  const hours = Math.floor(elapsed / (1000 * 60 * 60));
-  const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+
+  // 分数を60分を超えてもそのままカウント
+  const totalMinutes = Math.floor(elapsed / (1000 * 60));
   const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
-  
-  const formattedTime = 
-    String(hours).padStart(2, '0') + ':' +
-    String(minutes).padStart(2, '0') + ':' +
+
+  const formattedTime =
+    String(totalMinutes) + ':' +
     String(seconds).padStart(2, '0');
-  
+
   const timerElement = document.getElementById('system-timer');
   if (timerElement) {
     timerElement.textContent = formattedTime;
   }
 }
+
 
 // タイマーを開始する関数
 function startSystemTimer() {
@@ -212,7 +211,7 @@ function updateDataStream(position, color) {
   const positionInfo = document.getElementById('position-info');
   
   if (positionInfo) {
-    positionInfo.textContent = `SPACE: ${position.toString().padStart(3, '0')}`;
+    positionInfo.textContent = position.toString().padStart(3, '0');
   }
 }
 
@@ -220,14 +219,13 @@ function updateDataStream(position, color) {
 function updateHitCounter() {
   const hitCounterElement = document.getElementById('hit-counter');
   if (hitCounterElement) {
-    hitCounterElement.textContent = `HITS: ${totalHitCount.toString().padStart(3, '0')}`;
-
+    hitCounterElement.textContent = totalHitCount.toString().padStart(4, '0');
 
     // ヒット時のエフェクト
-    hitCounterElement.style.animation = 'none';
+    hitCounterElement.classList.add('updated');
     setTimeout(() => {
-      hitCounterElement.style.animation = 'data-stream 4s linear infinite';
-    }, 10);
+      hitCounterElement.classList.remove('updated');
+    }, 500);
   }
 }
 

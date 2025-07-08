@@ -32,32 +32,52 @@ body {
   z-index: 1;
 }
 
-/* セクション1の左右分割スタイル */
-.section-1 .left-half {
-  width: 50%;
-  height: 100%;
+/* セクション1の統一されたスタイル */
+.section-1 {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #000011 0%, #001133 25%, #002244 50%, #001133 75%, #000011 100%);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 1.43vh;
-  border-right: 0.29vh solid #00FFFF;
-  background: linear-gradient(135deg, #001122 0%, #002244 50%, #001122 100%);
-  position: relative;
   box-sizing: border-box;
 }
 
-.section-1 .right-half {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.43vh;
-  background: linear-gradient(135deg, #000011 0%, #001133 50%, #000011 100%);
-  position: relative;
-  box-sizing: border-box;
+.section-1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 10vw,
+      rgba(0, 255, 255, 0.1) 10.2vw
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.section-1::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3vh,
+      rgba(0, 255, 255, 0.05) 3.2vh
+    );
+  pointer-events: none;
+  z-index: 1;
 }
 
 .section-2 {

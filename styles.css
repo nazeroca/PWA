@@ -496,19 +496,7 @@
     0 0 25px rgba(0, 255, 255, 0.3);
 }
 
-/* TIMERテキストの専用スタイル */
-.section-1 .left-half .cyber-text {
-  font-size: 4.9vw; /* 2.2em → 450px基準で約4.9vw */
-  font-weight: bold;
-  letter-spacing: 0.44vw; /* 2px → 450px基準で約0.44vw */
-  text-transform: uppercase;
-  color: #00FFFF;
-  text-shadow: 
-    0 0 2.2vw rgba(0, 255, 255, 0.8),
-    0 0 4.4vw rgba(0, 255, 255, 0.5),
-    0 0 6.7vw rgba(0, 255, 255, 0.3);
-  margin-bottom: 0.67vw; /* 3px → 450px基準で約0.67vw */
-}
+/* 旧スタイル削除 - TIMERテキストは統合されました */
 
 /* 2Dサイコロのスタイル */
 .dice-container-2d {
@@ -937,52 +925,7 @@
   }
 }
 
-/* システムタイマーのスタイル */
-.system-timer {
-  font-family: 'Courier New', monospace;
-  font-size: 9vw; /* 時刻表示を少しだけ小さく */
-  font-weight: bold;
-  color: #00FFFF;
-  text-shadow: 
-    0 0 2.2vw rgba(0, 255, 255, 0.8),
-    0 0 4.4vw rgba(0, 255, 255, 0.5),
-    0 0 6.7vw rgba(0, 255, 255, 0.3);
-  letter-spacing: 0.44vw; /* 2px → 450px基準で約0.44vw */
-  margin-top: 0.22vw; /* 1px → 450px基準で約0.22vw */
-  padding: 0.44vw 0.89vw; /* 2px 4px → 450px基準で約0.44vw 0.89vw */
-  border: 0.22vw solid rgba(0, 255, 255, 0.3);
-  border-radius: 0.89vw;
-  background: linear-gradient(135deg, rgba(0, 17, 34, 0.8) 0%, rgba(0, 34, 68, 0.8) 100%);
-  animation: timer-glow 3s ease-in-out infinite alternate;
-  backdrop-filter: blur(2px);
-}
-
-@keyframes timer-glow {
-  0% {
-    text-shadow: 
-      0 0 10px rgba(0, 255, 255, 0.8),
-      0 0 20px rgba(0, 255, 255, 0.5),
-      0 0 30px rgba(0, 255, 255, 0.3);
-    border-color: rgba(0, 255, 255, 0.3);
-  }
-  100% {
-    text-shadow: 
-      0 0 15px rgba(0, 255, 255, 1),
-      0 0 25px rgba(0, 255, 255, 0.7),
-      0 0 35px rgba(0, 255, 255, 0.5);
-    border-color: rgba(0, 255, 255, 0.6);
-  }
-}
-
-/* データストリーム情報のスタイル */
-.data-stream-info {
-  position: static; /* absoluteから変更 */
-  margin-top: 0px; /* NEURAL LINKテキストを削除したのでマージンを0に */
-  display: flex;
-  flex-direction: column;
-  gap: 5px; /* 行間を少し広く */
-  width: 100%;
-}
+/* 旧スタイル削除 - システムタイマーとデータストリーム情報は統合されました */
 
 .stream-line {
   font-family: 'Courier New', monospace;
@@ -1641,4 +1584,221 @@
   border-left-color: #666666;
   filter: drop-shadow(0 0 0.71vh rgba(102, 102, 102, 0.3));
 }
+
+/* 統一されたフューチャーディスプレイ - 縦画面用 */
+.futuristic-display {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1vh 1vw;
+  gap: 1vw;
+  animation: display-breathe 6s ease-in-out infinite;
+}
+
+@keyframes display-breathe {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.timer-display,
+.position-display,
+.hits-display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 255, 255, 0.05) 50%, transparent 100%);
+  border: 0.2vh solid rgba(0, 255, 255, 0.3);
+  border-radius: 0.5vh;
+  padding: 0.5vh;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(0.5vh);
+  min-height: 0;
+  height: 100%;
+}
+
+.timer-display::before,
+.position-display::before,
+.hits-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, rgba(0, 255, 255, 0.2) 50%, transparent 100%);
+  animation: scanner 4s linear infinite;
+}
+
+@keyframes scanner {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.timer-label,
+.position-label,
+.hits-label {
+  font-family: 'Courier New', monospace;
+  font-size: 4vh;
+  font-weight: bold;
+  color: #00FFFF;
+  text-shadow: 0 0 0.5vh rgba(0, 255, 255, 0.8);
+  letter-spacing: 0.1vw;
+  margin-bottom: 0.2vh;
+  text-align: center;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.timer-value,
+.position-value,
+.hits-value {
+  font-family: 'Courier New', monospace;
+  font-size: 4vh;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-shadow: 
+    0 0 0.5vh rgba(0, 255, 255, 1),
+    0 0 1vh rgba(0, 255, 255, 0.6),
+    0 0 1.5vh rgba(0, 255, 255, 0.3);
+  letter-spacing: 0.1vw;
+  text-align: center;
+  animation: value-glow 3s ease-in-out infinite alternate;
+  white-space: nowrap;
+}
+
+@keyframes value-glow {
+  0% {
+    text-shadow: 
+      0 0 1vh rgba(0, 255, 255, 1),
+      0 0 2vh rgba(0, 255, 255, 0.6),
+      0 0 3vh rgba(0, 255, 255, 0.3);
+  }
+  100% {
+    text-shadow: 
+      0 0 1.5vh rgba(0, 255, 255, 1),
+      0 0 3vh rgba(0, 255, 255, 0.8),
+      0 0 4.5vh rgba(0, 255, 255, 0.5);
+  }
+}
+
+/* 特別な効果とアニメーション */
+.timer-display {
+  border-color: rgba(0, 255, 255, 0.6);
+  animation: timer-border-pulse 4s ease-in-out infinite;
+}
+
+@keyframes timer-border-pulse {
+  0%, 100% {
+    border-color: rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 0 0 rgba(0, 255, 255, 0);
+  }
+  50% {
+    border-color: rgba(0, 255, 255, 0.8);
+    box-shadow: 0 0 1vh 0.2vh rgba(0, 255, 255, 0.4);
+  }
+}
+
+.position-display {
+  border-color: rgba(0, 255, 0, 0.6);
+  background: linear-gradient(135deg, rgba(0, 255, 0, 0.1) 0%, rgba(0, 255, 0, 0.05) 50%, transparent 100%);
+  animation: position-border-pulse 4s ease-in-out infinite;
+}
+
+@keyframes position-border-pulse {
+  0%, 100% {
+    border-color: rgba(0, 255, 0, 0.4);
+    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
+  }
+  50% {
+    border-color: rgba(0, 255, 0, 0.8);
+    box-shadow: 0 0 1vh 0.2vh rgba(0, 255, 0, 0.4);
+  }
+}
+
+.position-display .position-label {
+  color: #00FF00;
+  text-shadow: 0 0 1vh rgba(0, 255, 0, 0.8);
+}
+
+.position-display .position-value {
+  color: #FFFFFF;
+  text-shadow: 
+    0 0 1vh rgba(0, 255, 0, 1),
+    0 0 2vh rgba(0, 255, 0, 0.6),
+    0 0 3vh rgba(0, 255, 0, 0.3);
+}
+
+.hits-display {
+  border-color: rgba(255, 255, 0, 0.6);
+  background: linear-gradient(135deg, rgba(255, 255, 0, 0.1) 0%, rgba(255, 255, 0, 0.05) 50%, transparent 100%);
+  animation: hits-border-pulse 4s ease-in-out infinite;
+}
+
+@keyframes hits-border-pulse {
+  0%, 100% {
+    border-color: rgba(255, 255, 0, 0.4);
+    box-shadow: 0 0 0 0 rgba(255, 255, 0, 0);
+  }
+  50% {
+    border-color: rgba(255, 255, 0, 0.8);
+    box-shadow: 0 0 1vh 0.2vh rgba(255, 255, 0, 0.4);
+  }
+}
+
+.hits-display .hits-label {
+  color: #FFFF00;
+  text-shadow: 0 0 1vh rgba(255, 255, 0, 0.8);
+}
+
+.hits-display .hits-value {
+  color: #FFFFFF;
+  text-shadow: 
+    0 0 1vh rgba(255, 255, 0, 1),
+    0 0 2vh rgba(255, 255, 0, 0.6),
+    0 0 3vh rgba(255, 255, 0, 0.3);
+}
+
+/* ヒットカウンターの更新アニメーション */
+.hits-value.updated {
+  animation: hit-flash 0.5s ease-out;
+}
+
+@keyframes hit-flash {
+  0% {
+    transform: scale(1);
+    text-shadow: 
+      0 0 1vh rgba(255, 255, 0, 1),
+      0 0 2vh rgba(255, 255, 0, 0.6),
+      0 0 3vh rgba(255, 255, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.2);
+    text-shadow: 
+      0 0 3vh rgba(255, 255, 0, 1),
+      0 0 6vh rgba(255, 255, 0, 0.8),
+      0 0 9vh rgba(255, 255, 0, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    text-shadow: 
+      0 0 1vh rgba(255, 255, 0, 1),
+      0 0 2vh rgba(255, 255, 0, 0.6),
+      0 0 3vh rgba(255, 255, 0, 0.3);
+  }
+}
+
+/* レスポンシブ対応 - 縦画面用に削除 */
+/* 基本的に縦画面での表示に最適化済み */
 
