@@ -102,6 +102,7 @@ function initializeSugorokuBoard() {
       setTimeout(() => { floating.style.display = 'none'; }, 250);
     });
     // モバイル対応
+    let touchHideTimer = null;
     square.addEventListener('touchstart', () => {
       const idx = displayOffset + i;
       const pattern = notePatternSequence[idx];
@@ -119,12 +120,15 @@ function initializeSugorokuBoard() {
       if (floating.textContent) {
         floating.style.display = 'block';
         setTimeout(() => floating.classList.add('show'), 10);
+        if (touchHideTimer) clearTimeout(touchHideTimer);
+        touchHideTimer = setTimeout(() => {
+          floating.classList.remove('show');
+          setTimeout(() => { floating.style.display = 'none'; }, 250);
+        }, 500); // 0.5秒は必ず表示
       }
     });
     square.addEventListener('touchend', () => {
-      const floating = document.getElementById('floating-pattern-text');
-      floating.classList.remove('show');
-      setTimeout(() => { floating.style.display = 'none'; }, 250);
+      // touchstartでタイマー管理するのでここでは何もしない
     });
   }
   

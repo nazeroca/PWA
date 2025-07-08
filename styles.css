@@ -1824,7 +1824,6 @@
   text-align: center;
   opacity: 0;
   transition: opacity 0.25s, filter 0.25s;
-  filter: drop-shadow(0 0 20px rgba(0,255,255,0.8));
   overflow: hidden;
   text-overflow: ellipsis;
 }
