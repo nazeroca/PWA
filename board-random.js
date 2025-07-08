@@ -102,8 +102,9 @@ function initializeSugorokuBoard() {
       setTimeout(() => { floating.style.display = 'none'; }, 250);
     });
     // モバイル対応
-    let touchHideTimer = null;
-    let touchStartTime = 0;
+    // グローバルで管理
+    if (typeof window.floatingTouchHideTimer === 'undefined') window.floatingTouchHideTimer = null;
+    if (typeof window.floatingTouchStartTime === 'undefined') window.floatingTouchStartTime = 0;
     square.addEventListener('touchstart', () => {
       const idx = displayOffset + i;
       const pattern = notePatternSequence[idx];
@@ -121,16 +122,16 @@ function initializeSugorokuBoard() {
       if (floating.textContent) {
         floating.style.display = 'block';
         setTimeout(() => floating.classList.add('show'), 10);
-        if (touchHideTimer) clearTimeout(touchHideTimer);
-        touchStartTime = Date.now();
+        if (window.floatingTouchHideTimer) clearTimeout(window.floatingTouchHideTimer);
+        window.floatingTouchStartTime = Date.now();
       }
     });
     square.addEventListener('touchend', () => {
       const floating = document.getElementById('floating-pattern-text');
-      const elapsed = Date.now() - touchStartTime;
+      const elapsed = Date.now() - window.floatingTouchStartTime;
       const remain = Math.max(0, 1000 - elapsed);
-      if (touchHideTimer) clearTimeout(touchHideTimer);
-      touchHideTimer = setTimeout(() => {
+      if (window.floatingTouchHideTimer) clearTimeout(window.floatingTouchHideTimer);
+      window.floatingTouchHideTimer = setTimeout(() => {
         floating.classList.remove('show');
         setTimeout(() => { floating.style.display = 'none'; }, 250);
       }, remain);
