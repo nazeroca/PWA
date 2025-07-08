@@ -7,6 +7,9 @@ body {
   background-color: #000;
   color: #00FFFF;
   font-family: 'Courier New', monospace;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .container {
