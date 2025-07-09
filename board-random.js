@@ -76,67 +76,69 @@ function initializeSugorokuBoard() {
     board.appendChild(square);
     boardSquares.push(square);
 
-    // ノーツ内容表示イベントリスナー追加
-    square.addEventListener('mouseenter', () => {
+    // タップでノーツ内容をぼんやり表示（タイマーなし）
+    square.addEventListener('click', (e) => {
+      if (window.isNotesPlaying) return;
+      e.stopPropagation();
       const idx = displayOffset + i;
       const pattern = notePatternSequence[idx];
       const floating = document.getElementById('floating-pattern-text');
       const color = colorSequence[idx];
-      if (color === 'purple') {
-        floating.textContent = 'バグ発生';
-      } else if (color === 'black') {
-        floating.textContent = 'ペナルティ';
-      } else if (pattern && pattern.desc) {
-        floating.textContent = pattern.desc;
-      } else {
-        floating.textContent = '';
+      // すでに同じ内容が表示中なら何もしない（紫・黒はそもそも表示しない）
+      if (color === 'purple' || color === 'black') {
+        if (floating.classList.contains('show')) {
+          floating.classList.remove('show');
+          setTimeout(() => { floating.style.display = 'none'; }, 150);
+        }
+        return;
       }
-      if (floating.textContent) {
-        floating.style.display = 'block';
-        setTimeout(() => floating.classList.add('show'), 10);
+      if (
+        floating.classList.contains('show') &&
+        (pattern && pattern.desc && floating.textContent === pattern.desc)
+      ) {
+        return;
       }
-    });
-    square.addEventListener('mouseleave', () => {
-      const floating = document.getElementById('floating-pattern-text');
-      floating.classList.remove('show');
-      setTimeout(() => { floating.style.display = 'none'; }, 250);
-    });
-    // モバイル対応
-    // グローバルで管理
-    if (typeof window.floatingTouchHideTimer === 'undefined') window.floatingTouchHideTimer = null;
-    if (typeof window.floatingTouchStartTime === 'undefined') window.floatingTouchStartTime = 0;
-    square.addEventListener('touchstart', () => {
-      const idx = displayOffset + i;
-      const pattern = notePatternSequence[idx];
-      const floating = document.getElementById('floating-pattern-text');
-      const color = colorSequence[idx];
-      if (color === 'purple') {
-        floating.textContent = 'バグ発生';
-      } else if (color === 'black') {
-        floating.textContent = 'ペナルティ';
-      } else if (pattern && pattern.desc) {
-        floating.textContent = pattern.desc;
-      } else {
-        floating.textContent = '';
-      }
-      if (floating.textContent) {
-        floating.style.display = 'block';
-        setTimeout(() => floating.classList.add('show'), 10);
-        if (window.floatingTouchHideTimer) clearTimeout(window.floatingTouchHideTimer);
-        window.floatingTouchStartTime = Date.now();
-      }
-    });
-    square.addEventListener('touchend', () => {
-      const floating = document.getElementById('floating-pattern-text');
-      const elapsed = Date.now() - window.floatingTouchStartTime;
-      const remain = Math.max(0, 1000 - elapsed);
-      if (window.floatingTouchHideTimer) clearTimeout(window.floatingTouchHideTimer);
-      window.floatingTouchHideTimer = setTimeout(() => {
+      // すでに表示中なら一度即消す（アニメーション付きで消す）
+      if (floating.classList.contains('show')) {
         floating.classList.remove('show');
-        setTimeout(() => { floating.style.display = 'none'; }, 250);
-      }, remain);
+        setTimeout(() => {
+          floating.style.display = 'none';
+          // 内容セット＆再表示
+          if (pattern && pattern.desc) {
+            floating.textContent = pattern.desc;
+          } else {
+            floating.textContent = '';
+          }
+          if (floating.textContent) {
+            floating.style.display = 'block';
+            setTimeout(() => floating.classList.add('show'), 10);
+          }
+        }, 150); // アニメーション消去後に再表示
+      } else {
+        // 内容セット＆表示
+        if (pattern && pattern.desc) {
+          floating.textContent = pattern.desc;
+        } else {
+          floating.textContent = '';
+        }
+        if (floating.textContent) {
+          floating.style.display = 'block';
+          setTimeout(() => floating.classList.add('show'), 10);
+        }
+      }
     });
   }
+  // 盤以外をタップしたら消す
+  document.addEventListener('click', (e) => {
+    // ノーツが流れている間は何もしない
+    if (window.isNotesPlaying) return;
+    // 盤のマス以外をクリックした場合のみ消す
+    const floating = document.getElementById('floating-pattern-text');
+    if (floating.classList.contains('show')) {
+      floating.classList.remove('show');
+      setTimeout(() => { floating.style.display = 'none'; }, 150); // 0.15秒に短縮
+    }
+  });
   
   // 初期の色を設定
   updateAllSquareColors();

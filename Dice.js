@@ -57,6 +57,31 @@ function enableDiceSection() {
   
   // サイコロボタンを有効化
   enableDiceButton();
+
+  // サイコロボタンの点滅クラスをリセット
+  if (diceButton) {
+    diceButton.classList.remove('dice-blink-fast', 'dice-blink-slow', 'dice-waiting');
+    diceButton.classList.add('dice-blink-slow');
+  }
+
+  // 2秒前で点滅を速くする
+  if (blinkTimeout) clearTimeout(blinkTimeout);
+  blinkTimeout = setTimeout(() => {
+    if (diceButton) {
+      diceButton.classList.remove('dice-blink-slow');
+      diceButton.classList.add('dice-blink-fast');
+    }
+  }, 3000); // 5-2=3秒後に速い点滅へ
+
+  // 5秒後に自動でサイコロを振るタイマーをセット
+  if (autoRollTimeout) {
+    clearTimeout(autoRollTimeout);
+  }
+  autoRollTimeout = setTimeout(() => {
+    if (!isRolling && !diceButton.classList.contains('dice-disabled')) {
+      rollDice();
+    }
+  }, 5000);
 }
 
 // サイコロボタンの有効化・無効化
@@ -81,7 +106,22 @@ function showDiceFace(number) {
   diceDisplay.classList.add(`face-${number}`);
 }
 
+let autoRollTimeout = null; // 自動ロール用タイマー
+let blinkTimeout = null; // 点滅切り替え用タイマー
+
 function rollDice() {
+  // サイコロボタンの点滅クラスを解除
+  if (diceButton) {
+    diceButton.classList.remove('dice-blink-slow', 'dice-blink-fast', 'dice-waiting');
+  }
+  if (autoRollTimeout) {
+    clearTimeout(autoRollTimeout);
+    autoRollTimeout = null;
+  }
+  if (blinkTimeout) {
+    clearTimeout(blinkTimeout);
+    blinkTimeout = null;
+  }
   if (isRolling || isGameActive || diceButton.classList.contains('dice-disabled')) return; // ゲーム中または無効化中は無効
   
   isRolling = true;

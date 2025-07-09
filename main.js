@@ -164,7 +164,7 @@ function updateSectionBackground(color) {
   if (!section2) return;
   
   // 既存の色クラスを削除
-  section2.classList.remove('bg-red', 'bg-blue', 'bg-green', 'bg-purple', 'bg-yellow', 'bg-white');
+  section2.classList.remove('bg-red', 'bg-blue', 'bg-green', 'bg-purple', 'bg-yellow', 'bg-white', 'bg-black', 'bg-bug');
   
   // 新しい色クラスを追加
   if (color) {

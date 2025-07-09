@@ -263,3 +263,32 @@ body {
   justify-content: center;
   position: relative;
 }
+
+/* サイコロボタン点滅アニメーション */
+@keyframes dice-wait-blink {
+  0%, 100% { box-shadow: 0 0 16px 4px #00ffff, 0 0 0 #fff; background: #001144; }
+  60% { box-shadow: 0 0 32px 8px #ff0, 0 0 0 #fff; background: #ffec80; }
+  80% { box-shadow: 0 0 32px 8px #f00, 0 0 0 #fff; background: #ff8080; }
+}
+.dice-waiting {
+  animation: dice-wait-blink 1s linear infinite;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+/* サイコロボタン点滅アニメーション（落ち着いた色） */
+@keyframes dice-blink-slow {
+  0%, 100% { background: #224466; box-shadow: 0 0 8px 2px #88ccee; }
+  50% { background: #224466; box-shadow: 0 0 8px 2px #88ccee; }
+}
+@keyframes dice-blink-fast {
+  0%, 100% { background: #224466; box-shadow: 0 0 8px 2px #88ccee; }
+  50% { background: #aaddff; box-shadow: 0 0 24px 6px #cceeff; }
+}
+.dice-blink-slow {
+  animation: dice-blink-slow 1s linear infinite;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.dice-blink-fast {
+  animation: dice-blink-fast 0.15s linear infinite;
+  transition: background 0.1s, box-shadow 0.1s;
+}
