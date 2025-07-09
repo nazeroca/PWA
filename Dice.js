@@ -63,7 +63,6 @@ function enableDiceSection() {
     diceButton.classList.remove('dice-blink-fast', 'dice-blink-slow', 'dice-waiting');
     diceButton.classList.add('dice-blink-slow');
   }
-  window.isDiceBlinking = true;
 
   // 2秒前で点滅を速くする
   if (blinkTimeout) clearTimeout(blinkTimeout);
@@ -122,12 +121,6 @@ function rollDice() {
   if (blinkTimeout) {
     clearTimeout(blinkTimeout);
     blinkTimeout = null;
-  }
-  // 点滅終了時にfloating-pattern-textを消す
-  if (typeof window.hideFloatingPatternText === 'function') {
-    window.hideFloatingPatternText();
-  } else {
-    window.isDiceBlinking = false;
   }
   if (isRolling || isGameActive || diceButton.classList.contains('dice-disabled')) return; // ゲーム中または無効化中は無効
   
