@@ -113,7 +113,7 @@ function initializeSugorokuBoard() {
             floating.style.display = 'block';
             setTimeout(() => floating.classList.add('show'), 10);
           }
-        }, 150); // アニメーション消去後に再表示
+        }, 100); // アニメーション消去後に再表示
       } else {
         // 内容セット＆表示
         if (pattern && pattern.desc) {
