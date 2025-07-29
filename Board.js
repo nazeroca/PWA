@@ -5,7 +5,7 @@ const passedGlowingLines = new Set(); // 通過済みの光る線を記録する
 function getBoardDimensions() {
   const container = document.getElementById('sugoroku-container');
   if (!container) {
-    // フォールバック値 - 420px基準でvh/vwに変換
+    // フォールバック値 - 420px基準 in vh/vwに変換
     return {
       squareSize: window.innerWidth * 0.095, // 約40px → 9.5vw
       squareGap: window.innerWidth * 0.048, // 約20px → 4.8vw
@@ -16,13 +16,13 @@ function getBoardDimensions() {
   const containerWidth = container.offsetWidth;
   const totalSquares = 7;
 
-  // マスのサイズを画面幅の割合で設定（vw単位）- もう少し大きく
+  // マスのサイズを画面幅の割合 in 設定（vw単位）- もう少し大きく
   const squareSize = window.innerWidth * 0.11; // 11vw（画面幅の11%）
 
-  // マス間の間隔を画面幅の割合で設定（vw単位）- 少し詰める
+  // マス間の間隔を画面幅の割合 in 設定（vw単位）- 少し詰める
   const squareGap = window.innerWidth * 0.025; // 2.5vw（画面幅の2.5%）
 
-  // 左右のマージンを計算（残りの幅を左右で分割）
+  // 左右のマージンを計算（残りの幅を左右 in 分割）
   const totalSquareWidth = squareSize * totalSquares;
   const totalGapWidth = squareGap * (totalSquares - 1);
   const totalUsedWidth = totalSquareWidth + totalGapWidth;
@@ -45,9 +45,9 @@ function calculateCenterPosition() {
   const container = document.getElementById('sugoroku-container');
   const board = document.getElementById('sugoroku-board');
 
-  if (!container || !board) return 50; // フォールバック
+  if (!container  ||  !board) return 50; // フォールバック
 
-  // DOM要素が準備できるまで少し待つ
+  // DOM要素が準備 in きるま in 少し待つ
   if (boardSquares.length === 0) return 50;
 
   // 最初のマスの実際の位置を取得
@@ -57,7 +57,7 @@ function calculateCenterPosition() {
   const containerRect = container.getBoundingClientRect();
   const squareRect = firstSquare.getBoundingClientRect();
 
-  // コンテナ相対での最初のマスの中央位置
+  // コンテナ相対 in の最初のマスの中央位置
   const relativeCenterX = (squareRect.left - containerRect.left) + (squareRect.width / 2);
 
 
@@ -149,7 +149,7 @@ function updateGlowingLinePosition() {
 
   targetPositions.forEach(pos => {
     const glowingLine = document.getElementById(`glowing-line-${pos}`);
-    if (!glowingLine || passedGlowingLines.has(pos)) {
+    if (!glowingLine  ||  passedGlowingLines.has(pos)) {
       if (glowingLine) glowingLine.style.opacity = '0';
       return;
     }
@@ -184,10 +184,10 @@ function selectWeightedRandom(weights) {
   // 重みの合計を計算
   const totalWeight = Object.values(weights).reduce((sum, weight) => sum + weight, 0);
 
-  // 0から合計重みまでの乱数を生成
+  // 0から合計重みま in の乱数を生成
   const random = getSecureRandom() * totalWeight;
 
-  // 累積重みで抽選
+  // 累積重み in 抽選
   let currentWeight = 0;
   for (const [item, weight] of Object.entries(weights)) {
     currentWeight += weight;
@@ -276,7 +276,7 @@ function movePiece(steps) {
                   if (typeof BUGS !== 'undefined') {
                     Object.keys(BUGS).forEach(key => {
                       const bug = BUGS[key];
-                      if (!currentBug || bug !== currentBug) {
+                      if (!currentBug  ||  bug !== currentBug) {
                         bugCandidates.push({
                           params: [key],
                           desc: `${bug.description}`
@@ -319,7 +319,7 @@ function movePiece(steps) {
             }
           }).catch(error => {
             console.error('バグ処理エラー:', error);
-            // エラーが発生した場合でも通常処理を続行
+            // エラーが発生した場合 in も通常処理を続行
           });
         }, 500);
       }, 300);
@@ -342,19 +342,19 @@ function movePiece(steps) {
         if (pos === 25) {
           whitePatterns.push(...whitePatterns25);
           blackPatterns.push(...blackPatterns25);
-          // 必要であれば、コンソールにログを出して確認
+          // 必要 in あれば、コンソールにログを出して確認
           // console.log('Updated whitePatterns:', whitePatterns);
         }
         if (pos === 50) {
           whitePatterns.push(...whitePatterns50);
           blackPatterns.push(...blackPatterns50);
-          // 必要であれば、コンソールにログを出して確認
+          // 必要 in あれば、コンソールにログを出して確認
           // console.log('Updated whitePatterns:', whitePatterns);
         }
         if (pos === 75) {
           whitePatterns.push(...whitePatterns75);
           blackPatterns.push(...blackPatterns75);
-          // 必要であれば、コンソールにログを出して確認
+          // 必要 in あれば、コンソールにログを出して確認
           // console.log('Updated whitePatterns:', whitePatterns);
         }
       }
@@ -373,7 +373,7 @@ function movePiece(steps) {
       const containerRect = container.getBoundingClientRect();
       const squareRect = targetSquare.getBoundingClientRect();
 
-      // コンテナ相対での目標マスの中央位置
+      // コンテナ相対 in の目標マスの中央位置
       const newLeft = (squareRect.left - containerRect.left) + (squareRect.width / 2);
       piece.style.left = newLeft + 'px';
 
@@ -395,7 +395,7 @@ function handleDiceResult(diceValue) {
   movePiece(diceValue);
 }
 
-// ノーツ内容配列をグローバルで管理
+// ノーツ内容配列をグローバル in 管理
 let notePatternSequence = [];
 
 // 色ごとにノーツパターンを返す関数
@@ -418,110 +418,110 @@ function getRandomNotePattern(color) {
 
 const whitePatterns = [
 
-  { params: [4000, 25], desc: "4秒で25回" },
-  { params: [4000, 15], desc: "4秒で15回" },
-  { params: [3500, 20], desc: "3.5秒で20回" },
-  { params: [3000, 30], desc: "3秒で30回" },
-  { params: [3000, 20], desc: "3秒で20回" },
-  { params: [2500, 25], desc: "2.5秒で25回" },
-  { params: [2000, 20], desc: "2秒で20回" }
+  { params: [4000, 25], desc: "4sec in 25X" },
+  { params: [4000, 15], desc: "4sec in 15X" },
+  { params: [3500, 20], desc: "3.5sec in 20X" },
+  { params: [3000, 30], desc: "3sec in 30X" },
+  { params: [3000, 20], desc: "3sec in 20X" },
+  { params: [2500, 25], desc: "2.5sec in 25X" },
+  { params: [2000, 20], desc: "2sec in 20X" }
 
 ];
 
 const whitePatterns25 = [
-  { params: [2500, 30], desc: "2.5秒で30回" },
-  { params: [2000, 15], desc: "2秒で15回" },
-  { params: [1500, 20], desc: "1.5秒で20回" }
+  { params: [2500, 30], desc: "2.5sec in 30X" },
+  { params: [2000, 15], desc: "2sec in 15X" },
+  { params: [1500, 20], desc: "1.5sec in 20X" }
 ];
 
 const whitePatterns50 = [
-  { params: [10000, 10], desc: "10秒で10回" },
-  { params: [1000, 20], desc: "1秒で20回" },
-  { params: [700, 12], desc: "0.7秒で5回" }
+  { params: [10000, 10], desc: "10sec in 10X" },
+  { params: [1000, 20], desc: "1sec in 20X" },
+  { params: [700, 12], desc: "0.7sec in 5X" }
 ];
 
 const whitePatterns75 = [
-  { params: [1300, 15], desc: "1.3秒で15回" },
-  { params: [1000, 10], desc: "1秒で10回" },
-  { params: [1000, 20], desc: "1秒で20回" }
+  { params: [1300, 15], desc: "1.3sec in 15X" },
+  { params: [1000, 10], desc: "1sec in 10X" },
+  { params: [1000, 20], desc: "1sec in 20X" }
 ];
 
 const yellowPatterns = [
-  { params: [1000, 1, 0.2, 700, 30], desc: "20%0.7秒30回" },
-  { params: [1000, 1, 0.5, 1500, 60], desc: "50%1.5秒60回" },
-  { params: [1000, 1, 0.3, 2000, 45], desc: "30%2秒45回" },
-  { params: [1000, 1, 0.05, 500, 50], desc: "5%0.5秒50回" },
-  { params: [3000, 15, 0.03, 1000, 30], desc: "3秒15回||3%1秒30回" },
-  { params: [3000, 20, 0.05, 500, 10], desc: "3秒20回||5%0.5秒10回" },
-  { params: [3000, 20, 0.2, 1000, 5], desc: "3秒20回||20%1秒5回" },
-  { params: [2000, 12, 0.1, 1000, 5], desc: "2秒12回||10%1秒5回" },
-  { params: [4000, 15, 0.5, 2000, 3], desc: "4秒15回||50%2秒3回" },
-  { params: [4000, 20, 0.1, 1000, 5], desc: "4秒20回||10%1秒5回" },
-  { params: [4000, 25, 0.05, 1000, 20], desc: "4秒25回||5%1秒20回" },
-  { params: [5000, 4, 0.75, 1000, 30], desc: "5秒4回||75%1秒30回" },
-  { params: [1000, 40, 0.03, 5000, 1], desc: "1秒40回||3%5秒休み" },
-  { params: [500, 50, 0.07, 3000, 1], desc: "0.5秒50回||7%3秒休み" },
-  { params: [1200, 70, 0.03, 5000, 1], desc: "1.2秒70回||3%5秒休み" },
-  { params: [700, 30, 0.05, 7000, 1], desc: "0.7秒30回||5%7秒休み" }
+  { params: [1000, 1, 0.2, 700, 30], desc: "20%0.7sec30X" },
+  { params: [1000, 1, 0.5, 1500, 60], desc: "50%1.5sec60X" },
+  { params: [1000, 1, 0.3, 2000, 45], desc: "30%2sec45X" },
+  { params: [1000, 1, 0.05, 500, 50], desc: "5%0.5sec50X" },
+  { params: [3000, 15, 0.03, 1000, 30], desc: "3sec15X || 3%1sec30X" },
+  { params: [3000, 20, 0.05, 500, 10], desc: "3sec20X || 5%0.5sec10X" },
+  { params: [3000, 20, 0.2, 1000, 5], desc: "3sec20X || 20%1sec5X" },
+  { params: [2000, 12, 0.1, 1000, 5], desc: "2sec12X || 10%1sec5X" },
+  { params: [4000, 15, 0.5, 2000, 3], desc: "4sec15X || 50%2sec3X" },
+  { params: [4000, 20, 0.1, 1000, 5], desc: "4sec20X || 10%1sec5X" },
+  { params: [4000, 25, 0.05, 1000, 20], desc: "4sec25X || 5%1sec20X" },
+  { params: [5000, 4, 0.75, 1000, 30], desc: "5sec4X || 75%1sec30X" },
+  { params: [1000, 40, 0.03, 5000, 1], desc: "1sec40X || 3%5sec休み" },
+  { params: [500, 50, 0.07, 3000, 1], desc: "0.5sec50X || 7%3sec休み" },
+  { params: [1200, 70, 0.03, 5000, 1], desc: "1.2sec70X || 3%5sec休み" },
+  { params: [700, 30, 0.05, 7000, 1], desc: "0.7sec30X || 5%7sec休み" }
 ];
 
 const redPatterns = [
-  { params: [3000, 1000, 2, 20, 0], desc: "3秒⇒1秒20回" },
-  { params: [2000, 500, 1.2, 30, 0], desc: "2秒⇒0.5秒30回" },
-  { params: [5000, 1000, 2, 40, 0], desc: "5秒⇒1秒40回" },
-  { params: [4000, 500, 2.5, 32, 0], desc: "4秒⇒0.5秒32回" },
-  { params: [500, 4000, 0.8, 35, 0], desc: "0.5秒⇒4秒35回" },
-  { params: [1000, 4000, 0.6, 40, 0], desc: "1秒⇒4秒40回" },
-  { params: [4000, 1000, 2, 25, 10], desc: "4秒⇒1秒25回＋10回" },
-  { params: [5000, 1000, 1.5, 30, 10], desc: "5秒⇒1秒30回＋10回" },
-  { params: [4000, 1000, 1, 25, 20], desc: "4秒⇒1秒25回＋20回" },
-  { params: [3000, 700, 2, 25, 10], desc: "3秒⇒0.7秒25回＋10回" },
-  { params: [4000, 800, 3, 20, 10], desc: "4秒⇒0.8秒20回＋10回" }
+  { params: [3000, 1000, 2, 20, 0], desc: "3sec ⇒ 1sec20X" },
+  { params: [2000, 500, 1.2, 30, 0], desc: "2sec ⇒ 0.5sec30X" },
+  { params: [5000, 1000, 2, 40, 0], desc: "5sec ⇒ 1sec40X" },
+  { params: [4000, 500, 2.5, 32, 0], desc: "4sec ⇒ 0.5sec32X" },
+  { params: [500, 4000, 0.8, 35, 0], desc: "0.5sec ⇒ 4sec35X" },
+  { params: [1000, 4000, 0.6, 40, 0], desc: "1sec ⇒ 4sec40X" },
+  { params: [4000, 1000, 2, 25, 10], desc: "4sec ⇒ 1sec25X＋10X" },
+  { params: [5000, 1000, 1.5, 30, 10], desc: "5sec ⇒ 1sec30X＋10X" },
+  { params: [4000, 1000, 1, 25, 20], desc: "4sec ⇒ 1sec25X＋20X" },
+  { params: [3000, 700, 2, 25, 10], desc: "3sec ⇒ 0.7sec25X＋10X" },
+  { params: [4000, 800, 3, 20, 10], desc: "4sec ⇒ 0.8sec20X＋10X" }
 ];
 
 const bluePatterns = [
-  { params: [500, 1000, 10, 1], desc: "0.5秒～1秒10回" },
-  { params: [500, 2000, 20, 1], desc: "0.5秒～2秒20回" },
-  { params: [500, 2500, 25, 1], desc: "0.5秒～2.5秒25回" },
-  { params: [500, 3000, 30, 1], desc: "0.5秒～3秒30回" },
-  { params: [500, 3500, 35, 1], desc: "0.5秒～3秒35回" },
-  { params: [500, 4000, 40, 1], desc: "0.5秒～4秒40回" },
-  { params: [1000, 5000, 40, 2], desc: "1秒＞5秒40回" },
-  { params: [1000, 4000, 35, 2], desc: "1秒＞4秒35回" },
-  { params: [1000, 3000, 30, 2], desc: "1秒＞3秒30回" },
-  { params: [500, 5000, 30, 2], desc: "0.5秒＞5秒30回" },
-  { params: [500, 4000, 27, 2], desc: "0.5秒＞4秒27回" },
-  { params: [500, 3000, 25, 2], desc: "0.5秒＞3秒25回" },
-  { params: [500, 2000, 20, 2], desc: "0.5秒＞2秒20回" }
+  { params: [500, 1000, 10, 1], desc: "0.5sec ～ 1sec10X" },
+  { params: [500, 2000, 20, 1], desc: "0.5sec ～ 2sec20X" },
+  { params: [500, 2500, 25, 1], desc: "0.5sec ～ 2.5sec25X" },
+  { params: [500, 3000, 30, 1], desc: "0.5sec ～ 3sec30X" },
+  { params: [500, 3500, 35, 1], desc: "0.5sec ～ 3sec35X" },
+  { params: [500, 4000, 40, 1], desc: "0.5sec ～ 4sec40X" },
+  { params: [1000, 5000, 40, 2], desc: "1sec ＞ 5sec40X" },
+  { params: [1000, 4000, 35, 2], desc: "1sec ＞ 4sec35X" },
+  { params: [1000, 3000, 30, 2], desc: "1sec ＞ 3sec30X" },
+  { params: [500, 5000, 30, 2], desc: "0.5sec ＞ 5sec30X" },
+  { params: [500, 4000, 27, 2], desc: "0.5sec ＞ 4sec27X" },
+  { params: [500, 3000, 25, 2], desc: "0.5sec ＞ 3sec25X" },
+  { params: [500, 2000, 20, 2], desc: "0.5sec ＞ 2sec20X" }
 ];
 
 const greenPatterns = [
-  { params: [4000, 1000, 5, 10, 2], desc: "4秒5回⇔1秒10回×3" },
-  { params: [2000, 1500, 5, 5, 3], desc: "2秒5回⇔1.5秒5回×3" },
-  { params: [2000, 1000, 6, 2, 4], desc: "2秒6回⇔1秒2回×4" },
-  { params: [4000, 1000, 3, 7, 5], desc: "4秒3回⇔1秒7回×5" },
-  { params: [3000, 700, 2, 2, 10], desc: "3秒2回⇔0.7秒2回×10" },
-  { params: [4000, 1200, 3, 10, 6], desc: "4秒3回⇔1.2秒10回×6" },
-  { params: [5000, 2000, 2, 8, 7], desc: "5秒2回⇔2秒8回×7" },
-  { params: [1500, 5000, 9, 1, 5], desc: "1.5秒10回⇔5秒休み×5" },
-  { params: [800, 10000, 14, 1, 3], desc: "0.8秒15回⇔10秒休み×3" },
-  { params: [2000, 10000, 29, 1, 2], desc: "2秒30回⇔10秒休み×2" },
-  { params: [700, 3000, 6, 1, 7], desc: "0.7秒7回⇔3秒休み×7" },
-  { params: [700, 2000, 2, 1, 15], desc: "0.7秒3回⇔2秒休み×15" }
+  { params: [4000, 1000, 5, 10, 2], desc: "4sec5X ⇔ 1sec10X×3" },
+  { params: [2000, 1500, 5, 5, 3], desc: "2sec5X ⇔ 1.5sec5X×3" },
+  { params: [2000, 1000, 6, 2, 4], desc: "2sec6X ⇔ 1sec2X×4" },
+  { params: [4000, 1000, 3, 7, 5], desc: "4sec3X ⇔ 1sec7X×5" },
+  { params: [3000, 700, 2, 2, 10], desc: "3sec2X ⇔ 0.7sec2X×10" },
+  { params: [4000, 1200, 3, 10, 6], desc: "4sec3X ⇔ 1.2sec10X×6" },
+  { params: [5000, 2000, 2, 8, 7], desc: "5sec2X ⇔ 2sec8X×7" },
+  { params: [1500, 5000, 9, 1, 5], desc: "1.5sec10X ⇔ 5sec休み×5" },
+  { params: [800, 10000, 14, 1, 3], desc: "0.8sec15X ⇔ 10sec休み×3" },
+  { params: [2000, 10000, 29, 1, 2], desc: "2sec30X ⇔ 10sec休み×2" },
+  { params: [700, 3000, 6, 1, 7], desc: "0.7sec7X ⇔ 3sec休み×7" },
+  { params: [700, 2000, 2, 1, 15], desc: "0.7sec3X ⇔ 2sec休み×15" }
 ];
 
 const blackPatterns = [
-  { params: [1000, 50], desc: "1秒で50回" }
+  { params: [1000, 50], desc: "1sec in 50X" }
 ];
 
 const blackPatterns25 = [
-  { params: [2500, 30], desc: "0.9秒で30回" }
+  { params: [2500, 30], desc: "0.9sec in 30X" }
 ];
 
 const blackPatterns50 = [
-  { params: [10000, 10], desc: "0.8秒で10回" }
+  { params: [10000, 10], desc: "0.8sec in 10X" }
 ];
 
 const blackPatterns75 = [
-  { params: [700, 50], desc: "0.7秒で50回" }
+  { params: [700, 50], desc: "0.7sec in 50X" }
 ];
