@@ -1831,3 +1831,53 @@
   opacity: 1;
   filter: blur(0);
 }
+
+/* 光る黄色い線 */
+.glowing-line {
+  position: absolute;
+  width: 4px;
+  height: 80%;
+  top: 10%;
+  background-color: #FFFF00;
+  border-radius: 2px;
+  box-shadow: 0 0 5px #FFFF00, 0 0 10px #FFFF00, 0 0 15px #FFFF00, 0 0 20px #FFD700;
+  z-index: 5;
+  transition: opacity 0.5s ease, left 0.5s ease;
+  opacity: 0; /* 初期状態は非表示 */
+  pointer-events: none; /* クリックイベントを透過させる */
+  animation: glowing-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes glowing-pulse {
+  0% {
+    box-shadow: 0 0 5px #FFFF00, 0 0 10px #FFFF00, 0 0 15px #FFFF00, 0 0 20px #FFD700;
+  }
+  50% {
+    box-shadow: 0 0 10px #FFFF00, 0 0 20px #FFFF00, 0 0 30px #FFFF00, 0 0 40px #FFD700;
+  }
+  100% {
+    box-shadow: 0 0 5px #FFFF00, 0 0 10px #FFFF00, 0 0 15px #FFFF00, 0 0 20px #FFD700;
+  }
+}
+
+.glowing-line.disappearing {
+  animation: shatter-effect 0.5s ease-out forwards;
+}
+
+@keyframes shatter-effect {
+  0% {
+    opacity: 1;
+    transform: scaleY(1);
+    box-shadow: 0 0 10px #FFFF00, 0 0 20px #FFFF00, 0 0 30px #FFFF00, 0 0 40px #FFD700;
+  }
+  20% {
+    opacity: 1;
+    transform: scaleY(1.2) scaleX(1.5);
+     box-shadow: 0 0 20px #FFFFFF, 0 0 40px #FFFFFF, 0 0 60px #FFFFFF, 0 0 80px #FFFFFF;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0) scaleX(2);
+    box-shadow: none;
+  }
+}
