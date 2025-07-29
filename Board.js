@@ -459,10 +459,10 @@ const yellowPatterns = [
   { params: [4000, 20, 0.1, 1000, 5], desc: "4sec20X || 10%1sec5X" },
   { params: [4000, 25, 0.05, 1000, 20], desc: "4sec25X || 5%1sec20X" },
   { params: [5000, 4, 0.75, 1000, 30], desc: "5sec4X || 75%1sec30X" },
-  { params: [1000, 40, 0.03, 5000, 1], desc: "1sec40X || 3%5sec休み" },
-  { params: [500, 50, 0.07, 3000, 1], desc: "0.5sec50X || 7%3sec休み" },
-  { params: [1200, 70, 0.03, 5000, 1], desc: "1.2sec70X || 3%5sec休み" },
-  { params: [700, 30, 0.05, 7000, 1], desc: "0.7sec30X || 5%7sec休み" }
+  { params: [1000, 40, 0.03, 5000, 1], desc: "1sec40X || 3%5secBreak" },
+  { params: [500, 50, 0.07, 3000, 1], desc: "0.5sec50X || 7%3secBreak" },
+  { params: [1200, 70, 0.03, 5000, 1], desc: "1.2sec70X || 3%5secBreak" },
+  { params: [700, 30, 0.05, 7000, 1], desc: "0.7sec30X || 5%7secBreak" }
 ];
 
 const redPatterns = [
@@ -503,11 +503,11 @@ const greenPatterns = [
   { params: [3000, 700, 2, 2, 10], desc: "3sec2X ⇔ 0.7sec2X×10" },
   { params: [4000, 1200, 3, 10, 6], desc: "4sec3X ⇔ 1.2sec10X×6" },
   { params: [5000, 2000, 2, 8, 7], desc: "5sec2X ⇔ 2sec8X×7" },
-  { params: [1500, 5000, 9, 1, 5], desc: "1.5sec10X ⇔ 5sec休み×5" },
-  { params: [800, 10000, 14, 1, 3], desc: "0.8sec15X ⇔ 10sec休み×3" },
-  { params: [2000, 10000, 29, 1, 2], desc: "2sec30X ⇔ 10sec休み×2" },
-  { params: [700, 3000, 6, 1, 7], desc: "0.7sec7X ⇔ 3sec休み×7" },
-  { params: [700, 2000, 2, 1, 15], desc: "0.7sec3X ⇔ 2sec休み×15" }
+  { params: [1500, 5000, 9, 1, 5], desc: "1.5sec10X ⇔ 5secBreak×5" },
+  { params: [800, 10000, 14, 1, 3], desc: "0.8sec15X ⇔ 10secBreak×3" },
+  { params: [2000, 10000, 29, 1, 2], desc: "2sec30X ⇔ 10secBreak×2" },
+  { params: [700, 3000, 6, 1, 7], desc: "0.7sec7X ⇔ 3secBreak×7" },
+  { params: [700, 2000, 2, 1, 15], desc: "0.7sec3X ⇔ 2secBreak×15" }
 ];
 
 const blackPatterns = [
