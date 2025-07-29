@@ -192,7 +192,16 @@ function updateSystemTimer() {
 
   const timerElement = document.getElementById('system-timer');
   if (timerElement) {
+    // テキストは常に更新
     timerElement.textContent = formattedTime;
+
+    // 1分ごと（秒数が0の時）にアニメーションを実行（ただし開始時を除く）
+    if (seconds === 0 && elapsed > 0) {
+      timerElement.classList.add('updated');
+      setTimeout(() => {
+        timerElement.classList.remove('updated');
+      }, 500);
+    }
   }
 }
 
@@ -211,7 +220,15 @@ function updateDataStream(position, color) {
   const positionInfo = document.getElementById('position-info');
   
   if (positionInfo) {
-    positionInfo.textContent = position.toString().padStart(3, '0');
+    const newPositionText = position.toString().padStart(3, '0');
+    if (positionInfo.textContent !== newPositionText) {
+      positionInfo.textContent = newPositionText;
+      // アニメーションクラスを追加
+      positionInfo.classList.add('updated');
+      setTimeout(() => {
+        positionInfo.classList.remove('updated');
+      }, 500);
+    }
   }
 }
 

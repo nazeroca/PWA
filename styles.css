@@ -1772,13 +1772,19 @@
     0 0 3vh rgba(255, 255, 0, 0.3);
 }
 
-/* ヒットカウンターの更新アニメーション */
+/* 各カウンターの更新アニメーション */
 .hits-value.updated {
-  animation: hit-flash 0.5s ease-out;
+  animation: hit-flash-yellow 0.5s ease-out;
+}
+.timer-value.updated {
+  animation: hit-flash-cyan 0.5s ease-out;
+}
+.position-value.updated {
+  animation: hit-flash-green 0.5s ease-out;
 }
 
-@keyframes hit-flash {
-  0% {
+@keyframes hit-flash-yellow {
+  0%, 100% {
     transform: scale(1);
     text-shadow: 
       0 0 1vh rgba(255, 255, 0, 1),
@@ -1788,19 +1794,45 @@
   50% {
     transform: scale(1.2);
     text-shadow: 
+      0 0 1.5vh rgba(255, 255, 255, 1),
       0 0 3vh rgba(255, 255, 0, 1),
-      0 0 6vh rgba(255, 255, 0, 0.8),
-      0 0 9vh rgba(255, 255, 0, 0.5);
-  }
-  100% {
-    transform: scale(1);
-    text-shadow: 
-      0 0 1vh rgba(255, 255, 0, 1),
-      0 0 2vh rgba(255, 255, 0, 0.6),
-      0 0 3vh rgba(255, 255, 0, 0.3);
+      0 0 5vh rgba(255, 255, 0, 0.7);
   }
 }
 
+@keyframes hit-flash-cyan {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 
+      0 0 1vh rgba(0, 255, 255, 1),
+      0 0 2vh rgba(0, 255, 255, 0.6),
+      0 0 3vh rgba(0, 255, 255, 0.3);
+  }
+  50% {
+    transform: scale(1.2);
+    text-shadow: 
+      0 0 1.5vh rgba(255, 255, 255, 1),
+      0 0 3vh rgba(0, 255, 255, 1),
+      0 0 5vh rgba(0, 255, 255, 0.7);
+  }
+}
+
+@keyframes hit-flash-green {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 
+      0 0 1vh rgba(0, 255, 0, 1),
+      0 0 2vh rgba(0, 255, 0, 0.6),
+      0 0 3vh rgba(0, 255, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.2);
+    text-shadow: 
+      0 0 1.5vh rgba(255, 255, 255, 1),
+      0 0 3vh rgba(0, 255, 0, 1),
+      0 0 5vh rgba(0, 255, 0, 0.7);
+  }
+}
 /* レスポンシブ対応 - 縦画面用に削除 */
 /* 基本的に縦画面での表示に最適化済み */
 
