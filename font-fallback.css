@@ -1,0 +1,29 @@
+/* フォントフォールバック設定 */
+
+/* フォントの読み込み確認とフォールバック設定 */
+:root {
+  /* システムフォントのフォールバック */
+  --japanese-font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif;
+  --monospace-font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  --display-font-family: 'Orbitron', 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* フォント読み込み待機中のスタイル調整 */
+.font-loading body {
+  visibility: hidden;
+}
+
+.font-loaded body {
+  visibility: visible;
+}
+
+/* フォント読み込み完了後のアニメーション */
+@keyframes fontLoadFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.font-loaded .event-text,
+.font-loaded .pattern-text {
+  animation: fontLoadFade 0.3s ease-in;
+}

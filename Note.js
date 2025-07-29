@@ -281,14 +281,14 @@ function startStopCountdown(buttonElement) {
     text-shadow: 0 0 2.86vh rgba(0, 255, 255, 0.8);
     z-index: 1000;
     pointer-events: none;
-    font-family: 'Courier New', monospace;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
     display: flex;
     align-items: center;
     justify-content: center;
   `;
   buttonElement.appendChild(countdownElement);
   
-  let countdown = 15;
+  let countdown = 20;
   countdownElement.textContent = countdown;
   
 

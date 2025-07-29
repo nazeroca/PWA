@@ -1,7 +1,7 @@
 @import url('hover-float.css');
 
 .event-text {
-  font-family: 'Hiragino Sans', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif;
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif;
   font-size: 4vh; /* 28pxから4vhに変更 */
   font-weight: bold;
   color: #00FFFF;
@@ -82,7 +82,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 4.6vh; /* 2emから4.6vhに変更 */
   font-weight: bold;
   color: #FFFF00;
@@ -301,7 +301,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 6.9vh; /* 3emから6.9vhに変更 */
   font-weight: bold;
   text-align: center;
@@ -475,7 +475,7 @@
   text-shadow: 
     0 0 5px rgba(0, 255, 255, 0.5),
     0 0 10px rgba(0, 255, 255, 0.3);
-  font-family: 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: bold;
   transition: all 0.3s ease;
   user-select: none; /* テキスト選択を無効化 */
@@ -930,7 +930,7 @@
 /* 旧スタイル削除 - システムタイマーとデータストリーム情報は統合されました */
 
 .stream-line {
-  font-family: 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 2.3vh; /* 1.0emから2.3vhに変更 */
   font-weight: bold;
   color: #00FFFF;
@@ -1058,7 +1058,7 @@
   color: #00FFFF;
   text-shadow: 
     0 0 5px rgba(0, 255, 255, 0.8);
-  font-family: 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: bold;
   letter-spacing: 1px;
   transition: all 0.3s ease;
@@ -1651,7 +1651,7 @@
 .timer-label,
 .position-label,
 .hits-label {
-  font-family: 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 4vh;
   font-weight: bold;
   color: #00FFFF;
@@ -1666,7 +1666,7 @@
 .timer-value,
 .position-value,
 .hits-value {
-  font-family: 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 4vh;
   font-weight: bold;
   color: #FFFFFF;

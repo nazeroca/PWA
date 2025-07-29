@@ -26,7 +26,7 @@ function startGameCountdown(gameFunction, ...args) {
     text-shadow: 0 0 4.29vh rgba(255, 68, 68, 0.8);
     z-index: 1000;
     pointer-events: none;
-    font-family: 'Courier New', monospace;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
     max-width: 90%;
     max-height: 90%;
     display: flex;

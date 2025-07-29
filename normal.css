@@ -6,7 +6,7 @@ body {
   height: 100%;
   background-color: #000;
   color: #00FFFF;
-  font-family: 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -157,7 +157,7 @@ body {
 }
 
 .pattern-text {
-  font-family: 'Hiragino Sans', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif;
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', 'MS Gothic', 'Yu Gothic', sans-serif;
   font-size: 4vh; /* 28pxから4vhに変更 */
   font-weight: bold;
   color: #00FFFF;

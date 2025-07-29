@@ -11,7 +11,10 @@ var urlsToCache = [
     './board-random.js',
     './main.js',
     './bug-system.js',
-    './styles.css'
+    './styles.css',
+    './normal.css',
+    './font-fallback.css',
+    './font-manager.js'
 ];
 
 
@@ -28,11 +31,31 @@ self.addEventListener('install', function(event) {
 
 // リソースフェッチ時のキャッシュロード処理
 self.addEventListener('fetch', function(event) {
-    event.respondWith(
-        caches
-            .match(event.request)
-            .then(function(response) {
-                return response || fetch(event.request);
+    // Google Fonts のリクエストを検出
+    if (event.request.url.indexOf('fonts.googleapis.com') !== -1 || 
+        event.request.url.indexOf('fonts.gstatic.com') !== -1) {
+        event.respondWith(
+            caches.open('fonts-cache').then(function(cache) {
+                return cache.match(event.request).then(function(response) {
+                    if (response) {
+                        return response;
+                    }
+                    return fetch(event.request).then(function(response) {
+                        if (response.status === 200) {
+                            cache.put(event.request, response.clone());
+                        }
+                        return response;
+                    });
+                });
             })
-    );
+        );
+    } else {
+        event.respondWith(
+            caches
+                .match(event.request)
+                .then(function(response) {
+                    return response || fetch(event.request);
+                })
+        );
+    }
 });

@@ -5,8 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="manifest" href="manifest.json">
   <title>SSD - ランダム盤面</title>
+  
+  <!-- Web フォントの読み込み -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- 最も重要なフォントを優先的に読み込み -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="normal.css">
+  <link rel="stylesheet" href="font-fallback.css">
   <link rel="icon" href="data:,">
 </head>
 
@@ -131,6 +141,7 @@
    <script src="Dice.js"></script>
      <script src="Note.js"></script>
       <script src="Text.js"></script>
+  <script src="font-manager.js"></script>
   <script src="bug-system.js"></script>
   <script src="main.js"></script>
   <!-- ランダム盤面モード読み込み -->
