@@ -246,31 +246,31 @@ function movePiece(steps) {
               // 色別のノーツ流し
               switch (currentColor) {
                 case 'red':
-                  updatestionBackground('red');
+                  updateSectionBackground('red');
                   showPatternRoulette(notePattern.desc, () => {
                     startGameCountdown(startGameA, ...notePattern.params);
                   }, redPatterns);
                   break;
                 case 'blue':
-                  updatestionBackground('blue');
+                  updateSectionBackground('blue');
                   showPatternRoulette(notePattern.desc, () => {
                     startGameCountdown(startGameR, ...notePattern.params);
                   }, bluePatterns);
                   break;
                 case 'green':
-                  updatestionBackground('green');
+                  updateSectionBackground('green');
                   showPatternRoulette(notePattern.desc, () => {
                     startGameCountdown(startGameT2, ...notePattern.params);
                   }, greenPatterns);
                   break;
                 case 'yellow':
-                  updatestionBackground('yellow');
+                  updateSectionBackground('yellow');
                   showPatternRoulette(notePattern.desc, () => {
                     startGameCountdown(startGameP, ...notePattern.params);
                   }, yellowPatterns);
                   break;
                 case 'purple':
-                  updatestionBackground('purple');
+                  updateSectionBackground('purple');
                   // バグの候補配列を作成
                   const bugCandidates = [];
                   if (typeof BUGS !== 'undefined') {
@@ -298,13 +298,13 @@ function movePiece(steps) {
                       applyBug();
                     }
                     setTimeout(() => {
-                      updatestionBackground('white');
+                      updateSectionBackground('white');
                       enableDicestion();
                     }, 1000);
                   }, bugCandidates);
                   break;
                 case 'black':
-                  updatestionBackground('black');
+                  updateSectionBackground('black');
                   showPatternRoulette(notePattern.desc, () => {
                     startGameCountdown(startGame, ...notePattern.params);
                   }, blackPatterns);
@@ -312,7 +312,7 @@ function movePiece(steps) {
               }
             } else {
               // 白マスまたは無色マス
-              updatestionBackground('white');
+              updateSectionBackground('white');
               showPatternRoulette(notePattern.desc, () => {
                 startGameCountdown(startGame, ...notePattern.params);
               }, whitePatterns);
