@@ -185,7 +185,7 @@ function selectWeightedRandom(weights) {
   const totalWeight = Object.values(weights).reduce((sum, weight) => sum + weight, 0);
 
   // 0から合計重みま in の乱数を生成
-  const random = getsureRandom() * totalWeight;
+  const random = getSecureRandom() * totalWeight;
 
   // 累積重み in 抽選
   let currentWeight = 0;
@@ -286,7 +286,7 @@ function movePiece(steps) {
                   }
                   let finalBugText = 'バグ発生';
                   if (bugCandidates.length > 0) {
-                    const selectedBug = bugCandidates[Math.floor(getsureRandom() * bugCandidates.length)];
+                    const selectedBug = bugCandidates[Math.floor(getSecureRandom() * bugCandidates.length)];
                     finalBugText = selectedBug.desc;
                   }
                   const patternText = document.getElementById('pattern-text');
@@ -401,18 +401,18 @@ let notePatternSequence = [];
 // 色ごとにノーツパターンを返す関数
 function getRandomNotePattern(color) {
   if (color === "red") {
-    return redPatterns[Math.floor(getsureRandom() * redPatterns.length)];
+    return redPatterns[Math.floor(getSecureRandom() * redPatterns.length)];
   } else if (color === "blue") {
-    return bluePatterns[Math.floor(getsureRandom() * bluePatterns.length)];
+    return bluePatterns[Math.floor(getSecureRandom() * bluePatterns.length)];
   } else if (color === "green") {
-    return greenPatterns[Math.floor(getsureRandom() * greenPatterns.length)];
+    return greenPatterns[Math.floor(getSecureRandom() * greenPatterns.length)];
   } else if (color === "yellow") {
-    return yellowPatterns[Math.floor(getsureRandom() * yellowPatterns.length)];
+    return yellowPatterns[Math.floor(getSecureRandom() * yellowPatterns.length)];
   } else if (color === "black") {
-    return blackPatterns[Math.floor(getsureRandom() * blackPatterns.length)];
+    return blackPatterns[Math.floor(getSecureRandom() * blackPatterns.length)];
   } else {
     // 白または無色
-    return whitePatterns[Math.floor(getsureRandom() * whitePatterns.length)];
+    return whitePatterns[Math.floor(getSecureRandom() * whitePatterns.length)];
   }
 }
 
