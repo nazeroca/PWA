@@ -6,7 +6,7 @@ function selectRandomColor() {
     red: 5,
     blue: 5,
     green: 5,
-    purple: 5,
+    purple: 4,
     yellow: 5
   };
   

@@ -15,11 +15,11 @@ const BUGS = {
     }
   },
   mutationBug: {
-    description: '黄マス停止時に1秒20個',
+    description: '紫マス停止時に1秒40個',
     triggerCondition: (color, diceResult) => color === 'purple',
     effect: {
       speed: 1000,
-      count: 20,
+      count: 40,
       type: 'normal'
     }
   },
@@ -50,11 +50,11 @@ const BUGS = {
     }
   },
   unluckyBug: {
-    description: '1の目で0.7秒10個',
+    description: '1の目で0.7秒15個',
     triggerCondition: (color, diceResult) => diceResult === 1,
     effect: {
       speed: 700,
-      count: 10,
+      count: 15,
       type: 'normal'
     }
   }

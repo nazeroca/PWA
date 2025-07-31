@@ -45,7 +45,7 @@ function calculateCenterPosition() {
   const container = document.getElementById('sugoroku-container');
   const board = document.getElementById('sugoroku-board');
 
-  if (!container  ||  !board) return 50; // フォールバック
+  if (!container || !board) return 50; // フォールバック
 
   // DOM要素が準備 in きるま in 少し待つ
   if (boardSquares.length === 0) return 50;
@@ -149,7 +149,7 @@ function updateGlowingLinePosition() {
 
   targetPositions.forEach(pos => {
     const glowingLine = document.getElementById(`glowing-line-${pos}`);
-    if (!glowingLine  ||  passedGlowingLines.has(pos)) {
+    if (!glowingLine || passedGlowingLines.has(pos)) {
       if (glowingLine) glowingLine.style.opacity = '0';
       return;
     }
@@ -276,7 +276,7 @@ function movePiece(steps) {
                   if (typeof BUGS !== 'undefined') {
                     Object.keys(BUGS).forEach(key => {
                       const bug = BUGS[key];
-                      if (!currentBug  ||  bug !== currentBug) {
+                      if (!currentBug || bug !== currentBug) {
                         bugCandidates.push({
                           params: [key],
                           desc: `${bug.description}`
@@ -299,7 +299,7 @@ function movePiece(steps) {
                     }
                     setTimeout(() => {
                       updateSectionBackground('white');
-                      enableDicestion();
+                      enableDiceSection();;
                     }, 1000);
                   }, bugCandidates);
                   break;
@@ -342,18 +342,30 @@ function movePiece(steps) {
         if (pos === 25) {
           whitePatterns.push(...whitePatterns25);
           blackPatterns.push(...blackPatterns25);
+          redPatterns.push(...redPatterns25);
+          bluePatterns.push(...bluePatterns25);
+          yellowPatterns.push(...yellowPatterns25);
+          greenPatterns.push(...greenPatterns25);
           // 必要 in あれば、コンソールにログを出して確認
           // console.log('Updated whitePatterns:', whitePatterns);
         }
         if (pos === 50) {
           whitePatterns.push(...whitePatterns50);
           blackPatterns.push(...blackPatterns50);
+          redPatterns.push(...redPatterns50);
+          bluePatterns.push(...bluePatterns50);
+          yellowPatterns.push(...yellowPatterns50);
+          greenPatterns.push(...greenPatterns50);
           // 必要 in あれば、コンソールにログを出して確認
           // console.log('Updated whitePatterns:', whitePatterns);
         }
         if (pos === 75) {
           whitePatterns.push(...whitePatterns75);
           blackPatterns.push(...blackPatterns75);
+          redPatterns.push(...redPatterns75);
+          bluePatterns.push(...bluePatterns75);
+          yellowPatterns.push(...yellowPatterns75);
+          greenPatterns.push(...greenPatterns75);
           // 必要 in あれば、コンソールにログを出して確認
           // console.log('Updated whitePatterns:', whitePatterns);
         }
@@ -417,111 +429,152 @@ function getRandomNotePattern(color) {
 }
 
 const whitePatterns = [
-
-  { params: [4000, 25], desc: "4s in 25X" },
-  { params: [4000, 15], desc: "4s in 15X" },
+  { params: [4000, 25], desc: "4.0s in 25X" },
+  { params: [4000, 15], desc: "4.0s in 15X" },
   { params: [3500, 20], desc: "3.5s in 20X" },
-  { params: [3000, 30], desc: "3s in 30X" },
-  { params: [3000, 20], desc: "3s in 20X" },
-  { params: [2500, 25], desc: "2.5s in 25X" },
-  { params: [2000, 20], desc: "2s in 20X" }
+  { params: [3000, 20], desc: "3.0s in 20X" },
+  { params: [2500, 20], desc: "2.5s in 20X" },
+  { params: [2000, 15], desc: "2.0s in 15X" },
+  { params: [1000, 10], desc: "1.0s in 10X" }
 
 ];
-
 const whitePatterns25 = [
-  { params: [2500, 30], desc: "2.5s in 30X" },
-  { params: [2000, 15], desc: "2s in 15X" },
-  { params: [1500, 20], desc: "1.5s in 20X" }
+  { params: [10000, 10], desc: "10.0s in 10X" },
+  { params: [2500, 27], desc: "2.5s in 27X" },
+  { params: [2000, 25], desc: "2s in 25X" },
+  { params: [3000, 30], desc: "3s in 30X" }
 ];
-
 const whitePatterns50 = [
-  { params: [10000, 10], desc: "10s in 10X" },
-  { params: [1000, 20], desc: "1s in 20X" },
-  { params: [700, 12], desc: "0.7s in 5X" }
+  { params: [1500, 30], desc: "1.5s in 30X" },
+  { params: [1000, 20], desc: "1.0s in 20X" },
+  { params: [800, 15], desc: "0.8s in 15X" }
 ];
-
 const whitePatterns75 = [
-  { params: [1300, 15], desc: "1.3s in 15X" },
-  { params: [1000, 10], desc: "1s in 10X" },
-  { params: [1000, 20], desc: "1s in 20X" }
+  { params: [1500, 40], desc: "1.5s in 40X" },
+  { params: [1000, 30], desc: "1.0s in 30X" },
+  { params: [700, 20], desc: "0.7s in 20X" }
 ];
 
 const yellowPatterns = [
-  { params: [1000, 1, 0.2, 700, 30], desc: "20% 0.7s 30X" },
-  { params: [1000, 1, 0.5, 1500, 60], desc: "50% 1.5s60X" },
-  { params: [1000, 1, 0.3, 2000, 45], desc: "30% 2s45X" },
+  { params: [1000, 1, 0.3, 2000, 45], desc: "30% 2.0s45X" },
   { params: [1000, 1, 0.05, 500, 50], desc: "5% 0.5s50X" },
-  { params: [3000, 15, 0.03, 1000, 30], desc: "3s15X || 3%1s30X" },
-  { params: [3000, 20, 0.05, 500, 10], desc: "3s20X || 5%0.5s10X" },
-  { params: [3000, 20, 0.2, 1000, 5], desc: "3s20X || 20%1s5X" },
-  { params: [2000, 12, 0.1, 1000, 5], desc: "2s12X || 10%1s5X" },
-  { params: [4000, 15, 0.5, 2000, 3], desc: "4s15X || 50%2s3X" },
-  { params: [4000, 20, 0.1, 1000, 5], desc: "4s20X || 10%1s5X" },
-  { params: [4000, 25, 0.05, 1000, 20], desc: "4s25X || 5%1s20X" },
-  { params: [5000, 4, 0.75, 1000, 30], desc: "5s4X || 75%1s30X" },
-  { params: [1000, 40, 0.03, 5000, 1], desc: "1s40X || 3%5sBreak" },
-  { params: [500, 50, 0.07, 3000, 1], desc: "0.5s50X || 7%3sBreak" },
-  { params: [1200, 70, 0.03, 5000, 1], desc: "1.2s70X || 3%5sBreak" },
-  { params: [700, 30, 0.05, 7000, 1], desc: "0.7s30X || 5%7sBreak" }
+  { params: [3000, 20, 0.05, 500, 10], desc: "3.0s20X || 5%0.5s10X" },
+  { params: [3000, 20, 0.2, 1000, 5], desc: "3.0s20X || 20%1.0s5X" },
+  { params: [4000, 15, 0.5, 2000, 3], desc: "4.0s15X || 50%2.0s3X" },
+  { params: [4000, 20, 0.1, 1000, 5], desc: "4.0s20X || 10%1.0s5X" },
+  { params: [4000, 25, 0.05, 1000, 15], desc: "4.0s25X || 5%1.0s15X" },
+  { params: [1800, 40, 0.05, 7000, 1], desc: "1.8s40X || 5%7.0sBreak" },
 ];
+
+const yellowPatterns25 = [
+  { params: [2000, 12, 0.1, 1000, 5], desc: "2.0s12X || 10%1.0s5X" },
+  { params: [1000, 1, 0.2, 700, 30], desc: "20% 0.7s 30X" },
+  { params: [700, 30, 0.05, 7000, 1], desc: "0.7s30X || 5%7.0sBreak" }
+];
+const yellowPatterns50 = [
+  { params: [3000, 15, 0.04, 1000, 30], desc: "3.0s15X || 4%1.0s30X" },
+  { params: [1000, 1, 0.7, 1000, 40], desc: "70% 1.0s30X" },
+  { params: [1200, 70, 0.05, 10000, 1], desc: "1.2s70X || 5%10.0sBreak" }
+];
+const yellowPatterns75 = [
+  { params: [1000, 1, 0.5, 1500, 60], desc: "50% 1.5s60X" },
+  { params: [5000, 4, 0.75, 1200, 20], desc: "5.0s4X || 75%1.2s20X" },
+  { params: [700, 50, 0.3, 3000, 1], desc: "0.7s50X || 30%3.0sBreak" }
+];
+
 
 const redPatterns = [
-  { params: [3000, 1000, 2, 20, 0], desc: "3s ⇒ 1s20X" },
-  { params: [2000, 500, 1.2, 30, 0], desc: "2s ⇒ 0.5s30X" },
-  { params: [5000, 1000, 2, 40, 0], desc: "5s ⇒ 1s40X" },
-  { params: [4000, 500, 2.5, 32, 0], desc: "4s ⇒ 0.5s32X" },
-  { params: [500, 4000, 0.8, 35, 0], desc: "0.5s ⇒ 4s35X" },
-  { params: [1000, 4000, 0.6, 40, 0], desc: "1s ⇒ 4s40X" },
-  { params: [4000, 1000, 2, 25, 10], desc: "4s ⇒ 1s25X＋10X" },
-  { params: [5000, 1000, 1.5, 30, 10], desc: "5s ⇒ 1s30X＋10X" },
-  { params: [4000, 1000, 1, 25, 20], desc: "4s ⇒ 1s25X＋20X" },
-  { params: [3000, 700, 2, 25, 10], desc: "3s ⇒ 0.7s25X＋10X" },
-  { params: [4000, 800, 3, 20, 10], desc: "4s ⇒ 0.8s20X＋10X" }
+  { params: [3000, 1000, 2.5, 20, 0], desc: "3.0s ⇒ 1.0s20X" },
+  { params: [4000, 1000, 2, 25, 0], desc: "4.0s ⇒ 1.0s25X" },
+  { params: [5000, 1000, 1.8, 30, 0], desc: "5.0s ⇒ 1.0s30X" },
+  { params: [4000, 500, 1.3, 30, 0], desc: "4.0s ⇒ 0.5s30X" },
+  { params: [500, 4000, 0.8, 35, 0], desc: "0.5s ⇒ 4.0s20X" },
+  { params: [1000, 5000, 0.6, 25, 0], desc: "1.0s ⇒ 5.0s25X" },
+  { params: [4000, 1500, 2, 20, 10], desc: "4.0s ⇒ 1.5s20X＋10X" } 
+];
+const redPatterns25 = [
+{ params: [2000, 500, 1.2, 25, 0], desc: "2.0s ⇒ 0.5s25X" },
+{ params: [4000, 500, 2.2, 28, 0], desc: "4.0s ⇒ 0.5s28X" },
+{ params: [4000, 1000, 1, 25, 15], desc: "4.0s ⇒ 1.0s25X＋15X" }
+];
+const redPatterns50 = [
+   { params: [1000, 4000, 0.3, 30, 0], desc: "1.0s ⇒ 4.0s30X" },
+{ params: [4000, 700, 2.5, 25, 10], desc: "3.0s ⇒ 0.7s25X＋10X" },
+ { params: [3500, 1500, 2, 25, 20], desc: "3.5s ⇒ 1.5s25X＋20X" }
+];
+const redPatterns75 = [
+  { params: [4000, 800, 3, 25, 10], desc: "4.0s ⇒ 0.8s25X＋10X" },
+  { params: [2000, 800, 2, 20, 15], desc: "2.0s ⇒ 0.8s20X＋15X" },
+{ params: [4000, 1000, 4, 30, 20], desc: "4.0s ⇒ 1.0s30X＋20X" }
 ];
 
+
 const bluePatterns = [
-  { params: [500, 1000, 10, 1], desc: "0.5s ～ 1s10X" },
-  { params: [500, 2000, 20, 1], desc: "0.5s ～ 2s20X" },
-  { params: [500, 2500, 25, 1], desc: "0.5s ～ 2.5s25X" },
-  { params: [500, 3000, 30, 1], desc: "0.5s ～ 3s30X" },
-  { params: [500, 3500, 35, 1], desc: "0.5s ～ 3s35X" },
-  { params: [500, 4000, 40, 1], desc: "0.5s ～ 4s40X" },
-  { params: [1000, 5000, 40, 2], desc: "1s ＞ 5s40X" },
-  { params: [1000, 4000, 35, 2], desc: "1s ＞ 4s35X" },
-  { params: [1000, 3000, 30, 2], desc: "1s ＞ 3s30X" },
-  { params: [500, 5000, 30, 2], desc: "0.5s ＞ 5s30X" },
-  { params: [500, 4000, 27, 2], desc: "0.5s ＞ 4s27X" },
-  { params: [500, 3000, 25, 2], desc: "0.5s ＞ 3s25X" },
-  { params: [500, 2000, 20, 2], desc: "0.5s ＞ 2s20X" }
+  { params: [500, 2500, 20, 1], desc: "0.5s ～ 2.5s20X" },
+  { params: [500, 3500, 25, 1], desc: "0.5s ～ 3.0s25X" },
+  { params: [500, 4000, 30, 1], desc: "0.5s ～ 4.0s30X" },
+  { params: [1000, 5000, 30, 2], desc: "1.0s ＞ 5.0s30X" },
+  { params: [1000, 4000, 25, 2], desc: "1.0s ＞ 4.0s25X" },
+  { params: [1000, 3000, 20, 2], desc: "1.0s ＞ 3.0s20X" },
+];
+const bluePatterns25 = [
+  { params: [500, 1000, 10, 1], desc: "0.5s ～ 1.0s10X" },
+  { params: [500, 5000, 30, 2], desc: "0.5s ＞ 5.0s30X" },
+  { params: [500, 4000, 27, 2], desc: "0.5s ＞ 4.0s27X" }
+
+];
+const bluePatterns50 = [
+  { params: [500, 2000, 20, 1], desc: "0.5s ～ 2.0s20X" },
+  { params: [500, 3000, 20, 2], desc: "0.5s ＞ 3.0s20X" },
+  { params: [500, 2000, 15, 2], desc: "0.5s ＞ 2.0s15X" }
+
+];
+const bluePatterns75 = [
+  { params: [500, 4000, 40, 1], desc: "0.5s ～ 3.0s40X" },
+  { params: [1000, 5000, 30, 2], desc: "0.5s ＞ 3.0s30X" },
+  { params: [500, 1500, 25, 1], desc: "0.5s ～ 1.5s25X" },
 ];
 
 const greenPatterns = [
-  { params: [4000, 1000, 5, 10, 2], desc: "4s5X ⇔ 1s10X ×3" },
-  { params: [2000, 1500, 5, 5, 3], desc: "2s5X ⇔ 1.5s5X ×3" },
-  { params: [2000, 1000, 6, 2, 4], desc: "2s6X ⇔ 1s2X ×4" },
-  { params: [4000, 1000, 3, 7, 5], desc: "4s3X ⇔ 1s7X ×5" },
-  { params: [3000, 700, 2, 2, 10], desc: "3s2X ⇔ 0.7s2X ×10" },
-  { params: [4000, 1200, 3, 10, 6], desc: "4s3X ⇔ 1.2s10X ×6" },
-  { params: [5000, 2000, 2, 8, 7], desc: "5s2X ⇔ 2s8X ×7" },
-  { params: [1500, 5000, 9, 1, 5], desc: "1.5s10X ⇔ 5sBreak ×5" },
-  { params: [800, 10000, 14, 1, 3], desc: "0.8s15X ⇔ 10sBreak ×3" },
-  { params: [2000, 10000, 29, 1, 2], desc: "2s30X ⇔ 10sBreak ×2" },
-  { params: [700, 3000, 6, 1, 7], desc: "0.7s7X ⇔ 3sBreak ×7" },
-  { params: [700, 2000, 2, 1, 15], desc: "0.7s3X ⇔ 2sBreak ×15" }
+  { params: [4000, 2000, 5, 10, 2], desc: "4.0s5X ⇔ 2.0s10X ×3" },
+  { params: [2500, 1000, 6, 2, 4], desc: "2.5s6X ⇔ 1.0s2X ×4" },
+  { params: [4000, 1000, 3, 7, 5], desc: "4.0s3X ⇔ 1.0s7X ×5" },
+  { params: [5000, 2000, 2, 8, 6], desc: "5.0s2X ⇔ 2.0s8X ×6" },
+  { params: [2500, 5000, 5, 1, 5], desc: "2.5s6X ⇔ 5.0sBreak ×5" },
+  { params: [1000, 7000, 7, 1, 3], desc: "1.0s8X ⇔ 7.0sBreak ×3" },
+  { params: [2000, 10000, 19, 1, 2], desc: "2.0s20X ⇔ 10.0sBreak ×2" }
+];
+
+const greenPatterns25 = [
+  { params: [4000, 1200, 3, 10, 6], desc: "4.0s3X ⇔ 1.2s10X ×6" },
+  { params: [1000, 3000, 6, 1, 7], desc: "1.0s7X ⇔ 3.0sBreak ×7" },
+  { params: [2000, 1500, 5, 5, 3], desc: "2s5X ⇔ 1.5s5X ×4" }
+];
+
+const greenPatterns50 = [
+  { params: [700, 3000, 6, 1, 10], desc: "0.7s7X ⇔ 3.0sBreak ×10" },
+  { params: [2000, 1000, 6, 4, 6], desc: "2.0s6X ⇔ 1.0s4X ×6" },
+  { params: [3000, 700, 2, 2, 10], desc: "3.0s2X ⇔ 0.7s2X ×10" }
+];
+
+const greenPatterns75 = [
+  { params: [3000, 700, 5, 10, 4], desc: "3.0s5X ⇔ 0.7s10X ×4" },
+  { params: [1000, 15000, 34, 1, 2], desc: "1.0s35X ⇔ 15.0sBreak ×2" },
+  { params: [700, 2000, 2, 1, 15], desc: "0.7s3X ⇔ 2.0sBreak ×15" }
 ];
 
 const blackPatterns = [
-  { params: [1000, 50], desc: "1s in 50X" }
+  { params: [1200, 50], desc: "1.2s in 50X" }
 ];
 
 const blackPatterns25 = [
-  { params: [2500, 30], desc: "0.9s in 30X" }
+  { params: [1000, 50], desc: "1.0s in 50X" }
 ];
 
 const blackPatterns50 = [
-  { params: [10000, 10], desc: "0.8s in 10X" }
+  { params: [750, 50], desc: "0.75s in 50X" }
 ];
 
 const blackPatterns75 = [
-  { params: [700, 50], desc: "0.7s in 50X" }
+  { params: [500, 50], desc: "0.5s in 50X" }
 ];
