@@ -15,11 +15,11 @@ const BUGS = {
     }
   },
   mutationBug: {
-    description: '紫マス停止時に1秒40個',
+    description: '紫マス停止時に1秒30個',
     triggerCondition: (color, diceResult) => color === 'purple',
     effect: {
       speed: 1000,
-      count: 40,
+      count: 30,
       type: 'normal'
     }
   },
@@ -36,12 +36,12 @@ const BUGS = {
     }
   },
   loadBug: {
-    description: 'HITS+50回で2秒20個',
+    description: 'HITS+30回で2秒20個',
     triggerCondition: (color, diceResult) => {
       // 前回から50以上HITSが増加したかチェック
       const currentHitCount = (typeof hitCount !== 'undefined') ? hitCount : 0;
       const increase = currentHitCount - lastHitCount;
-      return increase >= 50;
+      return increase >= 30;
     },
     effect: {
       speed: 2000,

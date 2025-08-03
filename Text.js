@@ -55,8 +55,8 @@ function hideSection4Text() {
 
 // イベント発生メッセージを表示する関数
 function showEventMessage() {
-  // ランダムで3つのイベントから選択（停止ボタン、スキップボタン、バグ削除）
-  const eventType = Math.floor(getSecureRandom() * 3);
+  // ランダムで4つのイベントから選択（停止ボタン、スキップボタン、数字予測ボタン、バグ削除）
+  const eventType = Math.floor(getSecureRandom() * 4);
   
   switch(eventType) {
     case 0:
@@ -70,6 +70,11 @@ function showEventMessage() {
 
       break;
     case 2:
+      // 数字予測ボタンのインジケーターを1つ増加
+      addIndicator('number-predict-button');
+
+      break;
+    case 3:
       // バグ削除
       purgeBug();
 

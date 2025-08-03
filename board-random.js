@@ -4,6 +4,51 @@
 // 確率に基づいて色を選択する関数
 
 
+// 位置に応じて適切なパターンセットからノーツパターンを選択する関数
+function getRandomNotePatternWithPosition(color, position) {
+  if (color === "red") {
+    let patterns = [...redPatterns];
+    if (position >= 25) patterns = patterns.concat(redPatterns25);
+    if (position >= 50) patterns = patterns.concat(redPatterns50);
+    if (position >= 75) patterns = patterns.concat(redPatterns75);
+
+    return patterns[Math.floor(getSecureRandom() * patterns.length)];
+  } else if (color === "blue") {
+    let patterns = [...bluePatterns];
+    if (position >= 25) patterns = patterns.concat(bluePatterns25);
+    if (position >= 50) patterns = patterns.concat(bluePatterns50);
+    if (position >= 75) patterns = patterns.concat(bluePatterns75);
+    return patterns[Math.floor(getSecureRandom() * patterns.length)];
+  } else if (color === "green") {
+    let patterns = [...greenPatterns];
+    if (position >= 25) patterns = patterns.concat(greenPatterns25);
+    if (position >= 50) patterns = patterns.concat(greenPatterns50);
+    if (position >= 75) patterns = patterns.concat(greenPatterns75);
+    return patterns[Math.floor(getSecureRandom() * patterns.length)];
+  } else if (color === "yellow") {
+    let patterns = [...yellowPatterns];
+    if (position >= 25) patterns = patterns.concat(yellowPatterns25);
+    if (position >= 50) patterns = patterns.concat(yellowPatterns50);
+    if (position >= 75) patterns = patterns.concat(yellowPatterns75);
+    return patterns[Math.floor(getSecureRandom() * patterns.length)];
+  } else if (color === "black") {
+    let patterns = [...blackPatterns];
+    if (position >= 25) patterns = patterns.concat(blackPatterns25);
+    if (position >= 50) patterns = patterns.concat(blackPatterns50);
+    if (position >= 75) patterns = patterns.concat(blackPatterns75);
+    return patterns[Math.floor(getSecureRandom() * patterns.length)];
+  } else {
+    // 白または無色
+    let patterns = [...whitePatterns];
+    if (position >= 25) patterns = patterns.concat(whitePatterns25);
+    if (position >= 50) patterns = patterns.concat(whitePatterns50);
+    if (position >= 75) patterns = patterns.concat(whitePatterns75);
+    // デバッグログ
+    return patterns[Math.floor(getSecureRandom() * patterns.length)];
+  }
+}
+
+
 // ランダムな無限の色シーケンスを生成
 function generateRandomColorSequence(length) {
   const sequence = [];
@@ -30,17 +75,18 @@ function generateInitialColorSequence(length) {
 }
 
 // 初期シーケンス生成（色とノーツ内容をセットで）
-function generateInitialColorAndPatternSequence(length) {
+function generateInitialColorAndPatternSequence(length, startOffset = 0) {
   const colorSeq = [];
   const noteSeq = [];
   for (let i = 0; i < length; i++) {
-    if (i === 0) {
+    const absolutePosition = startOffset + i;
+    if (absolutePosition === 0) {
       colorSeq.push(null);
       noteSeq.push(null);
     } else {
       const color = selectRandomColor();
       colorSeq.push(color);
-      noteSeq.push(getRandomNotePattern(color));
+      noteSeq.push(getRandomNotePatternWithPosition(color, absolutePosition));
     }
   }
   return { colorSeq, noteSeq };
@@ -55,7 +101,7 @@ function initializeSugorokuBoard() {
   boardSquares = [];
   
   // 十分に長いランダム色・ノーツ内容シーケンスを生成（1000個）
-  const { colorSeq, noteSeq } = generateInitialColorAndPatternSequence(1000);
+  const { colorSeq, noteSeq } = generateInitialColorAndPatternSequence(1000, 0);
   colorSequence = colorSeq;
   notePatternSequence = noteSeq;
   
@@ -160,7 +206,8 @@ function shiftColorsAndResetPiece() {
   
   // 色シーケンスが足りない場合は追加生成
   while (displayOffset + TOTAL_SQUARES >= colorSequence.length) {
-    const { colorSeq, noteSeq } = generateInitialColorAndPatternSequence(1000);
+    const currentLength = colorSequence.length;
+    const { colorSeq, noteSeq } = generateInitialColorAndPatternSequence(1000, currentLength);
     colorSequence = colorSequence.concat(colorSeq); // nullは含まれないので全て追加
     notePatternSequence = notePatternSequence.concat(noteSeq);
   }

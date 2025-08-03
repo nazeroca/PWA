@@ -1,6 +1,10 @@
 const gameArea = document.getElementById('game-area');
 const hitSound = document.getElementById('hit');
 
+// 数字予測ボタン関連
+let currentPredictNumber = 1;
+let isNumberPredictEnabled = false;
+
 // 音声初期化フラグ
 let audioInitialized = false;
 
@@ -103,8 +107,14 @@ if (controlMatrix) {
 
 // ページ読み込み時の初期化
 document.addEventListener('DOMContentLoaded', function() {
-  // システムタイマーを開始
-  startSystemTimer();
+  // タイマーは最初のサイコロで開始するため、ここでは開始しない
+  // startSystemTimer();
+  
+  // タイマー表示を初期化（0:00）
+  const timerElement = document.getElementById('system-timer');
+  if (timerElement) {
+    timerElement.textContent = '0:00';
+  }
   
   // データストリームを初期化
   updateDataStream(0, null);
@@ -129,6 +139,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // インジケーターシステムを初期化
   IndicatorManager.initialize();
+  
+  // 数字予測ボタンを初期化
+  disableNumberPredictButton(); // 初期状態では無効
   
   // テスト用：ノーツを1つ生成してテスト
 
@@ -177,6 +190,7 @@ function updateSectionBackground(color) {
 // システムタイマー関連
 let systemStartTime = Date.now();
 let timerInterval = null;
+let isFirstDiceRoll = true; // 初回サイコロ判定フラグ
 
 function updateSystemTimer() {
   const now = Date.now();
@@ -208,6 +222,9 @@ function updateSystemTimer() {
 
 // タイマーを開始する関数
 function startSystemTimer() {
+  // サイコロを振った瞬間を開始時刻に設定
+  systemStartTime = Date.now();
+  
   // 初期表示を更新
   updateSystemTimer();
   
@@ -247,7 +264,7 @@ function updateHitCounter() {
 }
 
 // タイマーとデータストリームを開始
-startSystemTimer();
+// startSystemTimer(); // 初回サイコロで開始するためコメントアウト
 updateDataStream(currentPosition, colorSequence[currentPosition]);
 
 
@@ -368,12 +385,18 @@ if (skipButton) {
 const IndicatorManager = {
   stopCount: 1,
   skipCount: 1,
+  predictCount: 1, // 数字予測ボタン用
   
   // インジケーターの表示を更新
   updateIndicators(buttonType, count) {
-    const button = buttonType === 'stop' ? 
-      document.getElementById('control-matrix') : 
-      document.getElementById('skip-button');
+    let button;
+    if (buttonType === 'stop') {
+      button = document.getElementById('control-matrix');
+    } else if (buttonType === 'skip') {
+      button = document.getElementById('skip-button');
+    } else if (buttonType === 'predict') {
+      button = document.getElementById('number-predict-button');
+    }
     
     if (!button) return;
     
@@ -393,27 +416,35 @@ const IndicatorManager = {
     } else {
       button.classList.remove('no-indicators');
     }
-    
+
 
   },
   
   // インジケーターを消費（右から消える）
   consumeIndicator(buttonType) {
-    const currentCount = buttonType === 'stop' ? this.stopCount : this.skipCount;
+    let currentCount;
+    if (buttonType === 'stop') {
+      currentCount = this.stopCount;
+    } else if (buttonType === 'skip') {
+      currentCount = this.skipCount;
+    } else if (buttonType === 'predict') {
+      currentCount = this.predictCount;
+    }
     
     if (currentCount <= 0) {
-
       return false;
     }
     
     if (buttonType === 'stop') {
       this.stopCount--;
       this.updateIndicators('stop', this.stopCount);
-    } else {
+    } else if (buttonType === 'skip') {
       this.skipCount--;
       this.updateIndicators('skip', this.skipCount);
+    } else if (buttonType === 'predict') {
+      this.predictCount--;
+      this.updateIndicators('predict', this.predictCount);
     }
-    
 
     return true;
   },
@@ -423,9 +454,21 @@ const IndicatorManager = {
     if (buttonType === 'stop') {
       this.stopCount = Math.min(this.stopCount + 1, 3);
       this.updateIndicators('stop', this.stopCount);
-    } else {
+    } else if (buttonType === 'skip') {
       this.skipCount = Math.min(this.skipCount + 1, 3);
       this.updateIndicators('skip', this.skipCount);
+    } else if (buttonType === 'predict') {
+      this.predictCount = Math.min(this.predictCount + 1, 3);
+      // インジケーター表示のみ更新、ボタン状態は変更しない
+      const button = document.getElementById('number-predict-button');
+      if (button) {
+        const indicators = button.querySelectorAll('.indicator');
+        indicators.forEach(indicator => indicator.classList.remove('active'));
+        for (let i = 0; i < Math.min(this.predictCount, 3); i++) {
+          indicators[i].classList.add('active');
+        }
+        // ボタンの有効/無効状態は変更しない
+      }
     }
     
 
@@ -435,7 +478,7 @@ const IndicatorManager = {
   initialize() {
     this.updateIndicators('stop', this.stopCount);
     this.updateIndicators('skip', this.skipCount);
-
+    this.updateIndicators('predict', this.predictCount);
   }
 };
 
@@ -462,11 +505,24 @@ function addIndicator(buttonId) {
         skipButton.classList.remove('indicator-gained');
       }, 3000);
     }
+  } else if (buttonId === 'number-predict-button') {
+    IndicatorManager.addIndicator('predict');
+    // 数字予測ボタンを光らせる
+    const predictButton = document.getElementById('number-predict-button');
+    if (predictButton) {
+      predictButton.classList.add('indicator-gained');
+      setTimeout(() => {
+        predictButton.classList.remove('indicator-gained');
+      }, 3000);
+    }
   }
 }
 
 // インジケーターシステム初期化
 IndicatorManager.initialize();
+
+// 数字予測ボタンの初期数字設定
+updatePredictNumber();
 
 // サイコロボタンの初期化（有効状態）
 enableDiceButton();
@@ -519,6 +575,101 @@ function getSecureRandom() {
   x = x - Math.floor(x);
   
   return x;
+}
+
+// 数字予測ボタン関連の機能
+function updatePredictNumber() {
+  const oldNumber = currentPredictNumber;
+  currentPredictNumber = Math.floor(getSecureRandom() * 6) + 1;
+  console.log(`数字予測ボタン: ${oldNumber} → ${currentPredictNumber}`);
+  const numberDisplay = document.getElementById('predict-number');
+  if (numberDisplay) {
+    numberDisplay.textContent = currentPredictNumber;
+    console.log('画面表示も更新されました');
+  } else {
+    console.log('predict-number要素が見つかりません');
+  }
+}
+
+function enableNumberPredictButton() {
+  const button = document.getElementById('number-predict-button');
+  if (button && IndicatorManager.predictCount > 0) {
+    button.classList.remove('disabled', 'no-indicators');
+    isNumberPredictEnabled = true;
+    // 数字更新は結果確定時に行う
+  } else if (button) {
+    // インジケーターが0の場合は無効化
+    button.classList.add('no-indicators');
+    button.classList.remove('disabled');
+    isNumberPredictEnabled = false;
+  }
+}
+
+function disableNumberPredictButton() {
+  const button = document.getElementById('number-predict-button');
+  if (button) {
+    button.classList.add('no-indicators');
+    button.classList.remove('disabled');
+    isNumberPredictEnabled = false;
+  }
+}
+
+// 数字予測ボタンのクリック処理
+const numberPredictButton = document.getElementById('number-predict-button');
+if (numberPredictButton) {
+  numberPredictButton.addEventListener('click', () => {
+    if (!isNumberPredictEnabled || numberPredictButton.classList.contains('disabled') || 
+        numberPredictButton.classList.contains('no-indicators')) return;
+    
+    // インジケーターを消費
+    if (!IndicatorManager.consumeIndicator('predict')) {
+      console.log('数字予測ボタン: インジケーターがありません');
+      return;
+    }
+    
+    console.log('数字予測ボタンが押されました。数字:', currentPredictNumber);
+    
+    // サイコロを「振った扱い」にする処理
+    // 1. 自動振りタイマーを中断
+    if (typeof autoRollTimeout !== 'undefined' && autoRollTimeout) {
+      clearTimeout(autoRollTimeout);
+      autoRollTimeout = null;
+    }
+    if (typeof blinkTimeout !== 'undefined' && blinkTimeout) {
+      clearTimeout(blinkTimeout);
+      blinkTimeout = null;
+    }
+    
+    // 2. サイコロボタンの点滅を停止
+    const diceButton = document.getElementById('dice-button');
+    if (diceButton) {
+      diceButton.classList.remove('dice-blink-slow', 'dice-blink-fast', 'dice-waiting');
+    }
+    
+    // 3. サイコロを無効化（振った扱いにする）
+    if (typeof disableDiceButton === 'function') {
+      disableDiceButton();
+    }
+    
+    // 4. 初回サイコロの場合、タイマーを開始
+    if (typeof isFirstDiceRoll !== 'undefined' && isFirstDiceRoll) {
+      isFirstDiceRoll = false;
+      if (typeof startSystemTimer === 'function') {
+        startSystemTimer();
+      }
+    }
+    
+    // 5. ボタンに表示されている数字分だけ進む
+    if (typeof handleDiceResult === 'function') {
+      handleDiceResult(currentPredictNumber);
+    }
+    
+    // 6. 新しい数字を生成してボタンの状態を更新
+    updatePredictNumber(); // 次回用の新しい数字を生成
+    if (IndicatorManager.predictCount <= 0) {
+      disableNumberPredictButton();
+    }
+  });
 }
 
 

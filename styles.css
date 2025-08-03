@@ -1534,6 +1534,25 @@
   top: -10%; /* 他のアイコンと同じ位置調整 */
 }
 
+/* 数字表示アイコン */
+.number-display-large {
+  font-size: 11.4vh; /* 他のアイコンと同じサイズ */
+  font-family: 'Orbitron', 'JetBrains Mono', monospace;
+  font-weight: bold;
+  color: #00FFFF; /* ベースカラーの水色 */
+  text-shadow: 0 0 2.86vh rgba(0, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 70%; /* 他のアイコンと同じ配置 */
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  position: relative;
+  top: -10%; /* 他のアイコンと同じ位置調整 */
+}
+
 /* 真ん中のボタンの無効化スタイル */
 .button-third.center.disabled {
   background: linear-gradient(135deg, #333333 0%, #555555 50%, #333333 100%);
@@ -1550,6 +1569,11 @@
 }
 
 .button-third.center.disabled .placeholder-icon-large {
+  color: #444444;
+  text-shadow: 0 0 1.43vh rgba(68, 68, 68, 0.3);
+}
+
+.button-third.center.disabled .number-display-large {
   color: #444444;
   text-shadow: 0 0 1.43vh rgba(68, 68, 68, 0.3);
 }
@@ -1577,7 +1601,8 @@
 }
 
 .button-third.no-indicators .stop-icon-large,
-.button-third.no-indicators .skip-icon-large {
+.button-third.no-indicators .skip-icon-large,
+.button-third.no-indicators .number-display-large {
   color: #666666;
   text-shadow: 0 0 1.43vh rgba(102, 102, 102, 0.3);
 }

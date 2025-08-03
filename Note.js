@@ -25,7 +25,6 @@ function spawnCircle() {
         pausedTime = currentTime;
         isPaused = true;
         circle.classList.add('frozen');
-        // console.log('ノーツを停止:', circle); // ログを簡略化
       }
       requestAnimationFrame(animate);
       return;
@@ -35,7 +34,6 @@ function spawnCircle() {
       totalPausedDuration += pauseDuration;
       isPaused = false;
       circle.classList.remove('frozen');
-      // console.log('ノーツを再開:', circle, '停止時間:', pauseDuration); // ログを簡略化
     }
 
     // 停止時間を除いた実際の経過時間を計算
@@ -152,6 +150,10 @@ function startGame(speed, count) {
   maxCircles = count;
   circles = [];
   isGameActive = true;
+  // ゲーム開始時にサイコロを無効化
+  if (typeof disableDiceButton === 'function') {
+    disableDiceButton();
+  }
   hitCount = 0; // ヒットカウンターをリセット
   isChallengeMode = false; // 通常のゲームモード
   updateHitCounter(); // 表示を更新
@@ -203,6 +205,10 @@ function startGameA(speed1, speed2, type, count1, count2) {
   maxCircles = count1 + count2;
   circles = [];
   isGameActive = true;
+  // ゲーム開始時にサイコロを無効化
+  if (typeof disableDiceButton === 'function') {
+    disableDiceButton();
+  }
   let noteIndex = 0;
   hitCount = 0; // ヒットカウンターをリセット
   isChallengeMode = false; // 通常のゲームモード
@@ -312,6 +318,10 @@ function startGameR(speed1, speed2, count, type) {
   maxCircles = count;
   circles = [];
   isGameActive = true;
+  // ゲーム開始時にサイコロを無効化
+  if (typeof disableDiceButton === 'function') {
+    disableDiceButton();
+  }
   hitCount = 0; // ヒットカウンターをリセット
   isChallengeMode = false; // 通常のゲームモード
   updateHitCounter(); // 表示を更新

@@ -291,7 +291,7 @@ function movePiece(steps) {
                   }
                   const patternText = document.getElementById('pattern-text');
                   if (patternText) {
-                    patternText.textContent = 'バグ発生';
+                    patternText.textContent = 'BUGs has occurred. ';
                   }
                   showBugRoulette(finalBugText, () => {
                     if (typeof applyBug !== 'undefined') {
@@ -338,36 +338,60 @@ function movePiece(steps) {
         if (glowingLine) {
           glowingLine.classList.add('disappearing');
         }
-        // 25-26のラインを通過したら、whitePatternsに新しいパターンを追加
-        if (pos === 25) {
-          whitePatterns.push(...whitePatterns25);
-          blackPatterns.push(...blackPatterns25);
-          redPatterns.push(...redPatterns25);
-          bluePatterns.push(...bluePatterns25);
-          yellowPatterns.push(...yellowPatterns25);
-          greenPatterns.push(...greenPatterns25);
-          // 必要 in あれば、コンソールにログを出して確認
-          // console.log('Updated whitePatterns:', whitePatterns);
+        // 停止ボタンかスキップボタンのどちらかのインジケーターを1つ回復
+        const availableButtons = [];
+        
+        // 停止ボタンのインジケーターが3未満なら追加可能
+        if (typeof IndicatorManager !== 'undefined' && IndicatorManager.stopCount < 3) {
+          availableButtons.push('stop');
         }
-        if (pos === 50) {
-          whitePatterns.push(...whitePatterns50);
-          blackPatterns.push(...blackPatterns50);
-          redPatterns.push(...redPatterns50);
-          bluePatterns.push(...bluePatterns50);
-          yellowPatterns.push(...yellowPatterns50);
-          greenPatterns.push(...greenPatterns50);
-          // 必要 in あれば、コンソールにログを出して確認
-          // console.log('Updated whitePatterns:', whitePatterns);
+        
+        // スキップボタンのインジケーターが3未満なら追加可能
+        if (typeof IndicatorManager !== 'undefined' && IndicatorManager.skipCount < 3) {
+          availableButtons.push('skip');
         }
-        if (pos === 75) {
-          whitePatterns.push(...whitePatterns75);
-          blackPatterns.push(...blackPatterns75);
-          redPatterns.push(...redPatterns75);
-          bluePatterns.push(...bluePatterns75);
-          yellowPatterns.push(...yellowPatterns75);
-          greenPatterns.push(...greenPatterns75);
-          // 必要 in あれば、コンソールにログを出して確認
-          // console.log('Updated whitePatterns:', whitePatterns);
+        
+        // 数字予測ボタンのインジケーターが3未満なら追加可能
+        if (typeof IndicatorManager !== 'undefined' && IndicatorManager.predictCount < 3) {
+          availableButtons.push('predict');
+        }
+        
+        // ランダムに選択してインジケーターを追加
+        if (availableButtons.length > 0) {
+          const selectedButton = availableButtons[Math.floor(getSecureRandom() * availableButtons.length)];
+          
+          if (selectedButton === 'stop') {
+            IndicatorManager.addIndicator('stop');
+            // 停止ボタンを光らせる演出
+            const controlMatrix = document.getElementById('control-matrix');
+            if (controlMatrix) {
+              controlMatrix.classList.add('indicator-gained');
+              setTimeout(() => {
+                controlMatrix.classList.remove('indicator-gained');
+              }, 3000);
+            }
+          } else if (selectedButton === 'skip') {
+            IndicatorManager.addIndicator('skip');
+            // スキップボタンを光らせる演出
+            const skipButton = document.getElementById('skip-button');
+            if (skipButton) {
+              skipButton.classList.add('indicator-gained');
+              setTimeout(() => {
+                skipButton.classList.remove('indicator-gained');
+              }, 3000);
+            }
+          } else if (selectedButton === 'predict') {
+            IndicatorManager.addIndicator('predict');
+            // 数字予測ボタンを光らせる演出
+            const predictButton = document.getElementById('number-predict-button');
+            if (predictButton) {
+              predictButton.classList.add('indicator-gained');
+              setTimeout(() => {
+                predictButton.classList.remove('indicator-gained');
+              }, 3000);
+            }
+          }
+          
         }
       }
     });
@@ -441,8 +465,8 @@ const whitePatterns = [
 const whitePatterns25 = [
   { params: [10000, 10], desc: "10.0s in 10X" },
   { params: [2500, 27], desc: "2.5s in 27X" },
-  { params: [2000, 25], desc: "2s in 25X" },
-  { params: [3000, 30], desc: "3s in 30X" }
+  { params: [2000, 25], desc: "2.0s in 25X" },
+  { params: [3000, 30], desc: "3.0s in 30X" }
 ];
 const whitePatterns50 = [
   { params: [1500, 30], desc: "1.5s in 30X" },

@@ -88,14 +88,20 @@ function enableDiceSection() {
 function enableDiceButton() {
   if (diceButton) {
     diceButton.classList.remove('dice-disabled');
-
+  }
+  // 数字予測ボタンも有効化
+  if (typeof enableNumberPredictButton === 'function') {
+    enableNumberPredictButton();
   }
 }
 
 function disableDiceButton() {
   if (diceButton) {
     diceButton.classList.add('dice-disabled');
-
+  }
+  // 数字予測ボタンも無効化
+  if (typeof disableNumberPredictButton === 'function') {
+    disableNumberPredictButton();
   }
 }
 
@@ -110,6 +116,14 @@ let autoRollTimeout = null; // 自動ロール用タイマー
 let blinkTimeout = null; // 点滅切り替え用タイマー
 
 function rollDice() {
+  // 初回サイコロの場合、タイマーを開始
+  if (typeof isFirstDiceRoll !== 'undefined' && isFirstDiceRoll) {
+    isFirstDiceRoll = false;
+    if (typeof startSystemTimer === 'function') {
+      startSystemTimer();
+    }
+  }
+  
   // サイコロボタンの点滅クラスを解除
   if (diceButton) {
     diceButton.classList.remove('dice-blink-slow', 'dice-blink-fast', 'dice-waiting');
@@ -144,6 +158,15 @@ function rollDice() {
       clearInterval(rollInterval);
       showDiceFace(result);
       dice.classList.remove('rolling');
+      
+      // サイコロ結果確定と同時に数字予測ボタンの数字を更新
+      console.log('サイコロ結果確定 - 数字更新を実行');
+      if (typeof updatePredictNumber === 'function') {
+        updatePredictNumber();
+        console.log('updatePredictNumber実行完了');
+      } else {
+        console.log('updatePredictNumber関数が見つかりません');
+      }
       
       // 結果処理完了後、少し待ってからサイコロを有効に戻す
       setTimeout(() => {
