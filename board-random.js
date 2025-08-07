@@ -50,25 +50,27 @@ function getRandomNotePatternWithPosition(color, position) {
 
 
 // ランダムな無限の色シーケンスを生成
-function generateRandomColorSequence(length) {
+function generateRandomColorSequence(length, startOffset = 0) {
   const sequence = [];
   for (let i = 0; i < length; i++) {
-    // 確率に基づいて色を選択
-    sequence.push(selectRandomColor());
+    const absolutePosition = startOffset + i;
+    // 位置に基づいて色を選択
+    sequence.push(selectRandomColor(absolutePosition));
   }
   return sequence;
 }
 
 // 初期シーケンス生成（最初だけnull）
-function generateInitialColorSequence(length) {
+function generateInitialColorSequence(length, startOffset = 0) {
   const sequence = [];
   for (let i = 0; i < length; i++) {
-    if (i === 0) {
+    const absolutePosition = startOffset + i;
+    if (absolutePosition === 0) {
       // 最初のマスは無色（デフォルト）
       sequence.push(null);
     } else {
-      // 確率に基づいて色を選択
-      sequence.push(selectRandomColor());
+      // 位置に基づいて色を選択
+      sequence.push(selectRandomColor(absolutePosition));
     }
   }
   return sequence;
@@ -84,7 +86,7 @@ function generateInitialColorAndPatternSequence(length, startOffset = 0) {
       colorSeq.push(null);
       noteSeq.push(null);
     } else {
-      const color = selectRandomColor();
+      const color = selectRandomColor(absolutePosition);
       colorSeq.push(color);
       noteSeq.push(getRandomNotePatternWithPosition(color, absolutePosition));
     }
