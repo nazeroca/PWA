@@ -71,7 +71,7 @@ function enableDiceSection() {
       diceButton.classList.remove('dice-blink-slow');
       diceButton.classList.add('dice-blink-fast');
     }
-  }, 3000); // 5-2=3秒後に速い点滅へ
+  }, 5000); // 5-2=3秒後に速い点滅へ
 
   // 5秒後に自動でサイコロを振るタイマーをセット
   if (autoRollTimeout) {
@@ -81,7 +81,7 @@ function enableDiceSection() {
     if (!isRolling && !diceButton.classList.contains('dice-disabled')) {
       rollDice();
     }
-  }, 5000);
+  }, 7000);
 }
 
 // サイコロボタンの有効化・無効化

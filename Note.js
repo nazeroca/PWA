@@ -294,7 +294,7 @@ function startStopCountdown(buttonElement) {
   `;
   buttonElement.appendChild(countdownElement);
   
-  let countdown = 20;
+  let countdown = 30;
   countdownElement.textContent = countdown;
   
 
