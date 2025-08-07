@@ -36,12 +36,12 @@ const BUGS = {
     }
   },
   loadBug: {
-    description: 'HITS+30回で2秒20個',
+    description: 'HITS+35回で2秒20個',
     triggerCondition: (color, diceResult) => {
-      // 前回から50以上HITSが増加したかチェック
+      // 前回から35以上HITSが増加したかチェック
       const currentHitCount = (typeof hitCount !== 'undefined') ? hitCount : 0;
       const increase = currentHitCount - lastHitCount;
-      return increase >= 30;
+      return increase >= 35;
     },
     effect: {
       speed: 2000,

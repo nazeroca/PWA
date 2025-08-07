@@ -8,41 +8,41 @@
 function getRandomNotePatternWithPosition(color, position) {
   if (color === "red") {
     let patterns = [...redPatterns];
-    if (position >= 25) patterns = patterns.concat(redPatterns25);
-    if (position >= 50) patterns = patterns.concat(redPatterns50);
-    if (position >= 75) patterns = patterns.concat(redPatterns75);
+    if (position >= 35) patterns = patterns.concat(redPatterns35);
+    if (position >= 70) patterns = patterns.concat(redPatterns70);
+    if (position >= 105) patterns = patterns.concat(redPatterns105);
 
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   } else if (color === "blue") {
     let patterns = [...bluePatterns];
-    if (position >= 25) patterns = patterns.concat(bluePatterns25);
-    if (position >= 50) patterns = patterns.concat(bluePatterns50);
-    if (position >= 75) patterns = patterns.concat(bluePatterns75);
+    if (position >= 35) patterns = patterns.concat(bluePatterns35);
+    if (position >= 70) patterns = patterns.concat(bluePatterns70);
+    if (position >= 105) patterns = patterns.concat(bluePatterns105);
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   } else if (color === "green") {
     let patterns = [...greenPatterns];
-    if (position >= 25) patterns = patterns.concat(greenPatterns25);
-    if (position >= 50) patterns = patterns.concat(greenPatterns50);
-    if (position >= 75) patterns = patterns.concat(greenPatterns75);
+    if (position >= 35) patterns = patterns.concat(greenPatterns35);
+    if (position >= 70) patterns = patterns.concat(greenPatterns70);
+    if (position >= 105) patterns = patterns.concat(greenPatterns105);
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   } else if (color === "yellow") {
     let patterns = [...yellowPatterns];
-    if (position >= 25) patterns = patterns.concat(yellowPatterns25);
-    if (position >= 50) patterns = patterns.concat(yellowPatterns50);
-    if (position >= 75) patterns = patterns.concat(yellowPatterns75);
+    if (position >= 35) patterns = patterns.concat(yellowPatterns35);
+    if (position >= 70) patterns = patterns.concat(yellowPatterns70);
+    if (position >= 105) patterns = patterns.concat(yellowPatterns105);
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   } else if (color === "black") {
     let patterns = [...blackPatterns];
-    if (position >= 25) patterns = patterns.concat(blackPatterns25);
-    if (position >= 50) patterns = patterns.concat(blackPatterns50);
-    if (position >= 75) patterns = patterns.concat(blackPatterns75);
+    if (position >= 35) patterns = patterns.concat(blackPatterns35);
+    if (position >= 70) patterns = patterns.concat(blackPatterns70);
+    if (position >= 105) patterns = patterns.concat(blackPatterns105);
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   } else {
     // 白または無色
     let patterns = [...whitePatterns];
-    if (position >= 25) patterns = patterns.concat(whitePatterns25);
-    if (position >= 50) patterns = patterns.concat(whitePatterns50);
-    if (position >= 75) patterns = patterns.concat(whitePatterns75);
+    if (position >= 35) patterns = patterns.concat(whitePatterns35);
+    if (position >= 70) patterns = patterns.concat(whitePatterns70);
+    if (position >= 105) patterns = patterns.concat(whitePatterns105);
     // デバッグログ
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   }
