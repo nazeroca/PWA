@@ -17,11 +17,58 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="normal.css">
   <link rel="stylesheet" href="font-fallback.css">
+  <link rel="stylesheet" href="threshold-styles.css">
   <link rel="icon" href="data:,">
 </head>
 
 <body>
-  <div class="container">
+
+  <!-- しきい値設定画面 -->
+  <div class="threshold-settings" id="threshold-settings">
+    <div class="threshold-container">
+      <div class="threshold-title">THRESHOLD SETTINGS</div>
+      <div class="threshold-subtitle">パターン切り替えポイントを設定</div>
+      
+      <div class="threshold-controls">
+        <div class="threshold-control">
+          <div class="threshold-label">EARLY</div>
+          <div class="threshold-slider-container">
+            <input type="range" class="threshold-slider" id="early-slider" 
+                   min="10" max="150" step="5" value="35">
+            <div class="threshold-value" id="early-value">35</div>
+          </div>
+        </div>
+        
+        <div class="threshold-control">
+          <div class="threshold-label">MID</div>
+          <div class="threshold-slider-container">
+            <input type="range" class="threshold-slider" id="mid-slider" 
+                   min="10" max="150" step="5" value="70">
+            <div class="threshold-value" id="mid-value">70</div>
+          </div>
+        </div>
+        
+        <div class="threshold-control">
+          <div class="threshold-label">HIGH</div>
+          <div class="threshold-slider-container">
+            <input type="range" class="threshold-slider" id="high-slider" 
+                   min="10" max="150" step="5" value="105">
+            <div class="threshold-value" id="high-value">105</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="threshold-error" id="threshold-error" style="display: none;">
+        エラー: EARLY < MID < HIGH の順序で設定してください
+      </div>
+      
+             <div class="threshold-buttons">
+               <button class="threshold-button ok" id="threshold-ok">OK</button>
+             </div>
+    </div>
+  </div>
+
+  <div class="container" id="game-container" style="display: none;">
     <!-- セクション1: 15% - 統一されたフューチャーディスプレイ -->
     <div class="section-1">
       <div class="futuristic-display">
@@ -71,9 +118,7 @@
         <div class="sugoroku-board" id="sugoroku-board">
           <!-- マスは動的に生成される -->
         </div>
-        <div class="glowing-line" id="glowing-line-35"></div>
-        <div class="glowing-line" id="glowing-line-70"></div>
-        <div class="glowing-line" id="glowing-line-105"></div>
+        <!-- 光る線は動的に生成される -->
         <div class="piece" id="piece"></div>
         <!-- 浮き上がるノーツ内容表示用 -->
       </div>
@@ -136,6 +181,9 @@
   <audio id="hit" src="hit.mp3" preload="auto"></audio>
 
   <!-- コアファイル読み込み -->
+   <script src="difficulty-config.js"></script>
+   <script src="difficulty-manager.js"></script>
+   <script src="threshold-manager.js"></script>
    <script src="Config.js"></script>
    <script src="Bottom.js"></script>
    <script src="Board.js"></script>

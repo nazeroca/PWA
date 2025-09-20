@@ -3,62 +3,7 @@ let currentBug = null;
 let lastDiceResult = null;
 let lastHitCount = 0; // 前回の移動後のHITS値を記録
 
-// バグの定義
-const BUGS = {
-  normalBug: {
-    description: '白マス停止時に1秒10回',
-    triggerCondition: (color, diceResult) => color === 'white',
-    effect: {
-      speed: 1000,
-      count: 10,
-      type: 'normal'
-    }
-  },
-  mutationBug: {
-    description: '紫マス停止時に1秒30個',
-    triggerCondition: (color, diceResult) => color === 'purple',
-    effect: {
-      speed: 1000,
-      count: 30,
-      type: 'normal'
-    }
-  },
-  independentBug: {
-    description: 'SPACE素数で1.7秒17個',
-    triggerCondition: (color, diceResult) => {
-      // 現在の位置が素数かチェック
-      return isPrime(currentPosition);
-    },
-    effect: {
-      speed: 1700,
-      count: 17,
-      type: 'normal'
-    }
-  },
-  loadBug: {
-    description: 'HITS+35回で2秒20個',
-    triggerCondition: (color, diceResult) => {
-      // 前回から35以上HITSが増加したかチェック
-      const currentHitCount = (typeof hitCount !== 'undefined') ? hitCount : 0;
-      const increase = currentHitCount - lastHitCount;
-      return increase >= 35;
-    },
-    effect: {
-      speed: 2000,
-      count: 20,
-      type: 'normal'
-    }
-  },
-  unluckyBug: {
-    description: '1の目で0.7秒15個',
-    triggerCondition: (color, diceResult) => diceResult === 1,
-    effect: {
-      speed: 700,
-      count: 15,
-      type: 'normal'
-    }
-  }
-};
+
 
 // 素数判定関数
 function isPrime(num) {
@@ -72,19 +17,20 @@ function isPrime(num) {
   return true;
 }
 
-// バグを適用する関数
+// バグを適用する関数（難易度対応版）
 function applyBug() {
+  // 難易度別のバグを取得
+  const difficultyBugs = getBugsByDifficulty();
+  
   // 利用可能なバグのリストを作成（現在のバグは除外）
-  const availableBugs = Object.keys(BUGS).filter(key => {
-    return !currentBug || BUGS[key] !== currentBug;
+  const availableBugs = Object.keys(difficultyBugs).filter(key => {
+    return !currentBug || difficultyBugs[key] !== currentBug;
   });
   
   // ランダムにバグを選択
   const randomIndex = Math.floor(getSecureRandom() * availableBugs.length);
   const selectedBugKey = availableBugs[randomIndex];
-  currentBug = BUGS[selectedBugKey];
-  
-
+  currentBug = difficultyBugs[selectedBugKey];
   
   // セクション7にバグの内容を表示
   updateBugDisplay();
@@ -94,7 +40,6 @@ function applyBug() {
 function updateBugDisplay() {
   const eventText = document.getElementById('event-text');
   if (!eventText) {
-    console.error('イベント表示要素が見つかりません');
     return;
   }
   
@@ -126,7 +71,8 @@ function checkAndExecuteBug(currentColor, diceResult) {
     const bugPromise = executeBugEffect(currentBug);
     
     // 負荷呪術の場合、発動後にlastHitCountを更新
-    if (currentBug === BUGS.loadBug) {
+    const difficultyBugs = getBugsByDifficulty();
+    if (currentBug === difficultyBugs.loadBug) {
       bugPromise.then(() => {
         if (typeof hitCount !== 'undefined') {
           lastHitCount = hitCount;
@@ -228,7 +174,7 @@ function startBugGame(speed, count, callback) {
           if (hitSound && hitSound.readyState >= 2) {
             hitSound.currentTime = 0;
             hitSound.play().catch(error => {
-              console.error('バグノーツ音声再生エラー:', error);
+              // 音声再生エラーは無視
             });
           }
           circle.played = true;

@@ -40,9 +40,8 @@ class FontManager {
             await document.fonts.load(`16px "${fontFamily}"`);
             await document.fonts.load(`bold 16px "${fontFamily}"`);
             this.loadedFonts.add(fontFamily);
-            console.log(`フォント読み込み完了: ${fontFamily}`);
         } catch (error) {
-            console.warn(`フォント読み込み失敗: ${fontFamily}`, error);
+            // フォント読み込み失敗時も継続
         }
     }
 
@@ -73,7 +72,7 @@ const fontManager = new FontManager();
 
 // フォント読み込み完了のイベントリスナー
 document.addEventListener('fontsloaded', (event) => {
-    console.log('全フォント読み込み処理完了:', event.detail);
+    // フォント読み込み処理完了
 });
 
 // エクスポート（必要に応じて）

@@ -57,18 +57,16 @@ function spawnCircle() {
         if (hitSound.readyState >= 2) { // HAVE_CURRENT_DATA以上
           hitSound.currentTime = 0;
           hitSound.play().then(() => {
-
+            // 音声再生成功
           }).catch(error => {
-            console.error('音声再生エラー:', error);
             // 再初期化を試行
             initializeAudio();
           });
         } else {
-          console.warn('音声ファイルが準備できていません, readyState:', hitSound.readyState);
           // 準備できていなくても音再生を試行
           hitSound.currentTime = 0;
           hitSound.play().catch(error => {
-            console.error('音声再生エラー（未準備）:', error);
+            // 音声再生エラーは無視
           });
         }
         circle.played = true;

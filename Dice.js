@@ -160,12 +160,8 @@ function rollDice() {
       dice.classList.remove('rolling');
       
       // サイコロ結果確定と同時に数字予測ボタンの数字を更新
-      console.log('サイコロ結果確定 - 数字更新を実行');
       if (typeof updatePredictNumber === 'function') {
         updatePredictNumber();
-        console.log('updatePredictNumber実行完了');
-      } else {
-        console.log('updatePredictNumber関数が見つかりません');
       }
       
       // 結果処理完了後、少し待ってからサイコロを有効に戻す

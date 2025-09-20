@@ -4,46 +4,47 @@
 // 確率に基づいて色を選択する関数
 
 
-// 位置に応じて適切なパターンセットからノーツパターンを選択する関数
+// 位置に応じて適切なパターンセットからノーツパターンを選択する関数（しきい値対応版）
 function getRandomNotePatternWithPosition(color, position) {
+  const difficultyPatterns = getPatternsByDifficulty();
+  const thresholds = getThresholds();
+  
   if (color === "red") {
-    let patterns = [...redPatterns];
-    if (position >= 35) patterns = patterns.concat(redPatterns35);
-    if (position >= 70) patterns = patterns.concat(redPatterns70);
-    if (position >= 105) patterns = patterns.concat(redPatterns105);
-
+    let patterns = [...difficultyPatterns.red];
+    if (position >= thresholds.early) patterns = patterns.concat(difficultyPatterns.redPatterns35);
+    if (position >= thresholds.mid) patterns = patterns.concat(difficultyPatterns.redPatterns70);
+    if (position >= thresholds.high) patterns = patterns.concat(difficultyPatterns.redPatterns105);
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   } else if (color === "blue") {
-    let patterns = [...bluePatterns];
-    if (position >= 35) patterns = patterns.concat(bluePatterns35);
-    if (position >= 70) patterns = patterns.concat(bluePatterns70);
-    if (position >= 105) patterns = patterns.concat(bluePatterns105);
+    let patterns = [...difficultyPatterns.blue];
+    if (position >= thresholds.early) patterns = patterns.concat(difficultyPatterns.bluePatterns35);
+    if (position >= thresholds.mid) patterns = patterns.concat(difficultyPatterns.bluePatterns70);
+    if (position >= thresholds.high) patterns = patterns.concat(difficultyPatterns.bluePatterns105);
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   } else if (color === "green") {
-    let patterns = [...greenPatterns];
-    if (position >= 35) patterns = patterns.concat(greenPatterns35);
-    if (position >= 70) patterns = patterns.concat(greenPatterns70);
-    if (position >= 105) patterns = patterns.concat(greenPatterns105);
+    let patterns = [...difficultyPatterns.green];
+    if (position >= thresholds.early) patterns = patterns.concat(difficultyPatterns.greenPatterns35);
+    if (position >= thresholds.mid) patterns = patterns.concat(difficultyPatterns.greenPatterns70);
+    if (position >= thresholds.high) patterns = patterns.concat(difficultyPatterns.greenPatterns105);
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   } else if (color === "yellow") {
-    let patterns = [...yellowPatterns];
-    if (position >= 35) patterns = patterns.concat(yellowPatterns35);
-    if (position >= 70) patterns = patterns.concat(yellowPatterns70);
-    if (position >= 105) patterns = patterns.concat(yellowPatterns105);
+    let patterns = [...difficultyPatterns.yellow];
+    if (position >= thresholds.early) patterns = patterns.concat(difficultyPatterns.yellowPatterns35);
+    if (position >= thresholds.mid) patterns = patterns.concat(difficultyPatterns.yellowPatterns70);
+    if (position >= thresholds.high) patterns = patterns.concat(difficultyPatterns.yellowPatterns105);
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   } else if (color === "black") {
-    let patterns = [...blackPatterns];
-    if (position >= 35) patterns = patterns.concat(blackPatterns35);
-    if (position >= 70) patterns = patterns.concat(blackPatterns70);
-    if (position >= 105) patterns = patterns.concat(blackPatterns105);
+    let patterns = [...difficultyPatterns.black];
+    if (position >= thresholds.early) patterns = patterns.concat(difficultyPatterns.blackPatterns35);
+    if (position >= thresholds.mid) patterns = patterns.concat(difficultyPatterns.blackPatterns70);
+    if (position >= thresholds.high) patterns = patterns.concat(difficultyPatterns.blackPatterns105);
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   } else {
     // 白または無色
-    let patterns = [...whitePatterns];
-    if (position >= 35) patterns = patterns.concat(whitePatterns35);
-    if (position >= 70) patterns = patterns.concat(whitePatterns70);
-    if (position >= 105) patterns = patterns.concat(whitePatterns105);
-    // デバッグログ
+    let patterns = [...difficultyPatterns.white];
+    if (position >= thresholds.early) patterns = patterns.concat(difficultyPatterns.whitePatterns35);
+    if (position >= thresholds.mid) patterns = patterns.concat(difficultyPatterns.whitePatterns70);
+    if (position >= thresholds.high) patterns = patterns.concat(difficultyPatterns.whitePatterns105);
     return patterns[Math.floor(getSecureRandom() * patterns.length)];
   }
 }

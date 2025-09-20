@@ -26,13 +26,11 @@ function initializeAudio() {
       audioInitialized = true;
 
     }).catch(error => {
-
       // テスト再生が失敗してもvolume等は設定済みなので継続
       hitSound.volume = 0.7;
       audioInitialized = true;
     });
   } catch (error) {
-    console.error('音声初期化エラー:', error);
   }
 }
 
@@ -94,22 +92,12 @@ if (controlMatrix) {
         !controlMatrix.classList.contains('no-indicators') && IndicatorManager.stopCount > 0) {
 
       freezeNotes();
-    } else {
-      console.log('停止機能は実行されません - 条件:', {
-        isGameActive,
-        isNotesFrozen,
-        isDisabled: controlMatrix.classList.contains('disabled'),
-        hasIndicators: IndicatorManager.stopCount > 0
-      });
     }
   });
 }
 
-// ページ読み込み時の初期化
-document.addEventListener('DOMContentLoaded', function() {
-  // タイマーは最初のサイコロで開始するため、ここでは開始しない
-  // startSystemTimer();
-  
+// ゲーム初期化関数（難易度選択後に呼び出される）
+function initializeGameAfterDifficulty() {
   // タイマー表示を初期化（0:00）
   const timerElement = document.getElementById('system-timer');
   if (timerElement) {
@@ -143,17 +131,18 @@ document.addEventListener('DOMContentLoaded', function() {
   // 数字予測ボタンを初期化
   disableNumberPredictButton(); // 初期状態では無効
   
-  // テスト用：ノーツを1つ生成してテスト
-
+  // テスト用ノーツの作成
   const testCircle = document.createElement('div');
   testCircle.classList.add('circle');
   testCircle.style.backgroundColor = '#fff';
   testCircle.id = 'test-circle';
   gameArea.appendChild(testCircle);
+}
 
-  
-  // 初期ノーツは削除（最初は何も流さない）
-
+// ページ読み込み時の初期化（難易度選択画面のみ表示）
+document.addEventListener('DOMContentLoaded', function() {
+  // 難易度選択画面が表示されるため、ゲーム初期化は行わない
+  // 初期化は難易度選択後に initializeGameAfterDifficulty() で実行される
 });
 
 // すごろく盤関連の変数
@@ -329,7 +318,6 @@ function showBugRoulette(finalBug, callback, bugCandidates = null) {
   
   // 候補配列が必須
   if (!bugCandidates || bugCandidates.length === 0) {
-    console.warn('bugCandidates is required for bug roulette');
     if (callback) callback();
     return;
   }
@@ -661,6 +649,10 @@ if (numberPredictButton) {
     
     // 5. ボタンに表示されている数字分だけ進む
     if (typeof handleDiceResult === 'function') {
+      // 出目連動バグ用に直近の出目を記録
+      if (typeof lastDiceResult !== 'undefined') {
+        lastDiceResult = currentPredictNumber;
+      }
       handleDiceResult(currentPredictNumber);
     }
     
