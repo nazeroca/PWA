@@ -18,21 +18,12 @@
   "background_color": "#FFFFFF",
   "theme_color": "#4e342e",
 
-  /* --- ここからが追加・修正箇所 --- */
 
-  /* 1. short_name (エラー解消) */
-  /* "PWA"の部分は、ホーム画面に表示したい短い名前に変えてください */
   
-  /* 2. description (警告解消) */
-  /* " " の中に、このアプリがどんなアプリなのか説明文を書いてください */
   "description": "（ここにアプリの説明文を入力します）",
 
-  /* 3. orientation (警告解消) */
-  /* アプリを縦向き(portrait)か横向き(landscape)か、どちらでも良い(any)か選びます */
   "orientation": "portrait",
 
-  /* 4. screenshots (警告解消) */
-  /* アプリのスクリーンショット画像を用意して、そのパスを指定します */
   "screenshots": [
     {
       "src": "./images/screenshot1.png",
@@ -48,3 +39,4 @@
     }
   ]
 }
+
