@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.nazeroca.twa",
+        "sha256_cert_fingerprints": ["13:58:5B:5E:61:C1:51:4E:87:9B:B2:30:27:58:9C:30:E4:B0:CF:0E:8D:44:70:CD:68:BE:78:4B:00:A4:38:3A"]
+      }
+    }]
